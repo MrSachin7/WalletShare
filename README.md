@@ -11,6 +11,14 @@
 - [ ] Add expenditures to the group so that I can share expenditures.
 - [ ] Filter my expenditures by category and date.
 - [ ] Join a group using the group code so i can join a group.
+- [ ] 
 - [ ] Generate a QR code for the group.
 - [ ] Scan a QR Code to join the group so its easier to join a group.
  
+
+```java
+while(!deadline){
+    eat();
+    code();
+    sleep();
+}
