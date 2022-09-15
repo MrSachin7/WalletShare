@@ -1,5 +1,5 @@
 # WalletShare
-## Android project by Sachin and Himal
+## Android project by [Sachin](https://github.com/MrSachin7) and [Himal](https://github.com/himal28924)
 ### Following are the requirements of the project :
 
  As a user , I want to be able to :-
