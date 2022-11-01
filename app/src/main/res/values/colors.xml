@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#206BFD</color>
-    <color name="yellow">#FFF275</color>
-    <color name="light_purple">#9984D4</color>
-    <color name="orange">#FF8A5B</color>
-    <color name="pink">#F278AB</color>
-    <color name="light_blue">#7BA6FA</color>
-    <color name="cyan">#51D7A7</color>
+
+    <color name="white"> #FFFFFF</color>
+    <color name="black"> #000000</color>
+    <color name="palette_blue">#206BFD</color>
+    <color name="palette_yellow">#FFF275</color>
+    <color name="palette_light_purple">#9984D4</color>
+    <color name="palette_orange">#FF8A5B</color>
+    <color name="palette_pink">#F278AB</color>
+    <color name="palette_light_blue">#7BA6FA</color>
+    <color name="palette_cyan">#51D7A7</color>
+
 </resources>
