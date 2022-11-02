@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">WalletShare</string>
     <string name="welcome">Welcome to WalletShare</string>
-    <string name="login">Login</string>
-    <string name="sign_up">Sign up</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">SIGN UP</string>
     <string name="firstname">First name</string>
     <string name="lastname">Last name</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
-    <string name="forget_pass">Forget Password</string>
+    <string name="forget_pass"><u>Forgot password?</u></string>
+    <string name="or_log_in_with">OR LOG IN WITH:</string>
+    <string name="or_sign_up_with">OR SIGN UP WITH:</string>
+    <string name="password_validation">*it must contain 8-12 characters</string>
+
 </resources>
