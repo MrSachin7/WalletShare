@@ -10,6 +10,9 @@
     <string name="forget_pass"><u>Forgot password?</u></string>
     <string name="or_log_in_with">OR LOG IN WITH:</string>
     <string name="or_sign_up_with">OR SIGN UP WITH:</string>
-    <string name="password_validation">*it must contain 8-12 characters</string>
+    <string name="password_validation">*it must contain 8–12 characters</string>
+    <string name="twitter_icon">twitter icon</string>
+    <string name="google_icon">google icon</string>
+    <string name="facebook_icon">facebook icon</string>
 
 </resources>

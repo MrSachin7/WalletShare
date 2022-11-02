@@ -6,11 +6,11 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:textColor="@color/palette_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/helvetica_bold_font"
         android:text="@string/sign_up"
+        android:textColor="@color/palette_black"
         android:textSize="30sp"
 
         app:layout_constraintBottom_toTopOf="@+id/emailFieldCreate"
@@ -19,28 +19,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailFieldCreate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@drawable/edittext_bg"
         android:fontFamily="@font/helvetica_bold_font"
-        android:hint="Email"
+        android:hint="@string/email"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/passwordFieldCreate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.7" />
+        app:layout_constraintWidth_percent="0.75">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edittext_bg"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordFieldCreate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
         android:fontFamily="@font/helvetica_bold_font"
-        android:hint="Password"
+        android:hint="@string/password"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +55,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38"
-        app:layout_constraintWidth_percent="0.7" />
+        app:layout_constraintWidth_percent="0.75">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edittext_bg"
+
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -64,12 +79,12 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordFieldCreate" />
 
     <TextView
-        android:textColor="@color/palette_black"
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/helvetica_bold_font"
         android:text="@string/or_sign_up_with"
+        android:textColor="@color/palette_black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,38 +107,42 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/facebook_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/white"
-            android:hint="facebook"
 
-            android:src="@drawable/ic_facebook_icon" />
+            android:src="@drawable/ic_facebook_icon"
+            android:contentDescription="@string/facebook_icon" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/google_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/white"
-            android:hint="facebook"
 
 
-            android:src="@drawable/ic_google_icon" />
+            android:src="@drawable/ic_google_icon"
+            android:contentDescription="@string/google_icon" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/twitter_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/white"
-            android:hint="facebook"
 
-            android:src="@drawable/ic_twitter_icon" />
+            android:src="@drawable/ic_twitter_icon"
+            android:contentDescription="@string/twitter_icon" />
 
 
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sign_up_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_bg"
@@ -132,11 +151,11 @@
         android:hint="@string/sign_up"
         android:textColorHint="@color/white"
         android:textSize="16sp"
-        app:layout_constraintWidth_percent="0.7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintWidth_percent="0.75" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
