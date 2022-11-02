@@ -14,6 +14,10 @@ import com.sachin_himal.walletshare.R;
 public class SignUpTabFragment extends Fragment {
 
 
+    public SignUpTabFragment(){
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

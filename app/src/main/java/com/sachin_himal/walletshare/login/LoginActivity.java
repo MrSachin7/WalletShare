@@ -1,5 +1,6 @@
 package com.sachin_himal.walletshare.login;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.sachin_himal.walletshare.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -56,13 +58,18 @@ public class LoginActivity extends AppCompatActivity {
         loginAdapter.addFragment(new SignUpTabFragment());
         viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         viewPager.setAdapter(loginAdapter);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            if (position==0) tab.setText(R.string.login);
+            else if (position==1) tab.setText(R.string.sign_up);
+
+        }).attach();
+
     }
 
     private void initializeTab() {
 
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.login));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.sign_up));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
     }
 
     private void initializeAllFields() {

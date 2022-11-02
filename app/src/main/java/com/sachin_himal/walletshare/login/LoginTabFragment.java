@@ -22,6 +22,9 @@ public class LoginTabFragment extends Fragment
     TextView forgetPassword;
     float alpha;
 
+    public LoginTabFragment(){
+
+    }
 
     @Nullable
     @Override
@@ -29,11 +32,12 @@ public class LoginTabFragment extends Fragment
 
         View view = inflater.inflate(R.layout.login_tab_fragment, container, false);
         initializeAllFields(view);
-        showAnimation();
+//        showAnimation();
 
         return view;
 
     }
+
 
     private void showAnimation() {
         email.setTranslationY(800);
