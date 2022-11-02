@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">WalletShare</string>
+    <string name="welcome">Welcome to WalletShare</string>
+    <string name="login">Login</string>
+    <string name="sign_up"> ign up</string>
+    <string name="firstname">First name</string>
+    <string name="lastname">Last name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="forget_pass">Forget Password</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".login.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1">
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -44,7 +44,7 @@
             app:layout_constraintVertical_bias="0" />
 
 
-        <TableLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,9 +112,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to WalletShare"
+        android:text="@string/welcome"
+        android:fontFamily="@font/helvetica_bold_font"
         android:textColor="@color/black"
-        android:textStyle="bold"
         android:textSize="16sp"
         app:layout_constraintVertical_bias=".2"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"

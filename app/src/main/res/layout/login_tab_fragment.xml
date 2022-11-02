@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
-        android:hint="Email"
+        android:hint="@string/email"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_bg"
-        android:hint="Password"
+        android:hint="@string/password"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -42,11 +42,11 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_bg"
-        android:hint="Login"
+        android:hint="@string/login"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,9 +57,10 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <TextView
+        android:id="@+id/forget_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forget Password"
+        android:text="@string/forget_pass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/password_Field"
         app:layout_constraintHorizontal_bias="1"
