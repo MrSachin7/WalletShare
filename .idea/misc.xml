@@ -8,16 +8,29 @@
         <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/drawable/edittext_bg.xml" value="0.203" />
         <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/drawable/ic_google_icon.xml" value="0.175" />
         <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1595" />
-        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/drawable/ic_twitter_icon.xml" value="0.2555" />
         <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/drawable/vie_bg.xml" value="0.1" />
         <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/font/heletica_regular.xml" value="0.1" />
-        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/font/helvetica_bold_family.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/font/helvetica_family.xml" value="0.10555555555555556" />
-        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/layout/activity_login.xml" value="0.2" />
-        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/layout/activity_login_v2.xml" value="0.2234375" />
-        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/layout/login_tab_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/layout/activity_login.xml" value="0.176" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/layout/login_tab_fragment.xml" value="0.1" />
         <entry key="..\:/Users/nepal/OneDrive/Desktop/Android-project/WalletShare/app/src/main/res/layout/signup_tab_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2555" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable/btn_bg.xml" value="0.2555" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable/edittext_bg.xml" value="0.2555" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable/floating_btn_bg.xml" value="0.2545" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable/ic_facebook_icon.xml" value="0.2555" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable/ic_google_icon.xml" value="0.2555" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable/ic_twitter_icon.xml" value="0.2555" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/drawable/vie_bg.xml" value="0.2555" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/font/heletica_regular_family.xml" value="0.28020833333333334" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/font/helvetica_bold_family.xml" value="0.28020833333333334" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/layout/activity_login_v2.xml" value="0.1" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/layout/activity_signup_v2.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/layout/login_tab_fragment.xml" value="0.14285714285714285" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/layout/login_tab_fragment_v2.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/nepal/OneDrive/Desktop/WalletShare/app/src/main/res/layout/signup_tab_fragment.xml" value="0.25" />
       </map>
     </option>
   </component>
