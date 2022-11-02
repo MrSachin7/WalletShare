@@ -10,17 +10,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/helvetica_bold_font"
-        android:text="@string/login"
+        android:text="@string/sign_up"
         android:textSize="30sp"
 
-        app:layout_constraintBottom_toTopOf="@+id/emailFieldLogin"
+        app:layout_constraintBottom_toTopOf="@+id/emailFieldCreate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <EditText
-        android:id="@+id/emailFieldLogin"
+        android:id="@+id/emailFieldCreate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -28,14 +28,14 @@
         android:fontFamily="@font/helvetica_bold_font"
         android:hint="Email"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/passwordFieldLogin"
+        app:layout_constraintBottom_toTopOf="@+id/passwordFieldCreate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.7" />
 
     <EditText
-        android:id="@+id/passwordFieldLogin"
+        android:id="@+id/passwordFieldCreate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
@@ -51,17 +51,17 @@
         app:layout_constraintWidth_percent="0.7" />
 
     <TextView
-        android:id="@+id/forget_pass"
-        android:textColor="@color/palette_black"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/helvetica_bold_font"
-        android:text="@string/forget_pass"
-        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/helvetica_regular"
+        android:text="@string/password_validation"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.28"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordFieldLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordFieldCreate" />
 
     <TextView
         android:textColor="@color/palette_black"
@@ -69,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/helvetica_bold_font"
-        android:text="@string/or_log_in_with"
+        android:text="@string/or_sign_up_with"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,9 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/white"
-            android:elevation="6dp"
-
-            app:borderWidth="0dp"
+            android:hint="facebook"
 
             android:src="@drawable/ic_facebook_icon" />
 
@@ -126,13 +124,12 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_bg"
         android:backgroundTint="@color/palette_black"
         android:fontFamily="@font/helvetica_bold_font"
-        android:hint="@string/login"
+        android:hint="@string/sign_up"
         android:textColorHint="@color/white"
         android:textSize="16sp"
         app:layout_constraintWidth_percent="0.7"

@@ -18,7 +18,7 @@ We frequently go out to dine, and some people pay the bill that must be split be
 - [ ] Add an expenditure with appropriate category, date, amount, and a small note so that I can track my expenditures.
 - [ ] Add new expenditure of my own liking so that i can properly categorize my expenditures.
 - [ ] Filter my expenditures by category and date.
-- [ ] Visualize by expendtures in different graph formats of different categories at different time.
+- [ ] Visualize by expenditures in different graph formats of different categories at different time.
 - [ ] Send friend request to other users, so that I can add them as a friend.
 - [ ] Accept or reject a friend request, so I can decide who to as a friend. 
 - [ ] Create a group, so that I can add friends to share expenditures.
