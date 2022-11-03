@@ -6,6 +6,7 @@
     <color name="palette_black">#333333</color>
     <color name="palette_blue">#206BFD</color>
     <color name="palette_yellow">#FFF275</color>
+    <color name="palette_white">#F9F9F9</color>
     <color name="palette_light_purple">#9984D4</color>
     <color name="palette_orange">#FF8A5B</color>
     <color name="palette_pink">#F278AB</color>
