@@ -7,9 +7,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-import com.sachin_himal.walletshare.Fragments.HomeFragment;
-import com.sachin_himal.walletshare.Fragments.NewTranscationFragment;
-import com.sachin_himal.walletshare.Fragments.ProfileFragment;
+import com.sachin_himal.walletshare.view.Fragments.HomeFragment;
+import com.sachin_himal.walletshare.view.Fragments.NewTranscationFragment;
+import com.sachin_himal.walletshare.view.Fragments.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 

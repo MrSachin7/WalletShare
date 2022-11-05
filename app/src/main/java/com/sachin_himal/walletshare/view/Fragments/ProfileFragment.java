@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.Fragments;
+package com.sachin_himal.walletshare.view.Fragments;
 
 import android.os.Bundle;
 
