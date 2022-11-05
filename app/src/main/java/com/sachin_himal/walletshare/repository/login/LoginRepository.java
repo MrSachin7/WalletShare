@@ -6,8 +6,6 @@ import com.sachin_himal.walletshare.entity.User;
 
 public interface LoginRepository {
 
-
-
     void addUser(String email, String password);
 
 }

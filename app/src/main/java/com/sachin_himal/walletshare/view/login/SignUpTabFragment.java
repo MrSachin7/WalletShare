@@ -106,7 +106,6 @@ public class SignUpTabFragment extends Fragment {
     private void initializeAllFields(View view) {
 
 
-
         facebook = view.findViewById(R.id.facebook_btn);
         google = view.findViewById(R.id.google_btn);
         twitter = view.findViewById(R.id.twitter_btn);

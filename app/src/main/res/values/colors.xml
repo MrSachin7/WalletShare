@@ -11,6 +11,10 @@
     <color name="palette_orange">#FF8A5B</color>
     <color name="palette_pink">#F278AB</color>
     <color name="palette_light_blue">#7BA6FA</color>
-    <color name="palette_cyan">#51D7A7</color>
+    <color name="palette_cyan">#1ECB89</color>
+    <color name="palette_red">#F44236</color>
+    <color name="palette_dark_red">#CE4239</color>
+    <color name="palette_dark_cyan">#28AA77</color>
+    <color name="transparent"> #0000ffff</color>
 
 </resources>
