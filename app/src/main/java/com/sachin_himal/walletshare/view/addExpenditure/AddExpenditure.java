@@ -3,17 +3,24 @@ package com.sachin_himal.walletshare.view.addExpenditure;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.sachin_himal.walletshare.R;
 
 import java.util.Calendar;
@@ -22,8 +29,16 @@ public class AddExpenditure extends AppCompatActivity {
 
     LinearLayout colorChangingLinearLayout;
     TabLayout tabLayout;
-    AppCompatEditText expenseAmountField, dateField, timeField, noteField, payeeField;
-    AppCompatSpinner paymentTypeSpinner, categoryField;
+
+    TextInputLayout dateField, timeField;
+    TextInputEditText dateEditText, timeEditText;
+    AppCompatButton saveButton;
+    AppCompatEditText expenseAmountField,noteField, payeeField;
+    AppCompatSpinner paymentTypeSpinner;
+    AppCompatAutoCompleteTextView categoryField;
+
+
+    private ExpenditureViewModal viewModal;
 
 
     @Override
@@ -32,6 +47,49 @@ public class AddExpenditure extends AppCompatActivity {
         setContentView(R.layout.activity_add_expenditure);
         initializeFields();
         setUpTabs();
+        viewModal = new ViewModelProvider(this).get(ExpenditureViewModal.class);
+        saveButton.setOnClickListener(this::savePressed);
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initializeCategoryField();
+
+    }
+
+    private void initializeCategoryField() {
+
+        String[] allCategories = {"hello", "there", "testing"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_dropdown_item, allCategories);
+        categoryField.setAdapter(adapter);
+
+    }
+
+    private void savePressed(View view) {
+
+        String date = dateEditText.getText().toString().trim();
+        String time = timeEditText.getText().toString().trim();
+
+        Toast.makeText(this, dateField.getEditText().getText().toString(), Toast.LENGTH_SHORT).show();
+        if (date.equals("")){
+            dateField.setError("Date is required");
+        }
+        else if (time.equals("")){
+            timeField.setError("Time is required");
+        }
+
+        else{
+            dateField.setError(null);
+            dateField.setErrorEnabled(false);
+            timeField.setError(null);
+            timeField.setErrorEnabled(false);
+
+        }
+
     }
 
     private void setUpTabs() {
@@ -90,21 +148,29 @@ public class AddExpenditure extends AppCompatActivity {
         noteField = findViewById(R.id.note_field);
         payeeField = findViewById(R.id.payee_field);
         paymentTypeSpinner = findViewById(R.id.payment_type_spinner);
-        categoryField = findViewById(R.id.category_spinner);
+        dateEditText = findViewById(R.id.date_edit_text);
+        timeEditText = findViewById(R.id.time_edit_text);
+        saveButton = findViewById(R.id.saveBtn);
+        categoryField = findViewById(R.id.category_edit_text);
 
 
 
+
+        categoryField.setShowSoftInputOnFocus(false);
+        categoryField.setCursorVisible(false);
 
 
         // Disable edittext on popping the keyboard, we are using pickers
-        dateField.setShowSoftInputOnFocus(false);
-        dateField.setOnClickListener(view -> {
+
+        dateEditText.setShowSoftInputOnFocus(false);
+        dateEditText.setCursorVisible(false);
+        dateEditText.setOnClickListener(view -> {
             showDateDialog();
         });
 
-        timeField.setShowSoftInputOnFocus(false);
-
-        timeField.setOnClickListener(view -> {
+        timeEditText.setShowSoftInputOnFocus(false);
+        timeEditText.setCursorVisible(false);
+        timeEditText.setOnClickListener(view -> {
             showTimeDialog();
         });
 
@@ -116,13 +182,13 @@ public class AddExpenditure extends AppCompatActivity {
         final int minute = calendar.get(Calendar.MINUTE);
 
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, this::timeChangeListener, hour, minute, false);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, this::updateTimeField, hour, minute, false);
         timePickerDialog.show();
     }
 
-    private void timeChangeListener(TimePicker timePicker, int hour, int minute) {
+    private void updateTimeField(TimePicker timePicker, int hour, int minute) {
         String text = hour + ":" + minute;
-        timeField.setText(text);
+        timeField.getEditText().setText(text);
     }
 
     private void showDateDialog() {
@@ -132,14 +198,13 @@ public class AddExpenditure extends AppCompatActivity {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this::dateChangeListener, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this::updateDateField, year, month, day);
         datePickerDialog.show();
 
     }
 
-    private void dateChangeListener(DatePicker datePicker, int year, int month, int day) {
+    private void updateDateField(DatePicker datePicker, int year, int month, int day) {
         String text = day + "-" + month + "-" + year;
-        dateField.setText(text);
-        Toast.makeText(this, dateField.getText().toString(), Toast.LENGTH_SHORT).show();
+        dateField.getEditText().setText(text);
     }
 }
