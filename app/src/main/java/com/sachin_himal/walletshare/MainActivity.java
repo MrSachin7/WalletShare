@@ -1,85 +1,94 @@
 package com.sachin_himal.walletshare;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.sachin_himal.walletshare.view.Fragments.HomeFragment;
 import com.sachin_himal.walletshare.view.Fragments.NewTranscationFragment;
 import com.sachin_himal.walletshare.view.Fragments.ProfileFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements NavigationBarView.OnItemSelectedListener {
 
-    private MeowBottomNavigation meowBottomNavigation;
+     BottomNavigationView bottomNavigationView;
+    private HomeFragment homeFragment ;
+    private NewTranscationFragment newTranscationFragment;
+    private ProfileFragment profileFragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Initializing menu
-        meoItems();
 
-        //Show first menu
-        showFirstFragment();
 
-        //Action for click on Nav bar
-        meowMenuSelection();
+        //Initializing fragment and setting up
+        setUpFragments();
 
-    }
+        bottomNavigationView = findViewById(R.id.bottomNavigationBarView);
 
 
 
+        bottomNavigationView.setOnItemSelectedListener(this);
+
+
+        bottomNavigationView.setSelectedItemId(R.id.menu_dashboard);
 
 
 
-
-
-    // Initializing Meow Menu bar
-    private void meoItems() {
-        meowBottomNavigation =(MeowBottomNavigation) findViewById(R.id.meowBottomNavigation);
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.home_button));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.add_circle));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.profile_vector));
 
     }
 
 
 
-    //Observing for mouse click
-    private void meowMenuSelection() {
-        meowBottomNavigation.setOnClickMenuListener(model -> {
-            // YOUR CODES
-
-            switch (model.getId()){
-                case 1: replace(new HomeFragment());
-                    break;
-                case 2: replace(new NewTranscationFragment());
-                    break;
-                case 3: replace(new ProfileFragment());
-                break;
 
 
-            }
-            return null;
-        });
+
+
+
+    // Initializing Bottom Navigation
+
+    private void setUpFragments() {
+        homeFragment = new HomeFragment();
+        newTranscationFragment = new NewTranscationFragment();
+        profileFragment = new ProfileFragment();
+
+
 
     }
 
-    // to show the first fragment while logged in
-    private void showFirstFragment() {
-        replace(new HomeFragment());
-        meowBottomNavigation.show(1,false);
 
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_dashboard:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+                return true;
+            case R.id.menu_addTransaction:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, newTranscationFragment).commit();
+                return true;
+
+            case R.id.menu_profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
+                return true;
+
+        }
+
+
+        return false;
     }
 
-    //To change the fragment in main activity fragment container
-    private void replace(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,fragment);
-        fragmentTransaction.commit();
-    }
+
+
 }
