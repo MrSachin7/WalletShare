@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_dashboard"
+        android:title="Dashboard"
+        android:icon="@drawable/home_button"
+
+        />
+    <item
+        android:id="@+id/menu_addTransaction"
+        android:title="New Transaction"
+        android:icon="@drawable/add_circle"
+        />
+    <item
+        android:id="@+id/menu_profile"
+        android:title="Profile"
+        android:icon="@drawable/profile_vector"
+        />
+
+
+</menu>

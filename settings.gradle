@@ -13,8 +13,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 
-        //For bottom nav
-        jcenter()
+
     }
 }
 rootProject.name = "WalletShare"
