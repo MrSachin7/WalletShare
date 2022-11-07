@@ -24,18 +24,19 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.sachin_himal.walletshare.R;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class AddExpenditure extends AppCompatActivity {
 
     LinearLayout colorChangingLinearLayout;
     TabLayout tabLayout;
 
-    TextInputLayout dateField, timeField;
+    TextInputLayout dateField, timeField, categoryField;
     TextInputEditText dateEditText, timeEditText;
     AppCompatButton saveButton;
-    AppCompatEditText expenseAmountField,noteField, payeeField;
+    AppCompatEditText expenseAmountField, noteField, payeeField;
     AppCompatSpinner paymentTypeSpinner;
-    AppCompatAutoCompleteTextView categoryField;
+    AppCompatAutoCompleteTextView categoryEditable;
 
 
     private ExpenditureViewModal viewModal;
@@ -63,9 +64,9 @@ public class AddExpenditure extends AppCompatActivity {
 
     private void initializeCategoryField() {
 
-        String[] allCategories = {"hello", "there", "testing"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_dropdown_item, allCategories);
-        categoryField.setAdapter(adapter);
+        List<String> categories = viewModal.getAllCategories();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_dropdown_item, categories);
+        categoryEditable.setAdapter(adapter);
 
     }
 
@@ -73,22 +74,68 @@ public class AddExpenditure extends AppCompatActivity {
 
         String date = dateEditText.getText().toString().trim();
         String time = timeEditText.getText().toString().trim();
+        String category = categoryEditable.getText().toString().trim();
+        String note = noteField.getText().toString().trim();
+        String payee = payeeField.getText().toString().trim();
+        boolean isDateValid=validateDate();
+        boolean isTimeValid = validateTime();
+        boolean isCategoryValid = validateCategory();
 
-        Toast.makeText(this, dateField.getEditText().getText().toString(), Toast.LENGTH_SHORT).show();
+        boolean isEveryThingValid = isCategoryValid && isTimeValid && isDateValid;
+
+        if (isEveryThingValid){
+            // Todo ask view modal to add the new expense
+        }
+
+
+    }
+
+    private boolean validateDate() {
+        String date = dateEditText.getText().toString().trim();
         if (date.equals("")){
             dateField.setError("Date is required");
-        }
-        else if (time.equals("")){
-            timeField.setError("Time is required");
-        }
+            return false;
 
+        }
         else{
             dateField.setError(null);
             dateField.setErrorEnabled(false);
-            timeField.setError(null);
-            timeField.setErrorEnabled(false);
+            return true;
 
         }
+
+
+    }
+    private boolean validateTime() {
+        String time = timeEditText.getText().toString().trim();
+        if (time.equals("")){
+            timeField.setError("Date is required");
+            return false;
+
+        }
+
+        else{
+            timeField.setError(null);
+            timeField.setErrorEnabled(false);
+            return true;
+
+        }
+
+
+    }    private boolean validateCategory() {
+        String category = categoryEditable.getText().toString().trim();
+        if (category.equals("")){
+            categoryField.setError("Date is required");
+            return false;
+
+        }
+        else{
+            categoryField.setError(null);
+            categoryField.setErrorEnabled(false);
+            return true;
+
+        }
+
 
     }
 
@@ -151,13 +198,12 @@ public class AddExpenditure extends AppCompatActivity {
         dateEditText = findViewById(R.id.date_edit_text);
         timeEditText = findViewById(R.id.time_edit_text);
         saveButton = findViewById(R.id.saveBtn);
-        categoryField = findViewById(R.id.category_edit_text);
+        categoryEditable = findViewById(R.id.category_edit_text);
+        categoryField = findViewById(R.id.category_field);
 
 
-
-
-        categoryField.setShowSoftInputOnFocus(false);
-        categoryField.setCursorVisible(false);
+        categoryEditable.setShowSoftInputOnFocus(false);
+        categoryEditable.setCursorVisible(false);
 
 
         // Disable edittext on popping the keyboard, we are using pickers
@@ -167,12 +213,14 @@ public class AddExpenditure extends AppCompatActivity {
         dateEditText.setOnClickListener(view -> {
             showDateDialog();
         });
+        dateEditText.setFocusable(false);
 
         timeEditText.setShowSoftInputOnFocus(false);
         timeEditText.setCursorVisible(false);
         timeEditText.setOnClickListener(view -> {
             showTimeDialog();
         });
+        timeEditText.setFocusable(false);
 
     }
 
