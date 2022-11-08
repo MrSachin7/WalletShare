@@ -1,12 +1,9 @@
 package com.sachin_himal.walletshare.view.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
-import com.sachin_himal.walletshare.MainActivity;
 import com.sachin_himal.walletshare.R;
 
 public class LoginTabFragment extends Fragment
@@ -47,7 +43,7 @@ public class LoginTabFragment extends Fragment
 
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         login.setOnClickListener(this::loginBtnPressed);
-        viewModel.getError().observe(getViewLifecycleOwner(), this::errorOnLogin);
+        viewModel.getLoginError().observe(getViewLifecycleOwner(), this::errorOnLogin);
 
         return view;
 

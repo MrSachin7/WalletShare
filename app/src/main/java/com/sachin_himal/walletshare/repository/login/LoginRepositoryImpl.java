@@ -20,7 +20,7 @@ public class LoginRepositoryImpl implements LoginRepository {
     private final UserLiveData currentUser;
     private static LoginRepository instance;
     private static Lock lock = new ReentrantLock();
-    MutableLiveData<String> error;
+    MutableLiveData<String> loginError, signUpError;
 
     private FirebaseAuth mUser;
     private FirebaseDatabase database;
@@ -30,7 +30,8 @@ public class LoginRepositoryImpl implements LoginRepository {
         mUser = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         currentUser = new UserLiveData();
-        error = new MutableLiveData<>();
+        loginError = new MutableLiveData<>();
+        signUpError = new MutableLiveData<>();
 
         // More later
     }
@@ -50,15 +51,20 @@ public class LoginRepositoryImpl implements LoginRepository {
     public void login(String email, String password) {
          mUser.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
              if (!task.isSuccessful()){
-                 error.setValue(task.getException().getMessage());
+                 loginError.setValue(task.getException().getMessage());
              }
          });
 
     }
 
     @Override
-    public LiveData<String> getError() {
-        return error;
+    public LiveData<String> getLoginError() {
+        return loginError;
+    }
+
+    @Override
+    public LiveData<String> getSignUpError() {
+        return signUpError;
     }
 
 
@@ -77,6 +83,9 @@ public class LoginRepositoryImpl implements LoginRepository {
                                         // If user did not register successfully
                                     }
                                 }));
+                    }
+                    else{
+                        signUpError.setValue(task.getException().getMessage());
                     }
 
                 }

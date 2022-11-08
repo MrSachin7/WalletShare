@@ -34,7 +34,11 @@ public class LoginViewModel extends ViewModel {
         repository.login(email, password);
     }
 
-    public LiveData<String> getError(){
-        return repository.getError();
+    public LiveData<String> getLoginError(){
+        return repository.getLoginError();
+    }
+
+    public LiveData<String> getSignUpError(){
+        return repository.getSignUpError();
     }
 }

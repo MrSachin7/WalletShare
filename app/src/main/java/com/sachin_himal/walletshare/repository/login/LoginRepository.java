@@ -16,5 +16,6 @@ public interface LoginRepository {
 
     void login(String email, String password);
 
-    LiveData<String> getError();
+    LiveData<String> getLoginError();
+    LiveData<String> getSignUpError();
 }

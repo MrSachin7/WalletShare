@@ -44,6 +44,9 @@ public class SignUpTabFragment extends Fragment {
 
         signUp.setOnClickListener(this::signUpPressed);
 
+        viewModel.getSignUpError().observe(getViewLifecycleOwner(), this::errorOnLogin);
+
+
 
 
         return view;
@@ -52,6 +55,10 @@ public class SignUpTabFragment extends Fragment {
 
     }
 
+    private void errorOnLogin(String s) {
+        progressBar.setVisibility(View.INVISIBLE);
+        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+    }
 
 
     private void signUpPressed(View view) {
