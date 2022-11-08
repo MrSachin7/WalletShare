@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
@@ -93,7 +92,7 @@ public class AddExpenditure extends AppCompatActivity {
     private boolean validateDate() {
         String date = dateEditText.getText().toString().trim();
         if (date.equals("")){
-            dateField.setError("Date is required");
+            dateField.setError(getString(R.string.date_required));
             return false;
 
         }
@@ -109,7 +108,7 @@ public class AddExpenditure extends AppCompatActivity {
     private boolean validateTime() {
         String time = timeEditText.getText().toString().trim();
         if (time.equals("")){
-            timeField.setError("Date is required");
+            timeField.setError(getString(R.string.time_required));
             return false;
 
         }

@@ -1,22 +1,21 @@
 package com.sachin_himal.walletshare.view.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
-import com.sachin_himal.walletshare.MainActivity;
 import com.sachin_himal.walletshare.R;
 
 public class LoginTabFragment extends Fragment
@@ -27,6 +26,9 @@ public class LoginTabFragment extends Fragment
     TextView forgetPassword;
     FloatingActionButton facebook, google, twitter;
 
+    ProgressBar progressBar;
+
+    private LoginViewModel viewModel;
 
     public LoginTabFragment(){
 
@@ -39,22 +41,39 @@ public class LoginTabFragment extends Fragment
         View view = inflater.inflate(R.layout.login_tab_fragment, container, false);
         initializeAllFields(view);
 
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         login.setOnClickListener(this::loginBtnPressed);
+        viewModel.getLoginError().observe(getViewLifecycleOwner(), this::errorOnLogin);
+
         return view;
 
     }
 
+    private void errorOnLogin(String s) {
+        progressBar.setVisibility(View.INVISIBLE);
+
+        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+    }
+
     private void loginBtnPressed(View view) {
-        validateEmail();
-        validatePassword();
+        boolean isValidEmail = validateEmail();
+        boolean isValidPassword = validatePassword();
+        boolean isEverythingValid = isValidEmail && isValidPassword;
+        String email = emailField.getEditText().getText().toString().trim();
+        String password = passwordField.getEditText().getText().toString().trim();
+
+
+        if (isEverythingValid){
+            progressBar.setVisibility(View.VISIBLE);
+            viewModel.login(email, password);
+
+        }
+
 
     }
 
     private boolean validatePassword() {
         String password = passwordField.getEditText().getText().toString().trim();
-
-
-
 
         if (password.isEmpty()){
             passwordField.setError("Password cannot be empty");
@@ -113,5 +132,9 @@ public class LoginTabFragment extends Fragment
         facebook = view.findViewById(R.id.facebook_btn);
         google = view.findViewById(R.id.google_btn);
         twitter = view.findViewById(R.id.twitter_btn);
+        progressBar = view.findViewById(R.id.progress_bar_login);
+
+        progressBar.setVisibility(View.INVISIBLE);
+
     }
 }

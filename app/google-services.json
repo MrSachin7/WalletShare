@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "133534185529",
-    "project_id": "walletshare-38f0a",
-    "storage_bucket": "walletshare-38f0a.appspot.com"
+    "project_number": "673409512934",
+    "project_id": "walletshare-92139",
+    "storage_bucket": "walletshare-92139.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:133534185529:android:42c7b70a609f2e4d01b5e8",
+        "mobilesdk_app_id": "1:673409512934:android:0d5645f98d9ad33afe9227",
         "android_client_info": {
           "package_name": "com.sachin_himal.walletshare"
         }
       },
       "oauth_client": [
         {
-          "client_id": "133534185529-6lfe9g41rrme2uv91cpojlojhfhm459m.apps.googleusercontent.com",
+          "client_id": "673409512934-neeg3er40kr10kjf3rr0clsfu7af0tgp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBRSwXgoxQEpNVWk17Kg2aCzBQeV1MPbLg"
+          "current_key": "AIzaSyAKnnqkuM8L_ONAJebQ7rSK6q8QdS1KQEw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "133534185529-6lfe9g41rrme2uv91cpojlojhfhm459m.apps.googleusercontent.com",
+              "client_id": "673409512934-neeg3er40kr10kjf3rr0clsfu7af0tgp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
