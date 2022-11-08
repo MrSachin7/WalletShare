@@ -34,5 +34,7 @@
     <string name="expense">Expense</string>
     <string name="income">Income</string>
     <string name="select_a_category">Select a category</string>
+    <string name="date_required">Date is required</string>
+    <string name="time_required">Time is required</string>
 
 </resources>

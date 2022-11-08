@@ -1,18 +1,24 @@
 package com.sachin_himal.walletshare.view.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseUser;
+import com.sachin_himal.walletshare.MainActivity;
 import com.sachin_himal.walletshare.R;
 
 public class SignUpTabFragment extends Fragment {
@@ -20,6 +26,7 @@ public class SignUpTabFragment extends Fragment {
     TextInputLayout emailField, passwordField;
     AppCompatButton signUp;
     FloatingActionButton facebook, google, twitter;
+    ProgressBar progressBar;
     private LoginViewModel viewModel;
 
     public SignUpTabFragment(){
@@ -37,11 +44,18 @@ public class SignUpTabFragment extends Fragment {
 
         signUp.setOnClickListener(this::signUpPressed);
 
+
+
         return view;
+
+
 
     }
 
+
+
     private void signUpPressed(View view) {
+
 
         boolean isAppropriateEmail = validateEmail();
         boolean isAppropriatePassword= validatePassword();
@@ -53,8 +67,12 @@ public class SignUpTabFragment extends Fragment {
         String email = emailField.getEditText().getText().toString().trim();
         String password = passwordField.getEditText().getText().toString().trim();
 
+        progressBar.setVisibility(View.VISIBLE);
+
 
         viewModel.signUp(email, password);
+
+//        progressBar.setVisibility(View.INVISIBLE);
 
 
     }
@@ -112,6 +130,8 @@ public class SignUpTabFragment extends Fragment {
         emailField = view.findViewById(R.id.emailFieldCreate);
         passwordField = view.findViewById(R.id.passwordFieldCreate);
         signUp = view.findViewById(R.id.sign_up_btn);
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
 
 
 
