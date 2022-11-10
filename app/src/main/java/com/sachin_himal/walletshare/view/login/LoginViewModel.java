@@ -3,6 +3,7 @@ package com.sachin_himal.walletshare.view.login;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.repository.login.LoginRepository;
 import com.sachin_himal.walletshare.repository.login.LoginRepositoryImpl;
@@ -40,5 +41,14 @@ public class LoginViewModel extends ViewModel {
 
     public LiveData<String> getSignUpError(){
         return repository.getSignUpError();
+    }
+
+    public void signInWithGoogle(AuthCredential credential) {
+        repository.signInWithGoogle(credential);
+    }
+
+    public void loginWithFacebook() {
+
+        repository.loginWithFacebook();
     }
 }
