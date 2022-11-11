@@ -2,8 +2,6 @@ package com.sachin_himal.walletshare;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +20,7 @@ import com.sachin_himal.walletshare.view.addExpenditure.AddExpenditure;
 public class MainActivity extends AppCompatActivity  implements NavigationBarView.OnItemSelectedListener {
 
 
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment ;
     private NewTranscationFragment newTranscationFragment;
     private ProfileFragment profileFragment;
@@ -49,28 +47,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationBarVie
         bottomNavigationView.setSelectedItemId(R.id.menu_dashboard);
 
 
-        /**
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            System.out.println("FUCCKKCK");
-            switch(id){
-                case R.id.menu_dashboard:
-                    System.out.println("FUCCKKCK Dashboard");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
-                    return true;
-                case R.id.menu_addTransaction:
-                    System.out.println("FUCCKKCK transcation");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, newTranscationFragment).commit();
-                    return true;
-
-                case R.id.menu_profile:
-                    System.out.println("FUCCKKCK profile");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
-                    return true;
-            }
-            return true;
-        });
-         **/
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -119,6 +95,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationBarVie
 
 
         return false;
+    }
+
+    public void changeNavigationFromFragment(){
+
+               bottomNavigationView.setSelectedItemId(R.id.menu_addTransaction);
     }
 
 
