@@ -3,12 +3,21 @@ package com.sachin_himal.walletshare.view.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.sachin_himal.walletshare.MainActivity;
 import com.sachin_himal.walletshare.R;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +25,8 @@ import com.sachin_himal.walletshare.R;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+
+    TextView balanceView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +38,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     public HomeFragment() {
+
         // Required empty public constructor
     }
 
@@ -51,20 +63,46 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        balanceView = view.findViewById(R.id.viewCurrentBalance);
+        int a = 10;
+        balanceView.setText(String.valueOf(a));
+
+        Button seeMoreRecord = view.findViewById(R.id.SeeMoreRecordButton);
+        seeMoreRecord.setOnClickListener(v -> {
+
+
+            MainActivity mActivity = (MainActivity) requireActivity();
+
+            mActivity.changeNavigationFromFragment();
+
+
+
+        });
+
+
+        //Inflate the layout for this fragment
+        return view;
+
     }
 
-    public void seeMoreRecords(View view) {
 
-    }
+
+
 }
