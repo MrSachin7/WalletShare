@@ -46,9 +46,7 @@
     <string name="balance">Balance</string>
     <string name="last_records">Last Records</string>
     <string name="see_more">See More</string>
-
-
-
+    <string name="payment">Payment</string>
 
 
 </resources>

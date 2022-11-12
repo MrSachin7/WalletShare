@@ -1,6 +1,5 @@
 package com.sachin_himal.walletshare.view.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +10,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseUser;
-import com.sachin_himal.walletshare.MainActivity;
 import com.sachin_himal.walletshare.R;
 
 public class SignUpTabFragment extends Fragment {
@@ -27,7 +23,7 @@ public class SignUpTabFragment extends Fragment {
     AppCompatButton signUp;
     FloatingActionButton facebook, google, twitter;
     ProgressBar progressBar;
-    private LoginViewModel viewModel;
+    private UserViewModal viewModel;
 
     public SignUpTabFragment(){
 
@@ -40,7 +36,7 @@ public class SignUpTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.sign_up_tab_fragment, container, false);
         initializeAllFields(view);
 
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UserViewModal.class);
 
         signUp.setOnClickListener(this::signUpPressed);
 

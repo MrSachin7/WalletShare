@@ -142,7 +142,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:hint="@string/category"
-                app:startIconDrawable="@drawable/ic_baseline_category_24"
                 android:gravity="center"
                 >
 
@@ -328,25 +327,41 @@
 
             <ImageView
                 android:layout_width="30dp"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_payment_24"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/helvetica_regular"
-                android:text="@string/payment_type"
+                android:text="@string/payment"
                 android:textColor="@color/palette_black"
                 android:textSize="16sp" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/payment_type_spinner"
-                android:layout_width="fill_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/payment_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_gravity="end"
                 android:layout_height="wrap_content"
-                android:defaultFocusHighlightEnabled="true"
-                android:fontFamily="@font/helvetica_regular"
-                android:gravity="end"
-                android:hint="@string/cash"
-                android:textSize="16sp" />
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:hint="@string/payment_type"
+                android:gravity="center"
+                >
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/payment_field_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:fontFamily="@font/helvetica_regular"
+                    android:gravity="center"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textSize="16sp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

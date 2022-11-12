@@ -7,7 +7,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.entity.User;
 
-public interface LoginRepository {
+public interface UserRepository {
 
     void addUser(String email, String password);
 

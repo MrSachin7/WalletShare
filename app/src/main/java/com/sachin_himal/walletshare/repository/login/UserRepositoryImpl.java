@@ -1,11 +1,8 @@
 package com.sachin_himal.walletshare.repository.login;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -15,15 +12,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.entity.UserLiveData;
 
-import java.util.Arrays;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class LoginRepositoryImpl implements LoginRepository {
+public class UserRepositoryImpl implements UserRepository {
 
 
     private final UserLiveData currentUser;
-    private static LoginRepository instance;
+    private static UserRepository instance;
     private static Lock lock = new ReentrantLock();
     MutableLiveData<String> loginError, signUpError;
 
@@ -31,7 +27,7 @@ public class LoginRepositoryImpl implements LoginRepository {
     private FirebaseDatabase database;
 
 
-    private LoginRepositoryImpl() {
+    private UserRepositoryImpl() {
         mUser = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         currentUser = new UserLiveData();
@@ -41,11 +37,11 @@ public class LoginRepositoryImpl implements LoginRepository {
         // More later
     }
 
-    public static LoginRepository getInstance() {
+    public static UserRepository getInstance() {
         if (instance == null) {
             synchronized (lock) {
                 if (instance == null) {
-                    instance = new LoginRepositoryImpl();
+                    instance = new UserRepositoryImpl();
                 }
             }
         }
