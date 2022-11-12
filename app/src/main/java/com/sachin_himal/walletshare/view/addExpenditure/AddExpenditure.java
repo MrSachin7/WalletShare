@@ -8,12 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,6 +21,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sachin_himal.walletshare.R;
+import com.sachin_himal.walletshare.entity.Expenditure;
 
 import java.util.Calendar;
 import java.util.List;
@@ -30,12 +31,11 @@ public class AddExpenditure extends AppCompatActivity {
     LinearLayout colorChangingLinearLayout;
     TabLayout tabLayout;
 
-    TextInputLayout dateField, timeField, categoryField;
+    TextInputLayout dateField, timeField, categoryField, paymentField;
     TextInputEditText dateEditText, timeEditText;
     AppCompatButton saveButton;
     AppCompatEditText expenseAmountField, noteField, payeeField;
-    AppCompatSpinner paymentTypeSpinner;
-    AppCompatAutoCompleteTextView categoryEditable;
+    AppCompatAutoCompleteTextView categoryEditable, paymentEditable;
 
 
     private ExpenditureViewModal viewModal;
@@ -50,15 +50,30 @@ public class AddExpenditure extends AppCompatActivity {
         viewModal = new ViewModelProvider(this).get(ExpenditureViewModal.class);
         saveButton.setOnClickListener(this::savePressed);
 
+        viewModal.getExpenditure().observe(this, this::expenditureListener);
 
 
+    }
+
+
+    private void expenditureListener(Expenditure expenditure) {
+        Toast.makeText(this, "Added an expense of" + expenditure.getAmount(), Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         initializeCategoryField();
+        initializePaymentField();
 
+    }
+
+    private void initializePaymentField() {
+
+        List<String> paymentTypes = viewModal.getAllPaymentCategories();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_dropdown_item, paymentTypes);
+        paymentEditable.setAdapter(adapter);
     }
 
     private void initializeCategoryField() {
@@ -71,19 +86,35 @@ public class AddExpenditure extends AppCompatActivity {
 
     private void savePressed(View view) {
 
+        String expenseAmount = expenseAmountField.getText().toString().trim();
+        if (expenseAmount.equals("")) {
+            Toast.makeText(this, "Please enter amount", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         String date = dateEditText.getText().toString().trim();
         String time = timeEditText.getText().toString().trim();
         String category = categoryEditable.getText().toString().trim();
+        String paymentType = paymentEditable.getText().toString().trim();
         String note = noteField.getText().toString().trim();
         String payee = payeeField.getText().toString().trim();
-        boolean isDateValid=validateDate();
+
+
+        double amount = Double.parseDouble(expenseAmount);
+        int selectedTabPosition = tabLayout.getSelectedTabPosition();
+        if (selectedTabPosition == 0) amount = amount * (-1);   // Save expenses as negative
+
+        boolean isDateValid = validateDate();
         boolean isTimeValid = validateTime();
         boolean isCategoryValid = validateCategory();
 
         boolean isEveryThingValid = isCategoryValid && isTimeValid && isDateValid;
 
-        if (isEveryThingValid){
-            // Todo ask view modal to add the new expense
+        if (isEveryThingValid) {
+            Expenditure expenditure = new Expenditure(amount, date, time, category, paymentType, payee, note);
+            viewModal.addExpenditure(expenditure);
+            //   viewModal.addExpenditure()
         }
 
 
@@ -193,16 +224,22 @@ public class AddExpenditure extends AppCompatActivity {
         timeField = findViewById(R.id.time_field);
         noteField = findViewById(R.id.note_field);
         payeeField = findViewById(R.id.payee_field);
-        paymentTypeSpinner = findViewById(R.id.payment_type_spinner);
+
         dateEditText = findViewById(R.id.date_edit_text);
         timeEditText = findViewById(R.id.time_edit_text);
         saveButton = findViewById(R.id.saveBtn);
+
         categoryEditable = findViewById(R.id.category_edit_text);
+        paymentEditable = findViewById(R.id.payment_field_edit_text);
         categoryField = findViewById(R.id.category_field);
+        paymentField = findViewById(R.id.payment_field);
 
 
         categoryEditable.setShowSoftInputOnFocus(false);
         categoryEditable.setCursorVisible(false);
+
+        paymentEditable.setShowSoftInputOnFocus(false);
+        paymentEditable.setCursorVisible(false);
 
 
         // Disable edittext on popping the keyboard, we are using pickers
@@ -234,8 +271,20 @@ public class AddExpenditure extends AppCompatActivity {
     }
 
     private void updateTimeField(TimePicker timePicker, int hour, int minute) {
-        String text = hour + ":" + minute;
+
+        String hourText = prettifyIntToString(hour);
+        String minuteText = prettifyIntToString(minute);
+
+
+        String text = hourText + ":" + minuteText + ":00";
         timeField.getEditText().setText(text);
+    }
+
+    private String prettifyIntToString(int integerToBeConverted) {
+
+        if (integerToBeConverted >= 10) return String.valueOf(integerToBeConverted);
+
+        return "0" + integerToBeConverted;
     }
 
     private void showDateDialog() {
@@ -251,7 +300,11 @@ public class AddExpenditure extends AppCompatActivity {
     }
 
     private void updateDateField(DatePicker datePicker, int year, int month, int day) {
-        String text = day + "-" + month + "-" + year;
+        String yearText = prettifyIntToString(year);
+        String monthText = prettifyIntToString(month);
+        String dayText = prettifyIntToString(day);
+
+        String text = yearText + "-" + monthText + "-" + dayText;
         dateField.getEditText().setText(text);
     }
 }

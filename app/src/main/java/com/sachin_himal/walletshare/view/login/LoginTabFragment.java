@@ -2,7 +2,6 @@ package com.sachin_himal.walletshare.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,7 +29,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sachin_himal.walletshare.R;
 
@@ -47,7 +43,7 @@ public class LoginTabFragment extends Fragment {
 
     ProgressBar progressBar;
 
-    private LoginViewModel viewModel;
+    private UserViewModal viewModel;
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInOptions gso;
     private CallbackManager callbackManager;
@@ -65,7 +61,7 @@ public class LoginTabFragment extends Fragment {
         initializeAllFields(view);
 
 
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UserViewModal.class);
         login.setOnClickListener(this::loginBtnPressed);
         viewModel.getLoginError().observe(getViewLifecycleOwner(), this::errorOnLogin);
 

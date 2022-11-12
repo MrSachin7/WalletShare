@@ -1,7 +1,8 @@
-package com.sachin_himal.walletshare;
+package com.sachin_himal.walletshare.view.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.view.View;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.view.Fragments.HomeFragment;
 import com.sachin_himal.walletshare.view.Fragments.NewTranscationFragment;
 import com.sachin_himal.walletshare.view.Fragments.ProfileFragment;
 import com.sachin_himal.walletshare.view.addExpenditure.AddExpenditure;
+import com.sachin_himal.walletshare.view.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity  implements NavigationBarView.OnItemSelectedListener {
 
@@ -26,10 +29,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationBarVie
     private ProfileFragment profileFragment;
 
 
+    private MainActivityViewModal viewModal;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModal = new ViewModelProvider(this).get(MainActivityViewModal.class);
+
+
+        checkIfSignedIn();
+
+
         setContentView(R.layout.activity_main);
 
 
@@ -58,11 +70,24 @@ public class MainActivity extends AppCompatActivity  implements NavigationBarVie
         });
     }
 
+    private void checkIfSignedIn() {
+        viewModal.getCurrentUser().observe(this, user ->{
+            if (user ==null){
+                startLoginActivity();
+            }
+            else{
+                viewModal.init();
+            }
+
+        });
 
 
+    }
 
-
-
+    private void startLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
 
 
     // Initializing Bottom Navigation

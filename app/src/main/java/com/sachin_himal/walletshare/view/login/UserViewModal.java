@@ -5,16 +5,17 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
-import com.sachin_himal.walletshare.repository.login.LoginRepository;
-import com.sachin_himal.walletshare.repository.login.LoginRepositoryImpl;
+import com.sachin_himal.walletshare.repository.login.UserRepository;
+import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
 
-public class LoginViewModel extends ViewModel {
+public class UserViewModal extends ViewModel {
 
 
-    private LoginRepository repository;
+    private UserRepository repository;
 
-    public LoginViewModel(){
-        repository = LoginRepositoryImpl.getInstance();
+
+    public UserViewModal(){
+        repository = UserRepositoryImpl.getInstance();
     }
 
 
@@ -51,4 +52,5 @@ public class LoginViewModel extends ViewModel {
 
         repository.loginWithFacebook();
     }
+
 }

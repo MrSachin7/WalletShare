@@ -3,24 +3,17 @@ package com.sachin_himal.walletshare.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.gms.auth.api.identity.SignInCredential;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.sachin_himal.walletshare.MainActivity;
+import com.sachin_himal.walletshare.view.home.MainActivity;
 import com.sachin_himal.walletshare.R;
 
 
@@ -35,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean showOneTapUI = true;
 
 
-    private LoginViewModel viewModel;
+    private UserViewModal viewModel;
 
 
 
@@ -49,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         setupAdapter();
         initializeTab();
 
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UserViewModal.class);
         viewModel.signOut();
         viewModel.getCurrentUser().observe(this, this::loginStatusChanged);
 

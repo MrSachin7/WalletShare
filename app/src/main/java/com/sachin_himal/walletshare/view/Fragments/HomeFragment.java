@@ -3,21 +3,15 @@ package com.sachin_himal.walletshare.view.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.sachin_himal.walletshare.MainActivity;
+import com.sachin_himal.walletshare.view.home.MainActivity;
 import com.sachin_himal.walletshare.R;
-
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
