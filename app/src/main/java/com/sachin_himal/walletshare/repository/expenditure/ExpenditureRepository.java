@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.repository.addExpenditure;
+package com.sachin_himal.walletshare.repository.expenditure;
 
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;

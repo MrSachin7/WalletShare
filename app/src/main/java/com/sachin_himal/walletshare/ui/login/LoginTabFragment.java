@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.view.login;
+package com.sachin_himal.walletshare.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;

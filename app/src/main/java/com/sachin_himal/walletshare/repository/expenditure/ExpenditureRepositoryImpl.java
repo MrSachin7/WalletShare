@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.repository.addExpenditure;
+package com.sachin_himal.walletshare.repository.expenditure;
 
 
 

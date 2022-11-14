@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.view.login;
+package com.sachin_himal.walletshare.ui.login;
 
 
 import android.content.Intent;
@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseUser;
-import com.sachin_himal.walletshare.view.home.MainActivity;
+import com.sachin_himal.walletshare.ui.MainActivity;
 import com.sachin_himal.walletshare.R;
 
 
@@ -24,8 +24,6 @@ public class LoginActivity extends AppCompatActivity {
 
     LoginAdapter loginAdapter;
     FloatingActionButton facebook,google,twitter;
-    private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
-    private boolean showOneTapUI = true;
 
 
     private UserViewModal viewModel;

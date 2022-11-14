@@ -1,11 +1,11 @@
-package com.sachin_himal.walletshare.view.home;
+package com.sachin_himal.walletshare.ui;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.sachin_himal.walletshare.repository.addExpenditure.ExpenditureRepository;
-import com.sachin_himal.walletshare.repository.addExpenditure.ExpenditureRepositoryImpl;
+import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepository;
+import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepositoryImpl;
 import com.sachin_himal.walletshare.repository.login.UserRepository;
 import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
 

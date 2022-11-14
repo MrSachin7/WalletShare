@@ -1,12 +1,11 @@
-package com.sachin_himal.walletshare.view.addExpenditure;
+package com.sachin_himal.walletshare.ui.expenditure;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sachin_himal.walletshare.entity.Expenditure;
-import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
-import com.sachin_himal.walletshare.repository.addExpenditure.ExpenditureRepository;
-import com.sachin_himal.walletshare.repository.addExpenditure.ExpenditureRepositoryImpl;
+import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepository;
+import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepositoryImpl;
 
 import java.util.List;
 

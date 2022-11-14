@@ -47,6 +47,10 @@
     <string name="last_records">Last Records</string>
     <string name="see_more">See More</string>
     <string name="payment">Payment</string>
+    <string name="title_activity_bottom_nav">bottom_nav</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>

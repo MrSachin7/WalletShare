@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.view.login;
+package com.sachin_himal.walletshare.ui.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
