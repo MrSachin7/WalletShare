@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -65,8 +66,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationBarVie
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AddExpenditure.class));
+//                startActivity(new Intent(MainActivity.this, AddExpenditure.class));
+                viewModal.signOut();
             }
+
         });
     }
 

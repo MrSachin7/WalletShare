@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
         seeMoreRecord.setOnClickListener(v -> {
 
 
+
             MainActivity mActivity = (MainActivity) requireActivity();
 
             mActivity.changeNavigationFromFragment();

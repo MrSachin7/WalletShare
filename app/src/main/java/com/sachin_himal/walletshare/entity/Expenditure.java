@@ -12,6 +12,9 @@ public class Expenditure {
     private String paymentType;
 
 
+
+
+
     public Expenditure() {
 
     }

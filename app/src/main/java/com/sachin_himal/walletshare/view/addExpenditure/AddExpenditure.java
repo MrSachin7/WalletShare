@@ -50,7 +50,7 @@ public class AddExpenditure extends AppCompatActivity {
         viewModal = new ViewModelProvider(this).get(ExpenditureViewModal.class);
         saveButton.setOnClickListener(this::savePressed);
 
-        viewModal.getExpenditure().observe(this, this::expenditureListener);
+//        viewModal.getExpenditure().observe(this, this::expenditureListener);
 
 
     }
@@ -58,7 +58,6 @@ public class AddExpenditure extends AppCompatActivity {
 
     private void expenditureListener(Expenditure expenditure) {
         Toast.makeText(this, "Added an expense of" + expenditure.getAmount(), Toast.LENGTH_SHORT).show();
-        finish();
     }
 
     @Override
@@ -112,6 +111,8 @@ public class AddExpenditure extends AppCompatActivity {
         boolean isEveryThingValid = isCategoryValid && isTimeValid && isDateValid;
 
         if (isEveryThingValid) {
+
+            Toast.makeText(this, "Everything valid", Toast.LENGTH_SHORT).show();
             Expenditure expenditure = new Expenditure(amount, date, time, category, paymentType, payee, note);
             viewModal.addExpenditure(expenditure);
             //   viewModal.addExpenditure()

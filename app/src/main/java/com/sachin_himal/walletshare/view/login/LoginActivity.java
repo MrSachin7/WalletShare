@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         initializeTab();
 
         viewModel = new ViewModelProvider(this).get(UserViewModal.class);
-        viewModel.signOut();
         viewModel.getCurrentUser().observe(this, this::loginStatusChanged);
 
 

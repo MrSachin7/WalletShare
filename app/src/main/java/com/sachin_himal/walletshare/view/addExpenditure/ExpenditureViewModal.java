@@ -30,7 +30,9 @@ public class ExpenditureViewModal extends ViewModel {
     }
 
     public void addExpenditure(Expenditure expenditure) {
-        repository.saveExpenditure(expenditure);
+        repository.saveExpenditure(expenditure, () -> {
+
+        });
     }
 
     public LiveData<Expenditure> getExpenditure(){

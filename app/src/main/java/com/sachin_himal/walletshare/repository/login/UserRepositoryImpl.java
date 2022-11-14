@@ -88,7 +88,6 @@ public class UserRepositoryImpl implements UserRepository {
                 database.getReference("Users").child(mUser.getCurrentUser().getUid()).setValue(user)
                         .addOnCompleteListener((task1 -> {
                             if (task.isSuccessful()) {
-
                             } else {
                                 // If user did not register successfully
                             }

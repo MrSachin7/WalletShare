@@ -10,6 +10,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ExpenditureLiveData extends LiveData<Expenditure> {
 
+
     DatabaseReference databaseReference;
 
 
@@ -29,7 +30,7 @@ public class ExpenditureLiveData extends LiveData<Expenditure> {
 
 
     public ExpenditureLiveData(DatabaseReference reference){
-        databaseReference = reference;
+        this.databaseReference = reference;
     }
 
     @Override
