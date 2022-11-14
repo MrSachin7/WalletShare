@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.view.login;
+package com.sachin_himal.walletshare.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -121,6 +121,8 @@ public class LoginTabFragment extends Fragment {
 
     }
 
+
+    // TODO replace with activity result launcher...
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -129,7 +131,6 @@ public class LoginTabFragment extends Fragment {
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-
                 viewModel.signInWithGoogle(credential);
             } catch (ApiException e) {
                 e.printStackTrace();

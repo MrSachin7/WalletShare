@@ -1,20 +1,24 @@
-package com.sachin_himal.walletshare.view.addExpenditure;
+package com.sachin_himal.walletshare.ui.expenditure;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
@@ -26,7 +30,7 @@ import com.sachin_himal.walletshare.entity.Expenditure;
 import java.util.Calendar;
 import java.util.List;
 
-public class AddExpenditure extends AppCompatActivity {
+public class AddExpenditureFragment extends Fragment {
 
     LinearLayout colorChangingLinearLayout;
     TabLayout tabLayout;
@@ -41,45 +45,45 @@ public class AddExpenditure extends AppCompatActivity {
     private ExpenditureViewModal viewModal;
 
 
+
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_expenditure);
-        initializeFields();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_add_expenditure, container, false);
+        initializeFields(view);
         setUpTabs();
         viewModal = new ViewModelProvider(this).get(ExpenditureViewModal.class);
         saveButton.setOnClickListener(this::savePressed);
+        return view;
 
-        viewModal.getExpenditure().observe(this, this::expenditureListener);
-
-
-    }
-
-
-    private void expenditureListener(Expenditure expenditure) {
-        Toast.makeText(this, "Added an expense of" + expenditure.getAmount(), Toast.LENGTH_SHORT).show();
-        finish();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         initializeCategoryField();
         initializePaymentField();
 
     }
 
+
+    private void expenditureListener(Expenditure expenditure) {
+        Toast.makeText(getContext(), "Added an expense of" + expenditure.getAmount(), Toast.LENGTH_SHORT).show();
+    }
+
+
     private void initializePaymentField() {
 
         List<String> paymentTypes = viewModal.getAllPaymentCategories();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_dropdown_item, paymentTypes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_dropdown_item, paymentTypes);
         paymentEditable.setAdapter(adapter);
     }
 
     private void initializeCategoryField() {
 
         List<String> categories = viewModal.getAllCategories();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_dropdown_item, categories);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_dropdown_item, categories);
         categoryEditable.setAdapter(adapter);
 
     }
@@ -88,7 +92,7 @@ public class AddExpenditure extends AppCompatActivity {
 
         String expenseAmount = expenseAmountField.getText().toString().trim();
         if (expenseAmount.equals("")) {
-            Toast.makeText(this, "Please enter amount", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please enter amount", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -112,6 +116,8 @@ public class AddExpenditure extends AppCompatActivity {
         boolean isEveryThingValid = isCategoryValid && isTimeValid && isDateValid;
 
         if (isEveryThingValid) {
+
+            Toast.makeText(getContext(), "Everything valid", Toast.LENGTH_SHORT).show();
             Expenditure expenditure = new Expenditure(amount, date, time, category, paymentType, payee, note);
             viewModal.addExpenditure(expenditure);
             //   viewModal.addExpenditure()
@@ -172,7 +178,7 @@ public class AddExpenditure extends AppCompatActivity {
     private void setUpTabs() {
         TabLayout.Tab expenseTab = tabLayout.newTab();
         expenseTab.setText(R.string.expense);
-        expenseTab.view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.rounded_corners, getTheme()));
+        expenseTab.view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.rounded_corners, getContext().getTheme()));
 
 
         TabLayout.Tab incomeTab = tabLayout.newTab();
@@ -190,12 +196,12 @@ public class AddExpenditure extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-                    colorChangingLinearLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_red, getTheme()));
-                    expenseAmountField.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_red, getTheme()));
+                    colorChangingLinearLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_red, getContext().getTheme()));
+                    expenseAmountField.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_red, getContext().getTheme()));
 //                    tabLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.tab_selector_expense, getTheme()));
                 } else if (tab.getPosition() == 1) {
-                    colorChangingLinearLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_cyan, getTheme()));
-                    expenseAmountField.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_cyan, getTheme()));
+                    colorChangingLinearLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_cyan, getContext().getTheme()));
+                    expenseAmountField.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.palette_cyan, getContext().getTheme()));
 //                    tabLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.tab_selector_income, getTheme()));
 
 
@@ -216,23 +222,23 @@ public class AddExpenditure extends AppCompatActivity {
 
     }
 
-    private void initializeFields() {
-        colorChangingLinearLayout = findViewById(R.id.color_changing_linear_layout);
-        tabLayout = findViewById(R.id.incomeTypeTab);
-        expenseAmountField = findViewById(R.id.expense_amount_field);
-        dateField = findViewById(R.id.date_field);
-        timeField = findViewById(R.id.time_field);
-        noteField = findViewById(R.id.note_field);
-        payeeField = findViewById(R.id.payee_field);
+    private void initializeFields(View view) {
+        colorChangingLinearLayout = view.findViewById(R.id.color_changing_linear_layout);
+        tabLayout = view.findViewById(R.id.incomeTypeTab);
+        expenseAmountField = view.findViewById(R.id.expense_amount_field);
+        dateField = view.findViewById(R.id.date_field);
+        timeField = view.findViewById(R.id.time_field);
+        noteField = view.findViewById(R.id.note_field);
+        payeeField = view.findViewById(R.id.payee_field);
 
-        dateEditText = findViewById(R.id.date_edit_text);
-        timeEditText = findViewById(R.id.time_edit_text);
-        saveButton = findViewById(R.id.saveBtn);
+        dateEditText = view.findViewById(R.id.date_edit_text);
+        timeEditText = view.findViewById(R.id.time_edit_text);
+        saveButton = view.findViewById(R.id.saveBtn);
 
-        categoryEditable = findViewById(R.id.category_edit_text);
-        paymentEditable = findViewById(R.id.payment_field_edit_text);
-        categoryField = findViewById(R.id.category_field);
-        paymentField = findViewById(R.id.payment_field);
+        categoryEditable = view.findViewById(R.id.category_edit_text);
+        paymentEditable = view.findViewById(R.id.payment_field_edit_text);
+        categoryField = view.findViewById(R.id.category_field);
+        paymentField = view.findViewById(R.id.payment_field);
 
 
         categoryEditable.setShowSoftInputOnFocus(false);
@@ -246,14 +252,14 @@ public class AddExpenditure extends AppCompatActivity {
 
         dateEditText.setShowSoftInputOnFocus(false);
         dateEditText.setCursorVisible(false);
-        dateEditText.setOnClickListener(view -> {
+        dateEditText.setOnClickListener(view1 -> {
             showDateDialog();
         });
         dateEditText.setFocusable(false);
 
         timeEditText.setShowSoftInputOnFocus(false);
         timeEditText.setCursorVisible(false);
-        timeEditText.setOnClickListener(view -> {
+        timeEditText.setOnClickListener(view1 -> {
             showTimeDialog();
         });
         timeEditText.setFocusable(false);
@@ -266,7 +272,7 @@ public class AddExpenditure extends AppCompatActivity {
         final int minute = calendar.get(Calendar.MINUTE);
 
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, this::updateTimeField, hour, minute, false);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), this::updateTimeField, hour, minute, false);
         timePickerDialog.show();
     }
 
@@ -294,7 +300,7 @@ public class AddExpenditure extends AppCompatActivity {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this::updateDateField, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), this::updateDateField, year, month, day);
         datePickerDialog.show();
 
     }

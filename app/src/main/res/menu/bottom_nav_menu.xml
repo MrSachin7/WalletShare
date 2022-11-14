@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
-        android:id="@+id/menu_dashboard"
-        android:title="Dashboard"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/home_button"
+        android:title="Home"/>
 
-        />
     <item
-        android:id="@+id/menu_addTransaction"
-        android:title="New"
+        android:id="@+id/addExpenditureFragment"
         android:icon="@drawable/add_circle"
-        />
+        android:title="New" />
 
-    <item android:id="@+id/placeholder"
-        android:title="" />
 
     <item
-        android:id="@+id/menu_split"
-        android:title="Split"
-        android:icon="@drawable/ic_baseline_share_24"
-        />
-    <item
-        android:id="@+id/menu_profile"
-        android:title="Profile"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/profile_vector"
-        />
+        android:title="Profile" />
+
 
 </menu>

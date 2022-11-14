@@ -1,5 +1,6 @@
-package com.sachin_himal.walletshare.repository.addExpenditure;
+package com.sachin_himal.walletshare.repository.expenditure;
 
+import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
 
@@ -10,7 +11,7 @@ public interface ExpenditureRepository {
 
     void init(String userId);
 
-    void saveExpenditure(Expenditure expenditure);
+    void saveExpenditure(Expenditure expenditure, CallBack callable);
 
     ExpenditureLiveData getExpenditure();
 

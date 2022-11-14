@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECE7E7"
-    tools:context=".view.addExpenditure.AddExpenditure">
+    tools:context=".ui.expenditure.AddExpenditureFragment">
 
     <LinearLayout
         android:id="@+id/color_changing_linear_layout"

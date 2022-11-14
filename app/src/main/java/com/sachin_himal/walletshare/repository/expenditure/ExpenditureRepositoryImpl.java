@@ -1,9 +1,12 @@
-package com.sachin_himal.walletshare.repository.addExpenditure;
+package com.sachin_himal.walletshare.repository.expenditure;
 
 
+
+import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
 
@@ -39,6 +42,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository   {
 
     private void mockPaymentTypes() {
 
+        // Todo if i can mock these instead of using db
         allPaymentTypes.add("Cash");
         allPaymentTypes.add("Debit Card");
         allPaymentTypes.add("Credit Card");
@@ -78,7 +82,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository   {
 
     @Override
     public void init(String userId) {
-        dbReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        dbReference = FirebaseDatabase.getInstance("https://walletshare-92139-default-rtdb.firebaseio.com/").getReference().child("users").child(userId);
         expenditure = new ExpenditureLiveData(dbReference);
 
 
@@ -86,10 +90,13 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository   {
     }
 
     @Override
-    public void saveExpenditure(Expenditure expenditure) {
-        dbReference.setValue(expenditure).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+    public void saveExpenditure(Expenditure expenditure, CallBack callBack) {
 
+        // Todo the db is not working ... ask Kasper
+        dbReference.setValue(expenditure).addOnCompleteListener(task -> {
+            if (!task.isSuccessful()){
+                Log.d("Test", " It comes to save expense from repo");
+                Log.d("Exception", task.getException().getMessage());
             }
         });
     }
