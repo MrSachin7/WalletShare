@@ -4,25 +4,31 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Expenditure {
+
+
+    private int id;
     private double amount;
     private String timeOfExpenditure;
     private String category;
     private String payee;
     private String note;
+    private String expenditureType;
     private String paymentType;
 
 
     public Expenditure() {
 
+        // Needed for framework, don't delete the empty constructor
     }
 
-    public Expenditure(double amount, String date, String time, String category, String paymentType, String payee, String note) {
+    public Expenditure(double amount, String date, String time, String category, String paymentType, String payee, String note, String expenditureType) {
         this.amount = amount;
         this.category = category;
         this.payee = payee;
         this.paymentType = paymentType;
         this.note = note;
         this.timeOfExpenditure = date + " " + time;
+        this.expenditureType = expenditureType;
 
 
     }
@@ -43,6 +49,16 @@ public class Expenditure {
     public void setTimeOfExpenditure(String timeOfExpenditure) {
         this.timeOfExpenditure = timeOfExpenditure;
     }
+
+    public void setExpenditureType(String expenditureType) {
+        this.expenditureType = expenditureType;
+    }
+
+    public String getExpenditureType() {
+
+        return expenditureType;
+    }
+
 
     public String getCategory() {
         return category;
@@ -75,4 +91,6 @@ public class Expenditure {
     public void setPaymentType(String paymentType) {
         this.paymentType = paymentType;
     }
+
+
 }

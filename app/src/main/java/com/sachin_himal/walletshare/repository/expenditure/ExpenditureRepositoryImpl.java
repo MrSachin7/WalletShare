@@ -82,7 +82,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository   {
 
     @Override
     public void init(String userId) {
-        dbReference = FirebaseDatabase.getInstance("https://walletshare-92139-default-rtdb.firebaseio.com/").getReference().child("users").child(userId);
+        dbReference = FirebaseDatabase.getInstance("https://walletshare-92139-default-rtdb.firebaseio.com/").getReference().child("users").child(userId).child("Expenses");
         expenditure = new ExpenditureLiveData(dbReference);
 
 
@@ -92,13 +92,15 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository   {
     @Override
     public void saveExpenditure(Expenditure expenditure, CallBack callBack) {
 
+
+        Log.d("Expenditure", expenditure.getPayee());
         // Todo the db is not working ... ask Kasper
         dbReference.setValue(expenditure).addOnCompleteListener(task -> {
-            if (!task.isSuccessful()){
-                Log.d("Test", " It comes to save expense from repo");
-                Log.d("Exception", task.getException().getMessage());
+            if (task.isSuccessful()){
+                callBack.callBack();
             }
         });
+
     }
 
     @Override
