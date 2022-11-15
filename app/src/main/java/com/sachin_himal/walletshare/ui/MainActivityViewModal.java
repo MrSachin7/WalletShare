@@ -32,6 +32,7 @@ public class MainActivityViewModal extends ViewModel {
 
     public void init() {
         String userId = userRepository.getCurrentUser().getValue().getUid();
+
         expenditureRepository.init(userId);
     }
 }

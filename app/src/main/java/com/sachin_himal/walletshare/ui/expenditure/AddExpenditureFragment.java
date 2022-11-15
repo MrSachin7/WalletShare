@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
@@ -40,6 +42,7 @@ public class AddExpenditureFragment extends Fragment {
     AppCompatButton saveButton;
     AppCompatEditText expenseAmountField, noteField, payeeField;
     AppCompatAutoCompleteTextView categoryEditable, paymentEditable;
+    ProgressBar progressBar;
 
 
     private ExpenditureViewModal viewModal;
@@ -55,9 +58,23 @@ public class AddExpenditureFragment extends Fragment {
         setUpTabs();
         viewModal = new ViewModelProvider(this).get(ExpenditureViewModal.class);
         saveButton.setOnClickListener(this::savePressed);
+        viewModal.isDone().observe(getViewLifecycleOwner(), this::done);
+
         return view;
 
     }
+
+    private void done(Boolean aBoolean) {
+        progressBar.setVisibility(View.INVISIBLE);
+        if (aBoolean){
+            // Go back to home button
+            Toast.makeText(getContext(), "Added expense", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getContext(), "Failed to add expense", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -107,7 +124,12 @@ public class AddExpenditureFragment extends Fragment {
 
         double amount = Double.parseDouble(expenseAmount);
         int selectedTabPosition = tabLayout.getSelectedTabPosition();
-        if (selectedTabPosition == 0) amount = amount * (-1);   // Save expenses as negative
+
+        String expenditureType = "Income";
+        if (selectedTabPosition == 0){
+            amount = amount * (-1);   // Save expenses as negative
+            expenditureType = "Expense";
+        }
 
         boolean isDateValid = validateDate();
         boolean isTimeValid = validateTime();
@@ -117,8 +139,8 @@ public class AddExpenditureFragment extends Fragment {
 
         if (isEveryThingValid) {
 
-            Toast.makeText(getContext(), "Everything valid", Toast.LENGTH_SHORT).show();
-            Expenditure expenditure = new Expenditure(amount, date, time, category, paymentType, payee, note);
+            progressBar.setVisibility(View.VISIBLE);
+            Expenditure expenditure = new Expenditure(amount, date, time, category, paymentType, payee, note, expenditureType);
             viewModal.addExpenditure(expenditure);
             //   viewModal.addExpenditure()
         }
@@ -230,6 +252,8 @@ public class AddExpenditureFragment extends Fragment {
         timeField = view.findViewById(R.id.time_field);
         noteField = view.findViewById(R.id.note_field);
         payeeField = view.findViewById(R.id.payee_field);
+        progressBar = view.findViewById(R.id.add_expense_progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         dateEditText = view.findViewById(R.id.date_edit_text);
         timeEditText = view.findViewById(R.id.time_edit_text);

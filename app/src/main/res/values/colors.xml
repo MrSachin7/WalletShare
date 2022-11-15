@@ -3,6 +3,7 @@
 
     <color name="white"> #FFFFFF</color>
     <color name="black"> #000000</color>
+    <color name="home_yellow"> #E2FF6F</color>
     <color name="palette_black">#333333</color>
     <color name="palette_blue">#206BFD</color>
     <color name="palette_yellow">#FFF275</color>

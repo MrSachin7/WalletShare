@@ -29,7 +29,7 @@
     <string name="note">Note</string>
     <string name="enter_payee">Enter Payee</string>
     <string name="payment_type">Payment type</string>
-    <string name="cash">Cash</string>
+    <string name="cash">CASH</string>
     <string name="save">Save</string>
     <string name="expense">Expense</string>
     <string name="income">Income</string>
@@ -51,6 +51,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="top_expenses">Top Expenses</string>
 
 
 </resources>
