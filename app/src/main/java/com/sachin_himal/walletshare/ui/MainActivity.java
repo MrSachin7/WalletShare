@@ -31,30 +31,16 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initializeFields();
-
 
 
         viewModal = new ViewModelProvider(this).get(MainActivityViewModal.class);
-
-
         checkIfSignedIn();
-
-
-
-
-
-
-
-
-
-
-
-
-
+        setContentView(R.layout.activity_main);
+        initializeFields();
 
     }
+
+
 
     private void initializeFields() {
 

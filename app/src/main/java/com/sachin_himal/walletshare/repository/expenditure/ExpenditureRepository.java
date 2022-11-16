@@ -1,5 +1,8 @@
 package com.sachin_himal.walletshare.repository.expenditure;
 
+import androidx.lifecycle.LiveData;
+
+import com.sachin_himal.walletshare.entity.Balance;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
@@ -16,5 +19,17 @@ public interface ExpenditureRepository {
     ExpenditureLiveData getExpenditure();
 
     List<String> getAllPaymentCategories();
+
+    void searchThreeLatestExpenditure();
+
+    void searchCurrentBalance();
+
+
+
+    LiveData<List<Expenditure>> getThreeLatestExpenditures();
+
+
+    LiveData<Balance> getCurrentBalance();
+
 
 }
