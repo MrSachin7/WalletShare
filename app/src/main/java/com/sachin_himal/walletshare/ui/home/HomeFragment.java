@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Balance;
 import com.sachin_himal.walletshare.entity.Expenditure;
+import com.sachin_himal.walletshare.ui.MainActivity;
 import com.sachin_himal.walletshare.ui.all_expenses.ExpenseAdapter;
 
 import java.util.List;
@@ -40,8 +41,14 @@ public class HomeFragment extends Fragment {
         lastRecordListView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ExpenseAdapter();
         lastRecordListView.setAdapter(adapter);
+        lastRecordShowMore.setOnClickListener(this::showMorePressed);
 
         return view;
+    }
+
+    private void showMorePressed(View view) {
+        ((MainActivity) getActivity()).changeFragment(R.id.allExpensesFragment);
+
     }
 
     @Override
@@ -49,10 +56,8 @@ public class HomeFragment extends Fragment {
         super.onResume();
         viewModal.searchThreeLatestExpenses();
         viewModal.searchCurrentBalance();
-        viewModal.getCurrentBalance().observe(getViewLifecycleOwner(), this ::updateBalanceField);
-        viewModal.getThreeExpenditure().observe(getViewLifecycleOwner(), this :: updateLastExpensesField);
-
-
+        viewModal.getCurrentBalance().observe(getViewLifecycleOwner(), this::updateBalanceField);
+        viewModal.getThreeExpenditure().observe(getViewLifecycleOwner(), this::updateLastExpensesField);
     }
 
     private void updateBalanceField(Balance balance) {
@@ -62,7 +67,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateLastExpensesField(List<Expenditure> expenditures) {
-        adapter.setAllExpenditure(expenditures);
+        adapter.setExpenditures(expenditures);
     }
 
     private void initializeAllFields(View view) {

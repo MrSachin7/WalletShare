@@ -27,9 +27,13 @@ public interface ExpenditureRepository {
 
 
     LiveData<List<Expenditure>> getThreeLatestExpenditures();
+    LiveData<List<Expenditure>> getAllExpenditures();
 
 
     LiveData<Balance> getCurrentBalance();
+
+
+    void searchAllExpenditures();
 
 
 }

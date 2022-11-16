@@ -38,7 +38,7 @@ public class ExpenditureViewModal extends ViewModel {
         } );
     }
 
-    public LiveData<Expenditure> getExpenditure(){
+    public LiveData<Expenditure> getLastThreeExpenditures(){
 
         return repository.getExpenditure();
     }
@@ -48,7 +48,11 @@ public class ExpenditureViewModal extends ViewModel {
     }
 
 
+    public void searchAllExpenditures() {
+        repository.searchAllExpenditures();
+    }
 
-
-
+    public LiveData<List<Expenditure>> getAllExpenditures(){
+        return repository.getAllExpenditures();
+    }
 }

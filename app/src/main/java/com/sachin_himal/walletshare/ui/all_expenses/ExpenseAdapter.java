@@ -2,6 +2,7 @@ package com.sachin_himal.walletshare.ui.all_expenses;
 
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     private List<Expenditure> allExpenditure = new ArrayList<>();
 
 
-    public void setAllExpenditure(List<Expenditure> expenditure){
+    public void setExpenditures(List<Expenditure> expenditure){
         allExpenditure.clear();
         allExpenditure.addAll(expenditure);
         notifyDataSetChanged();
@@ -46,6 +47,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Expenditure expenditure = allExpenditure.get(position);
         holder.amount.setText(String.format("%s", expenditure.getAmount())+ " kr");
+        if (expenditure.getExpenditureType().equalsIgnoreCase("Income")) {
+
+            holder.amount.setTextColor(Color.parseColor("#1ECB89"));
+        }
 
         holder.category.setText(expenditure.getCategory());
 

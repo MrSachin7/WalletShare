@@ -22,4 +22,8 @@
         android:name="com.sachin_himal.walletshare.ui.home.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/allExpensesFragment"
+        android:name="com.sachin_himal.walletshare.ui.all_expenses.AllExpensesFragment"
+        android:label="AllExpensesFragment" />
 </navigation>

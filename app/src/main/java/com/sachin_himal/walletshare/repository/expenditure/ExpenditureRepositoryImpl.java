@@ -18,8 +18,6 @@ import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +34,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     private List<String> allPaymentTypes;
 
     private MutableLiveData<List<Expenditure>> lastThreeExpenses;
+    private MutableLiveData<List<Expenditure>> allExpenditures;
     private MutableLiveData<Balance> currentBalance;
 
     private final String EXPENSES = "Expenses";
@@ -49,6 +48,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         lastThreeExpenses = new MutableLiveData<>();
+        allExpenditures = new MutableLiveData<>();
         currentBalance = new MutableLiveData<>();
 
         mockCategories();
@@ -182,7 +182,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 //            }
 //        });
 
-        List<Expenditure> temp = mockExpenditures();
+        List<Expenditure> temp = mockThreeExpenditures();
 
         lastThreeExpenses.setValue(temp);
 
@@ -206,13 +206,50 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     }
 
     @NonNull
-    private List<Expenditure> mockExpenditures() {
+    private List<Expenditure> mockThreeExpenditures() {
         List<Expenditure> temp = new ArrayList<>();
-        temp.add(new Expenditure(110,"2022-11-05" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-09-21" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-09-21" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-16" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-16" ,"12:11:11","Food", "test", "test", "test", "Income" ));
+        temp.add(new Expenditure(110,"2022-11-15" ,"12:11:11","Food", "test", "test", "test", "test" ));
         return temp;
     }
+
+    @NonNull
+    private List<Expenditure> mockAllExpenditures() {
+        List<Expenditure> temp = new ArrayList<>();
+        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-05" ,"12:11:11","Food", "Income", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-06" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-07" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11","Food", "Income", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-09" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-09" ,"12:11:11","Food", "Income", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-10" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-10" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-10" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-10" ,"12:11:11","Food", "Income", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-10" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-10" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-11" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-12" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-14" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-14" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-14" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-15" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-15" ,"12:11:11","Income", "Income", "test", "test", "Income" ));
+        temp.add(new Expenditure(110,"2022-11-15" ,"12:11:11","Food", "test", "test", "test", "test" ));
+
+
+        temp.add(new Expenditure(110,"2022-11-16" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-16" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-15" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        return temp;
+    }
+
 
     @Override
     public LiveData<List<Expenditure>> getThreeLatestExpenditures() {
@@ -220,7 +257,17 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     }
 
     @Override
+    public LiveData<List<Expenditure>> getAllExpenditures() {
+        return allExpenditures;
+    }
+
+    @Override
     public LiveData<Balance> getCurrentBalance() {
         return currentBalance;
+    }
+
+    @Override
+    public void searchAllExpenditures() {
+        allExpenditures.setValue(mockAllExpenditures());
     }
 }
