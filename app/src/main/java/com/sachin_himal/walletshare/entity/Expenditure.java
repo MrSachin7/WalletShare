@@ -89,8 +89,43 @@ public class Expenditure {
     }
 
     public void setPaymentType(String paymentType) {
+
+
+
         this.paymentType = paymentType;
     }
+
+
+
+    public String getDateString(){
+
+        LocalDateTime timeOfExpenditure = getTimeOfExpenditure();
+
+
+        int day = timeOfExpenditure.getDayOfMonth();
+        String month = timeOfExpenditure.getMonth().toString();
+        month =Character.toUpperCase( month.charAt(0))+ month.substring(1).toLowerCase();
+        int year = timeOfExpenditure.getYear();
+
+        return day + " "+ month+ " "+ year;
+
+
+    }
+
+
+    public String getTimeString(){
+
+        LocalDateTime timeOfExpenditure = getTimeOfExpenditure();
+        int hour = timeOfExpenditure.getHour();
+        int minute = timeOfExpenditure.getMinute();
+
+        if (hour >12){
+            hour= hour % 12;
+            return hour+ "."+ minute+ "PM";
+        }
+        return hour+ "."+ minute+ "AM";
+    }
+
 
 
 }

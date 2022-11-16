@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,13 +27,12 @@
             <TextView
                 android:id="@+id/expense_category"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:fontFamily="@font/helvetica_regular"
                 android:text="Shopping"
                 android:textColor="@color/palette_black"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <TextView
 
@@ -48,7 +43,7 @@
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/helvetica_regular"
                 android:text="Note goes here"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -70,23 +65,22 @@
                 android:gravity="center"
                 android:text="83.00 kr"
                 android:textColor="@color/palette_red"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
 
             <TextView
                 android:id="@+id/expense_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/helvetica_regular"
                 android:gravity="center"
                 android:text="5 November 2022"
-                android:textSize="15dp" />
+                android:textSize="14sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>

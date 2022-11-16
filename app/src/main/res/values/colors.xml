@@ -17,5 +17,6 @@
     <color name="palette_dark_red">#CE4239</color>
     <color name="palette_dark_cyan">#28AA77</color>
     <color name="transparent"> #0000ffff</color>
+    <color name="app_bg">#F4F4F4</color>
 
 </resources>

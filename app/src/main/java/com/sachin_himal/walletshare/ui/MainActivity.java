@@ -1,5 +1,6 @@
 package com.sachin_himal.walletshare.ui;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -31,38 +32,27 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initializeFields();
-
 
 
         viewModal = new ViewModelProvider(this).get(MainActivityViewModal.class);
-
-
         checkIfSignedIn();
-
-
-
-
-
-
-
-
-
-
-
-
-
+        setContentView(R.layout.activity_main);
+        initializeFields();
 
     }
+
+
 
     private void initializeFields() {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-       navController = Navigation.findNavController(this,R.id.fragmentContainerView);
+        navController = Navigation.findNavController(this,R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+    }
 
+    public void changeFragment(@IdRes int fragmentId){
+        navController.navigate(fragmentId);
     }
 
 
