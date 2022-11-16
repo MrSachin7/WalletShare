@@ -12,7 +12,10 @@
         android:icon="@drawable/add_circle"
         android:title="New" />
 
-
+    <item
+        android:id="@+id/groupList"
+        android:icon="@drawable/com_facebook_close"
+        android:title="Split" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/profile_vector"
