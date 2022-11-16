@@ -5,88 +5,97 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeFragment"
-    android:background="@color/palette_yellow"
+    android:background="@color/black"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <com.google.android.material.card.MaterialCardView
 
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="200dp"
             android:id="@id/balanceCardView"
-            app:cardBackgroundColor="@color/palette_cyan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:minHeight="90dp"
+            app:cardBackgroundColor="@color/palette_black"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:cardCornerRadius="40dp"
-            >
+            app:layout_constraintVertical_bias="0.074"
+            app:layout_constraintWidth_percent="0.9">
 
             <TextView
 
-                android:layout_width="wrap_content"
+                android:layout_width="88dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_marginStart="20dp"
+
+                android:fontFamily="@font/helvetica_bold_family"
+
                 android:text="@string/balance"
-                android:textSize="40sp"
-                android:layout_margin="30dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/viewCurrentBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="120dp"
-                android:textSize="30sp"
-                android:textColor="@color/black"
-
+                android:layout_gravity="bottom"
+              android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="100"
+                android:textColor="@color/white"
+                android:textSize="20sp"
 
 
                 />
 
         </com.google.android.material.card.MaterialCardView>
 
-
-
-
-
-
-
-
         <com.google.android.material.card.MaterialCardView
 
-            android:layout_margin="10dp"
+            android:id="@id/listOfLastRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:minHeight="200dp"
-            android:id="@id/listOfLastRecord"
-            app:cardBackgroundColor="@color/palette_pink"
+            app:cardBackgroundColor="@color/palette_black"
 
-            app:cardCornerRadius="40dp"
+            app:cardCornerRadius="20dp"
 
-
-
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/balanceCardView"
-            tools:layout_editor_absoluteX="0dp"
-            >
+            app:layout_constraintVertical_bias="0.062">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/helvetica_bold_family"
+
                 android:text="@string/last_records"
-                android:textSize="30sp" />
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
             <ListView
+                android:id="@+id/listOfLastRecord"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
 
-                android:id="@+id/listOfLastRecord"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/SeeMoreRecordButton"
@@ -94,20 +103,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="150dp"
-               android:layout_marginStart="90dp"
+                android:layout_marginStart="20dp"
 
 
                 android:backgroundTint="@color/transparent"
                 android:text="@string/see_more"
-                android:textColor="@color/white"
-                />
+                android:textColor="@color/white" />
 
         </com.google.android.material.card.MaterialCardView>
-
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
