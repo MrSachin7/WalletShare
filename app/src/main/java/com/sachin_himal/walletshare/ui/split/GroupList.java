@@ -67,12 +67,17 @@ public class GroupList extends Fragment {
 
 
 
+
+
+
+
+
         //MOCKING Data
         CreateDataForCards();
     }
 
     private void CreateDataForCards() {
-        User user = new User("as","asa");
+      /**  User user = new User("as","asa");
         User user1 = new User("as","asa");
         User user2 = new User("as","asa");
         ArrayList<User> users = new ArrayList<User>();
@@ -85,8 +90,9 @@ public class GroupList extends Fragment {
         Group group1 = new Group(" As",users);
         groupArrayList.add(group);
         group1.setAmount(500);
+**/
 
         cardAdapter.notifyDataSetChanged();
-        groupArrayList.add(group1);
+
     }
 }
