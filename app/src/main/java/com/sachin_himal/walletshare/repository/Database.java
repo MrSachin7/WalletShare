@@ -8,5 +8,8 @@ public interface Database {
     String USERS = "Users";
     String EXPENSES = "Expenses";
 
+    String GROUPS = "Groups";
+
+
 
 }

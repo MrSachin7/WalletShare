@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="@color/palette_cyan"
+android:onClick="goToCertainGroup"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+android:clickable="true"
+android:focusable="true"
+
+app:cardElevation="1dp"
+app:cardCornerRadius="12dp"
+
+app:strokeWidth="5dp">
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="@color/palette_cyan"
+        >
+
+        <TextView
+
+
+            android:id="@+id/groupNameForCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+
+
+
+            android:text="GroupName"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="@color/palette_black"
+        >
+
+
+        <TextView
+
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="123"
+
+            android:id="@+id/groupAmount"
+            android:textColor="@color/white"
+
+        android:textSize="18sp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+
