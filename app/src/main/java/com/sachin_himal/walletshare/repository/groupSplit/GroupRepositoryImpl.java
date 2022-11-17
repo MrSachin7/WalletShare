@@ -48,7 +48,7 @@ public class GroupRepositoryImpl implements GroupRepository{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for ( DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Group group = new Group();
-
+/**
                     String name = (String) dataSnapshot.child("groupName").getValue();
                     group.setGroupName(name);
                     group.setAmount(0);
@@ -60,7 +60,7 @@ public class GroupRepositoryImpl implements GroupRepository{
                     System.out.println("sucesfully added ");
                    // group.setAmount((int) dataSnapshot.child("amount").getValue());
 
-
+**/
 
                 }
 

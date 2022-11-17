@@ -62,50 +62,6 @@ saveButton.setOnClickListener(new View.OnClickListener() {
     memberReference = firebaseDatabase.getReference().child("Users");
 
 
-
-
-
-
-    /////
-
-
-       memberReference.addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-               for ( DataSnapshot dataSnapshot: snapshot.getChildren()){
-               /**
-                   Group group = new Group();
-
-                   String name = (String) dataSnapshot.child("groupName").getValue();
-                   group.setGroupName(name);
-                   group.setAmount(0);
-                   List<User> users = new ArrayList<>();
-                   System.out.println( dataSnapshot.child("users").getValue());
-                   group.setUsers((List<User>)  dataSnapshot.child("users").getValue());
-                   System.out.println(group.getUsers().toString());
-                   groupArrayList.add(group);
-                   System.out.println("sucesfully added ");
-                   // group.setAmount((int) dataSnapshot.child("amount").getValue());
-                   cardAdapter.notifyDataSetChanged();
-**/
-                   System.out.println(dataSnapshot.child(currentUserID).getKey());
-
-               }
-
-           }
-
-           @Override
-           public void onCancelled(@NonNull DatabaseError error) {
-
-           }
-       });
-
-
-
-
-        ////
-
        return view;
 
     }
@@ -115,11 +71,13 @@ saveButton.setOnClickListener(new View.OnClickListener() {
         group.setGroupName(editTextGroupName.getText().toString());
 
 
+
   DatabaseReference newAddedReference = groupReference.push();
   String keyFromRecentGroup = newAddedReference.getKey();
           newAddedReference.setValue(group).addOnCompleteListener(task -> {
       if (task.isSuccessful()){
             memberReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
+            newAddedReference.child("UsersId").push().setValue(currentUserID);
           group = new Group();
 
          // memberReference.child(currentUserID).child("GroupList").push().setValue("")

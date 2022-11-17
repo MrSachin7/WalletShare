@@ -8,24 +8,20 @@ import java.util.List;
 public class Group {
 
     private String groupName;
-    private List<User> users;
+    private List<String> usersId;
     private int amount;
 
 
-    public Group(String groupName, List<User> users) {
-        this.groupName = groupName;
-        this.users = users;amount = 0;
+    public Group() {
     }
 
     public Group(String groupName) {
         this.groupName = groupName;
-        users = new ArrayList<>();
-        amount = 0;
     }
 
-    public Group() {
-    users = new ArrayList<>();
-        amount = 0;
+    public Group(String groupName, int amount) {
+        this.groupName = groupName;
+        this.amount = amount;
     }
 
     public String getGroupName() {
@@ -36,16 +32,12 @@ public class Group {
         this.groupName = groupName;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<String> getUsersId() {
+        return usersId;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public void  addUser(User user){
-        users.add(user);
+    public void setUsersId(List<String> usersId) {
+        this.usersId = usersId;
     }
 
     public int getAmount() {
