@@ -2,7 +2,9 @@ package com.sachin_himal.walletshare.entity;
 
 public class User {
 
-    private String uId;
+
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
 
@@ -10,22 +12,37 @@ public class User {
 
     }
 
-    public User(String email) {
-        this.email = email;
-    }
-
-    public User(String email, String password) {
+    public User(String email, String password, String firstName, String lastName) {
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public void setUId(String uId) {
-        this.uId = uId;
-
+    public User(String email, String firstName, String lastName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public String getUId() {
-        return uId;
+
+
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {

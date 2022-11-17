@@ -19,8 +19,8 @@ public class UserViewModal extends ViewModel {
     }
 
 
-    public void signUp(String email, String password) {
-        repository.addUser(email, password);
+    public void signUp(String email, String password, String firstName, String lastName) {
+        repository.addUser(email, password, firstName, lastName);
     }
 
     public LiveData<FirebaseUser> getCurrentUser(){

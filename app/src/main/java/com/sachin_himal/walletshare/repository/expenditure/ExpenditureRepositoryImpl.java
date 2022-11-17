@@ -1,6 +1,11 @@
 package com.sachin_himal.walletshare.repository.expenditure;
 
 
+import static com.sachin_himal.walletshare.repository.Database.BALANCE;
+import static com.sachin_himal.walletshare.repository.Database.DB_ADDRESS;
+import static com.sachin_himal.walletshare.repository.Database.EXPENSES;
+import static com.sachin_himal.walletshare.repository.Database.USERS;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,6 +21,7 @@ import com.sachin_himal.walletshare.entity.Balance;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
+import com.sachin_himal.walletshare.repository.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +43,14 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     private MutableLiveData<List<Expenditure>> allExpenditures;
     private MutableLiveData<Balance> currentBalance;
 
-    private final String EXPENSES = "Expenses";
-    private final String BALANCE = "Balance";
-    private final String DB_ADDRESS = "https://walletshare-92139-default-rtdb.firebaseio.com/";
+
 
 
     private ExpenditureRepositoryImpl() {
         allCategories = new ArrayList<>();
         allPaymentTypes = new ArrayList<>();
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance(DB_ADDRESS);
         lastThreeExpenses = new MutableLiveData<>();
         allExpenditures = new MutableLiveData<>();
         currentBalance = new MutableLiveData<>();
@@ -99,7 +103,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public void init(String userId) {
-        dbReference = FirebaseDatabase.getInstance(DB_ADDRESS).getReference().child("users").child(userId);
+        dbReference = firebaseDatabase.getReference().child(USERS).child(userId);
         expenditure = new ExpenditureLiveData(dbReference);
 
     }

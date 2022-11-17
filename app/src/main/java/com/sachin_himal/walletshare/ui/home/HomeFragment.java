@@ -61,9 +61,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateBalanceField(Balance balance) {
-        String format = String.format("%,.2f",balance.getBalance());
 
-        balance_field.setText(format+ " kr");
+        if (balance !=null){
+            String format = String.format("%,.2f",balance.getBalance());
+            balance_field.setText(format+ " kr");
+        }
+
     }
 
     private void updateLastExpensesField(List<Expenditure> expenditures) {
