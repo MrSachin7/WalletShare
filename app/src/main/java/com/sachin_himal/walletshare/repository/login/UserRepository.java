@@ -9,7 +9,7 @@ import com.sachin_himal.walletshare.entity.User;
 
 public interface UserRepository {
 
-    void addUser(String email, String password);
+    void addUser(String email, String password, String firstName, String lastName);
 
     LiveData<FirebaseUser> getCurrentUser();
 

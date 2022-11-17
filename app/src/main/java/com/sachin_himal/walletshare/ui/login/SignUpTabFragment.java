@@ -19,9 +19,8 @@ import com.sachin_himal.walletshare.R;
 
 public class SignUpTabFragment extends Fragment {
 
-    TextInputLayout emailField, passwordField;
+    TextInputLayout emailField, passwordField, firstNameField, lastNameField;
     AppCompatButton signUp;
-    FloatingActionButton facebook, google, twitter;
     ProgressBar progressBar;
     private UserViewModal viewModel;
 
@@ -62,18 +61,21 @@ public class SignUpTabFragment extends Fragment {
 
         boolean isAppropriateEmail = validateEmail();
         boolean isAppropriatePassword= validatePassword();
+        boolean isAppropriateName= validateName();
 
-        if (!(isAppropriateEmail && isAppropriatePassword)){
+        if (!(isAppropriateEmail && isAppropriatePassword && isAppropriateName)){
             return;
         }
 
         String email = emailField.getEditText().getText().toString().trim();
         String password = passwordField.getEditText().getText().toString().trim();
+        String firstName = firstNameField.getEditText().getText().toString().trim();
+        String lastName = lastNameField.getEditText().getText().toString().trim();
 
         progressBar.setVisibility(View.VISIBLE);
 
 
-        viewModel.signUp(email, password);
+        viewModel.signUp(email, password, firstName, lastName);
 
 //        progressBar.setVisibility(View.INVISIBLE);
 
@@ -102,6 +104,26 @@ public class SignUpTabFragment extends Fragment {
         }
     }
 
+    private boolean validateName() {
+        String firstName = firstNameField.getEditText().getText().toString().trim();
+        String lastName = lastNameField.getEditText().getText().toString().trim();
+
+        if (firstName.isEmpty()){
+            firstNameField.setError("Password cannot be empty");
+            return false;
+        }
+
+        if (lastName.isEmpty()){
+            lastNameField.setError("Password cannot be empty");
+            return false;
+        }
+
+        firstNameField.setError(null);
+        lastNameField.setErrorEnabled(false);
+        return true;
+
+    }
+
     private boolean validateEmail() {
         String email = emailField.getEditText().getText().toString().trim();
         String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -120,20 +142,20 @@ public class SignUpTabFragment extends Fragment {
             emailField.setErrorEnabled(false);
             return true;
         }
-
-
     }
+
+
 
     private void initializeAllFields(View view) {
 
 
-        facebook = view.findViewById(R.id.facebook_btn);
-        google = view.findViewById(R.id.google_btn);
-        twitter = view.findViewById(R.id.twitter_btn);
-        emailField = view.findViewById(R.id.emailFieldCreate);
+
+        emailField = view.findViewById(R.id.emailFieldSignUp);
+        firstNameField = view.findViewById(R.id.firstNameFieldSignUp);
+        lastNameField = view.findViewById(R.id.lastNameFieldSignUp);
         passwordField = view.findViewById(R.id.passwordFieldCreate);
-        signUp = view.findViewById(R.id.sign_up_btn);
-        progressBar = view.findViewById(R.id.progress_bar);
+        signUp = view.findViewById(R.id.signUpBtn);
+        progressBar = view.findViewById(R.id.progressBarSignUp);
         progressBar.setVisibility(View.INVISIBLE);
 
 
