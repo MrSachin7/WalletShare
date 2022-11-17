@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Group;
 import com.sachin_himal.walletshare.entity.User;
+import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 
 public class AddNewGroup extends Fragment {
 
@@ -37,6 +38,11 @@ private Button saveButton;
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_new_group, container, false);
         editTextGroupName  = view.findViewById(R.id.editGroupNameText);
+
+
+
+
+
 
 saveButton = view.findViewById(R.id.saveGroupName);
 saveButton.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +67,7 @@ saveButton.setOnClickListener(new View.OnClickListener() {
     }
 
     public void SaveGroup(View view) {
+
 
         group.setGroupName(editTextGroupName.getText().toString());
         User user = new User(currentUser.getEmail());
