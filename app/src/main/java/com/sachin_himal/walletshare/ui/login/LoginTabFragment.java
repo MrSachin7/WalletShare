@@ -215,8 +215,8 @@ public class LoginTabFragment extends Fragment {
 
     private void initializeAllFields(View view) {
 
-        emailField = view.findViewById(R.id.emailFieldLogin);
-        passwordField = view.findViewById(R.id.passwordFieldLogin);
+        emailField = view.findViewById(R.id.emailFieldSignUp);
+        passwordField = view.findViewById(R.id.passwordFieldCreate);
         login = view.findViewById(R.id.loginBtn);
         forgetPassword = view.findViewById(R.id.forget_pass);
         facebook = view.findViewById(R.id.facebook_btn);
