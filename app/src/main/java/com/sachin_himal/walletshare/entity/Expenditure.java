@@ -126,6 +126,17 @@ public class Expenditure {
         return hour+ "."+ minute+ "AM";
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Expenditure{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", timeOfExpenditure='" + timeOfExpenditure + '\'' +
+                ", category='" + category + '\'' +
+                ", payee='" + payee + '\'' +
+                ", note='" + note + '\'' +
+                ", expenditureType='" + expenditureType + '\'' +
+                ", paymentType='" + paymentType + '\'' +
+                '}';
+    }
 }
