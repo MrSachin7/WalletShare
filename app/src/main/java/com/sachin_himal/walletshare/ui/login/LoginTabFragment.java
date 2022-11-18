@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +31,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sachin_himal.walletshare.R;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.Arrays;
 
@@ -43,7 +44,7 @@ public class LoginTabFragment extends Fragment {
 
     ProgressBar progressBar;
 
-    private UserViewModal viewModel;
+    private UserViewModel viewModel;
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInOptions gso;
     private CallbackManager callbackManager;
@@ -61,7 +62,7 @@ public class LoginTabFragment extends Fragment {
         initializeAllFields(view);
 
 
-        viewModel = new ViewModelProvider(this).get(UserViewModal.class);
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         login.setOnClickListener(this::loginBtnPressed);
         viewModel.getLoginError().observe(getViewLifecycleOwner(), this::errorOnLogin);
 
@@ -73,12 +74,12 @@ public class LoginTabFragment extends Fragment {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getContext(),"Logged in with facebook", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(getContext(),"Logged in with facebook", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(getContext(), "Login cancelled", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(getContext(),"Log in cancelled", FancyToast.LENGTH_SHORT,FancyToast.ERROR, true).show();
 
 
             }
@@ -86,7 +87,7 @@ public class LoginTabFragment extends Fragment {
             @Override
             public void onError(@NonNull FacebookException e) {
 
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(getContext(),e.getMessage(), FancyToast.LENGTH_SHORT,FancyToast.ERROR, true).show();
             }
         });
 
@@ -142,7 +143,7 @@ public class LoginTabFragment extends Fragment {
     private void errorOnLogin(String s) {
         progressBar.setVisibility(View.INVISIBLE);
 
-        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+        FancyToast.makeText(getContext(),s, FancyToast.LENGTH_SHORT,FancyToast.ERROR, true).show();
     }
 
     private void loginBtnPressed(View view) {
@@ -216,7 +217,7 @@ public class LoginTabFragment extends Fragment {
     private void initializeAllFields(View view) {
 
         emailField = view.findViewById(R.id.emailFieldSignUp);
-        passwordField = view.findViewById(R.id.passwordFieldCreate);
+        passwordField = view.findViewById(R.id.passwordFieldLogin);
         login = view.findViewById(R.id.loginBtn);
         forgetPassword = view.findViewById(R.id.forget_pass);
         facebook = view.findViewById(R.id.facebook_btn);

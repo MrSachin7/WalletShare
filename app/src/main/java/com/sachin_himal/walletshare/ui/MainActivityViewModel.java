@@ -9,13 +9,13 @@ import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepository
 import com.sachin_himal.walletshare.repository.login.UserRepository;
 import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
 
-public class MainActivityViewModal extends ViewModel {
+public class MainActivityViewModel extends ViewModel {
 
     private final UserRepository userRepository;
     private final ExpenditureRepository expenditureRepository;
 
 
-    public MainActivityViewModal(){
+    public MainActivityViewModel(){
         userRepository = UserRepositoryImpl.getInstance();
         expenditureRepository = ExpenditureRepositoryImpl.getInstance();
     }

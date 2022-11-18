@@ -8,13 +8,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.repository.login.UserRepository;
 import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
 
-public class UserViewModal extends ViewModel {
+public class UserViewModel extends ViewModel {
 
 
     private UserRepository repository;
 
 
-    public UserViewModal(){
+    public UserViewModel(){
         repository = UserRepositoryImpl.getInstance();
     }
 

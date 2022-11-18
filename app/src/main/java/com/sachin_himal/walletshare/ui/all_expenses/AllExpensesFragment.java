@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Expenditure;
-import com.sachin_himal.walletshare.ui.expenditure.ExpenditureViewModal;
+import com.sachin_himal.walletshare.ui.expenditure.ExpenditureViewModel;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class AllExpensesFragment extends Fragment {
 
 
     ExpenseAndDateAdapter adapter;
-    ExpenditureViewModal viewModal;
+    ExpenditureViewModel viewModal;
     RecyclerView recyclerView;
 
 
@@ -33,7 +33,7 @@ public class AllExpensesFragment extends Fragment {
         initializeAllFields(view);
 
 
-        viewModal = new ViewModelProvider(this).get(ExpenditureViewModal.class);
+        viewModal = new ViewModelProvider(this).get(ExpenditureViewModel.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = new ExpenseAndDateAdapter();

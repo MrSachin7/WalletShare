@@ -11,7 +11,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TimePicker;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +20,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
@@ -28,6 +27,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Expenditure;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -45,7 +45,7 @@ public class AddExpenditureFragment extends Fragment {
     ProgressBar progressBar;
 
 
-    private ExpenditureViewModal viewModal;
+    private ExpenditureViewModel viewModal;
 
 
 
@@ -56,7 +56,7 @@ public class AddExpenditureFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_expenditure, container, false);
         initializeFields(view);
         setUpTabs();
-        viewModal = new ViewModelProvider(this).get(ExpenditureViewModal.class);
+        viewModal = new ViewModelProvider(this).get(ExpenditureViewModel.class);
         saveButton.setOnClickListener(this::savePressed);
         viewModal.isDone().observe(getViewLifecycleOwner(), this::done);
 
@@ -68,10 +68,10 @@ public class AddExpenditureFragment extends Fragment {
         progressBar.setVisibility(View.INVISIBLE);
         if (aBoolean){
             // Go back to home button
-            Toast.makeText(getContext(), "Added expense", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(getContext(),"Added expense", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
         }
         else{
-            Toast.makeText(getContext(), "Failed to add expense", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(getContext(),"Failed to add expense", FancyToast.LENGTH_SHORT,FancyToast.ERROR, true).show();
         }
     }
 
@@ -86,7 +86,7 @@ public class AddExpenditureFragment extends Fragment {
 
 
     private void expenditureListener(Expenditure expenditure) {
-        Toast.makeText(getContext(), "Added an expense of" + expenditure.getAmount(), Toast.LENGTH_SHORT).show();
+        FancyToast.makeText(getContext(),"Expenditure added of "+ expenditure.getAmount(), FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
     }
 
 
@@ -109,7 +109,7 @@ public class AddExpenditureFragment extends Fragment {
 
         String expenseAmount = expenseAmountField.getText().toString().trim();
         if (expenseAmount.equals("")) {
-            Toast.makeText(getContext(), "Please enter amount", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(getContext(),"Amount must be entered", FancyToast.LENGTH_SHORT,FancyToast.WARNING, true).show();
             return;
         }
 

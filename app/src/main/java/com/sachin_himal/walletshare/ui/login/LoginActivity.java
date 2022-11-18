@@ -3,7 +3,7 @@ package com.sachin_himal.walletshare.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.ui.MainActivity;
 import com.sachin_himal.walletshare.R;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     FloatingActionButton facebook,google,twitter;
 
 
-    private UserViewModal viewModel;
+    private UserViewModel viewModel;
 
 
 
@@ -40,11 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         setupAdapter();
         initializeTab();
 
-        viewModel = new ViewModelProvider(this).get(UserViewModal.class);
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         viewModel.getCurrentUser().observe(this, this::loginStatusChanged);
-
-
-
     }
 
 
@@ -54,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loginStatusChanged(FirebaseUser firebaseUser) {
 
         if(firebaseUser !=null){
-            Toast.makeText(this, firebaseUser.getEmail()+ "logged in", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this, firebaseUser.getEmail()+ "logged in", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,true).show();
             openMainView();
         }
 

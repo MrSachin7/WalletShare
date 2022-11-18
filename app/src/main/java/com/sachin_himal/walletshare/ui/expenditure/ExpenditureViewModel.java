@@ -10,13 +10,13 @@ import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepository
 
 import java.util.List;
 
-public class ExpenditureViewModal extends ViewModel {
+public class ExpenditureViewModel extends ViewModel {
 
     private ExpenditureRepository repository;
     private MutableLiveData<Boolean> isDone;
 
 
-    public ExpenditureViewModal() {
+    public ExpenditureViewModel() {
         repository = ExpenditureRepositoryImpl.getInstance();
         isDone = new MutableLiveData<>();
     }
