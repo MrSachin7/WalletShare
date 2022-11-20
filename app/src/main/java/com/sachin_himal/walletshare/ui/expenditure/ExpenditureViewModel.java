@@ -55,4 +55,9 @@ public class ExpenditureViewModel extends ViewModel {
     public LiveData<List<Expenditure>> getAllExpenditures(){
         return repository.getAllExpenditures();
     }
+
+
+    public LiveData<String> getError(){
+        return repository.getError();
+    }
 }

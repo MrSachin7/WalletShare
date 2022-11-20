@@ -6,25 +6,31 @@ import static com.sachin_himal.walletshare.repository.Database.DB_ADDRESS;
 import static com.sachin_himal.walletshare.repository.Database.EXPENSES;
 import static com.sachin_himal.walletshare.repository.Database.USERS;
 
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sachin_himal.walletshare.entity.Balance;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
-import com.sachin_himal.walletshare.repository.Database;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -42,6 +48,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     private MutableLiveData<List<Expenditure>> lastThreeExpenses;
     private MutableLiveData<List<Expenditure>> allExpenditures;
     private MutableLiveData<Balance> currentBalance;
+    private MutableLiveData<String> error;
 
 
 
@@ -54,6 +61,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
         lastThreeExpenses = new MutableLiveData<>();
         allExpenditures = new MutableLiveData<>();
         currentBalance = new MutableLiveData<>();
+        error = new MutableLiveData<>();
 
         mockCategories();
         mockPaymentTypes();
@@ -104,7 +112,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     @Override
     public void init(String userId) {
         dbReference = firebaseDatabase.getReference().child(USERS).child(userId);
-        expenditure = new ExpenditureLiveData(dbReference);
+        expenditure = new ExpenditureLiveData(dbReference.child(EXPENSES).getRef());
 
     }
 
@@ -112,8 +120,6 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     public void saveExpenditure(Expenditure expenditure, CallBack callBack) {
 
 
-        Log.d("Expenditure", expenditure.getPayee());
-        // Todo the db is not working ... ask Kasper
         dbReference.child(EXPENSES).push().setValue(expenditure).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 updateBalance(expenditure.getAmount());
@@ -163,7 +169,22 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     @Override
     public void searchThreeLatestExpenditure() {
 
-        if (dbReference ==null) return;
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
+        executorService.execute(()->{
+            if (dbReference==null) {
+                try {
+                    Thread.sleep(100);
+                    searchThreeLatestExpenditure();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            List<Expenditure> temp = mockThreeExpenditures();
+
+            mainThreadHandler.post(()->lastThreeExpenses.setValue(temp));
+
+        });
 
 //        dbReference.child(EXPENSES).limitToLast(3).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 //            @Override
@@ -186,9 +207,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 //            }
 //        });
 
-        List<Expenditure> temp = mockThreeExpenditures();
 
-        lastThreeExpenses.setValue(temp);
 
 
     }
@@ -196,17 +215,30 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     @Override
     public void searchCurrentBalance() {
 
-        if (dbReference ==null) return;
+        //        if (dbReference ==null) return;
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
-        dbReference.child(BALANCE).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()){
-                    Balance value = task.getResult().getValue(Balance.class);
-                    currentBalance.setValue(value);
+        executorService.execute(()->{
+            if (dbReference==null) {
+                try {
+                    Thread.sleep(100);
+                    searchCurrentBalance();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+            dbReference.child(BALANCE).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()){
+                        Balance value = task.getResult().getValue(Balance.class);
+                        currentBalance.setValue(value);
+                    }
+                }
+            });
         });
+
     }
 
     @NonNull
@@ -221,14 +253,14 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     @NonNull
     private List<Expenditure> mockAllExpenditures() {
         List<Expenditure> temp = new ArrayList<>();
-        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-05" ,"12:11:11","Food", "Income", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-06" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-07" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11",allCategories.get(1), "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11",allCategories.get(1), "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-04" ,"12:11:11",allCategories.get(1), "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-05" ,"12:11:11",allCategories.get(1), "Income", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-06" ,"12:11:11",allCategories.get(1), "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-07" ,"12:11:11",allCategories.get(1), "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11",allCategories.get(1), "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11",allCategories.get(1), "test", "test", "test", "test" ));
         temp.add(new Expenditure(110,"2022-11-08" ,"12:11:11","Food", "Income", "test", "test", "test" ));
         temp.add(new Expenditure(110,"2022-11-09" ,"12:11:11","Food", "test", "test", "test", "test" ));
         temp.add(new Expenditure(110,"2022-11-09" ,"12:11:11","Food", "Income", "test", "test", "test" ));
@@ -272,6 +304,35 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public void searchAllExpenditures() {
+
+//        if (dbReference == null) return;
+//
+//        dbReference.child(EXPENSES).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Iterable<DataSnapshot> children = snapshot.getChildren();
+//                List<Expenditure> expenditures = new ArrayList<>();
+//                for (DataSnapshot snapshot1 : children) {
+//
+//                    Object value = snapshot1.getValue();
+//                    error.setValue(value.toString());
+//
+//                }
+//                allExpenditures.setValue(expenditures);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
         allExpenditures.setValue(mockAllExpenditures());
+    }
+
+
+    @Override
+    public LiveData<String> getError() {
+        return error;
     }
 }

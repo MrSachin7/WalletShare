@@ -42,6 +42,10 @@ public class HomeFragment extends Fragment {
         adapter = new ExpenseAdapter();
         lastRecordListView.setAdapter(adapter);
         lastRecordShowMore.setOnClickListener(this::showMorePressed);
+        viewModal.searchThreeLatestExpenses();
+        viewModal.searchCurrentBalance();
+        viewModal.getCurrentBalance().observe(getViewLifecycleOwner(), this::updateBalanceField);
+        viewModal.getThreeExpenditure().observe(getViewLifecycleOwner(), this::updateLastExpensesField);
 
         return view;
     }
@@ -54,10 +58,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        viewModal.searchThreeLatestExpenses();
-        viewModal.searchCurrentBalance();
-        viewModal.getCurrentBalance().observe(getViewLifecycleOwner(), this::updateBalanceField);
-        viewModal.getThreeExpenditure().observe(getViewLifecycleOwner(), this::updateLastExpensesField);
+
     }
 
     private void updateBalanceField(Balance balance) {

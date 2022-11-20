@@ -31,7 +31,7 @@ public interface ExpenditureRepository {
 
 
     LiveData<Balance> getCurrentBalance();
-
+    LiveData<String> getError();
 
     void searchAllExpenditures();
 
