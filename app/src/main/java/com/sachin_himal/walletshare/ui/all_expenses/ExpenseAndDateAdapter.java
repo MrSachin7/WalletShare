@@ -4,6 +4,7 @@ import static com.sachin_himal.walletshare.ui.all_expenses.ExpenseWithDateModel.
 import static com.sachin_himal.walletshare.ui.all_expenses.ExpenseWithDateModel.LAYOUT_EXPENSE;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Expenditure;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,18 +25,20 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
 
     List<ExpenseWithDateModel> list;
     List<Expenditure> expenditures;
+    List<Expenditure> expendituresToShow;
 
 
     public ExpenseAndDateAdapter() {
         this.list = new ArrayList<>();
         this.expenditures = new ArrayList<>();
+        expendituresToShow = new ArrayList<>();
 
     }
 
     public void setExpenditures(List<Expenditure> expenditures) {
         this.expenditures = expenditures;
-
-        updateList();
+        filterList(0, "");
+//        expendituresToShow.addAll(expenditures);
     }
 
     public void addExpenditure(Expenditure expenditure) {
@@ -49,17 +53,27 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
 
     private void updateList() {
 
-        String dateString = expenditures.get(0).getDateString();
+        list.clear();
+        notifyDataSetChanged();
+
+        if (expendituresToShow.isEmpty()) {
+
+            return;
+        }
+        Log.d("Update list","Not empty");
+
+        String dateString = expendituresToShow.get(0).getDateString();
         list.add(new ExpenseWithDateModel(LAYOUT_DATE, dateString));
 
-        for (int i = 0; i < expenditures.size(); i++) {
-            Expenditure expenditure = expenditures.get(i);
+        for (int i = 0; i < expendituresToShow.size(); i++) {
+            Expenditure expenditure = expendituresToShow.get(i);
             if (!expenditure.getDateString().equals(dateString)) {
                 dateString = expenditure.getDateString();
                 list.add(new ExpenseWithDateModel(LAYOUT_DATE, dateString));
             }
             list.add(new ExpenseWithDateModel(LAYOUT_EXPENSE, expenditure));
         }
+
         notifyDataSetChanged();
     }
 
@@ -112,6 +126,66 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+
+    public void filterList(int selectedTab, String filterCategory) {
+
+        Log.d("Filter list", selectedTab+ filterCategory);
+        expendituresToShow.clear();
+        expendituresToShow.addAll(expenditures);
+        if ( filterCategory !=null && !filterCategory.equals("")) {
+            expendituresToShow.removeIf(expenditure -> !expenditure.getCategory().equals(filterCategory));
+        }
+
+        switch (selectedTab) {
+            case 0:
+                expendituresToShow.removeIf(expenditure -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
+                    LocalDateTime weekAgo = now.minusWeeks(1);
+                    return timeOfExpenditure.isBefore(weekAgo);
+                });
+                break;
+
+            case 1:
+                expendituresToShow.removeIf(expenditure -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
+                    LocalDateTime monthAgo = now.minusMonths(1);
+                    return timeOfExpenditure.isBefore(monthAgo);
+                });
+                break;
+
+            case 2:
+                expendituresToShow.removeIf(expenditure -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
+                    LocalDateTime threeMonthsAgo = now.minusMonths(3);
+                    return timeOfExpenditure.isBefore(threeMonthsAgo);
+                });
+                break;
+
+            case 3:
+                expendituresToShow.removeIf(expenditure -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
+                    LocalDateTime sixMonthsAgo = now.minusMonths(6);
+                    return timeOfExpenditure.isBefore(sixMonthsAgo);
+                });
+                break;
+
+            case 4:
+                expendituresToShow.removeIf(expenditure -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
+                    LocalDateTime aYearAgo = now.minusYears(1);
+                    return timeOfExpenditure.isBefore(aYearAgo);
+                });
+                break;
+        }
+        updateList();
+
     }
 
 

@@ -59,9 +59,14 @@ public class AddExpenditureFragment extends Fragment {
         viewModal = new ViewModelProvider(this).get(ExpenditureViewModel.class);
         saveButton.setOnClickListener(this::savePressed);
         viewModal.isDone().observe(getViewLifecycleOwner(), this::done);
+        viewModal.getError().observe(getViewLifecycleOwner(), this::errorObserver);
 
         return view;
 
+    }
+
+    private void errorObserver(String s) {
+        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_SHORT, FancyToast.ERROR, true);
     }
 
     private void done(Boolean aBoolean) {
