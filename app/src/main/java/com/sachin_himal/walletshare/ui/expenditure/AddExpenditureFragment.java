@@ -336,7 +336,7 @@ public class AddExpenditureFragment extends Fragment {
 
     private void updateDateField(DatePicker datePicker, int year, int month, int day) {
         String yearText = prettifyIntToString(year);
-        String monthText = prettifyIntToString(month);
+        String monthText = prettifyIntToString(month+1);
         String dayText = prettifyIntToString(day);
 
         String text = yearText + "-" + monthText + "-" + dayText;

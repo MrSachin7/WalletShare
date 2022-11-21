@@ -16,15 +16,18 @@ public interface ExpenditureRepository {
 
     void saveExpenditure(Expenditure expenditure, CallBack callable);
 
-    ExpenditureLiveData getExpenditure();
+    ExpenditureLiveData getChangedExpenditure();
 
     List<String> getAllPaymentCategories();
 
     void searchThreeLatestExpenditure();
+    void searchExpenditureLastMonth();
+
+    LiveData<List<Expenditure>> getLastMonthExpenseObserver();
 
     void searchCurrentBalance();
 
-    List<Expenditure> getExpenditureLastWeek();
+   List<Expenditure> getExpenditureLastWeek();
     List<Expenditure> getExpenditureLastMonth();
     List<Expenditure> getExpenditureLastThreeMonths();
     List<Expenditure> getExpenditureLastSixMonths();

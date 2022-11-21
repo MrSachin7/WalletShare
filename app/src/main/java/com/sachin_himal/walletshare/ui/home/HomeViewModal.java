@@ -20,16 +20,12 @@ public class HomeViewModal extends ViewModel {
     }
 
 
-    public void searchThreeLatestExpenses() {
-        repository.searchThreeLatestExpenditure();
-    }
-
-    public void searchCurrentBalance() {
-        repository.searchCurrentBalance();
-    }
-
     public LiveData<List<Expenditure>> getThreeExpenditure(){
         return repository.getThreeLatestExpenditures();
+    }
+
+    public LiveData<List<Expenditure>> getLastMonthExpenseObserver(){
+        return repository.getLastMonthExpenseObserver();
     }
 
 

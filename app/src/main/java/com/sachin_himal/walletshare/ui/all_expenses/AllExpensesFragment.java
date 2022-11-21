@@ -50,8 +50,6 @@ public class AllExpensesFragment extends Fragment {
         adapter = new ExpenseAndDateAdapter();
 
         recyclerView.setAdapter(adapter);
-
-        viewModal.searchAllExpenditures();
         viewModal.getAllExpenditures().observe(getViewLifecycleOwner(), this::expenditureObserver);
         return view;
     }

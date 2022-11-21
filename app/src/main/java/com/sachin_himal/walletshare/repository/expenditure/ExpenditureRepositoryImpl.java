@@ -28,6 +28,7 @@ import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,10 +48,11 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     private MutableLiveData<List<Expenditure>> lastThreeExpenses;
     private MutableLiveData<List<Expenditure>> allExpenditures;
+    private MutableLiveData<List<Expenditure>> expendituresLastMonth;
+
+
     private MutableLiveData<Balance> currentBalance;
     private MutableLiveData<String> error;
-
-
 
 
     private ExpenditureRepositoryImpl() {
@@ -60,13 +62,14 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
         firebaseDatabase = FirebaseDatabase.getInstance(DB_ADDRESS);
         lastThreeExpenses = new MutableLiveData<>();
         allExpenditures = new MutableLiveData<>();
+        allExpenditures.postValue(new ArrayList<>());
+        expendituresLastMonth = new MutableLiveData<>();
         currentBalance = new MutableLiveData<>();
         error = new MutableLiveData<>();
 
         mockCategories();
         mockPaymentTypes();
 
-        allExpenditures.setValue(mockAllExpenditures());
         // More later
     }
 
@@ -114,6 +117,9 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     public void init(String userId) {
         dbReference = firebaseDatabase.getReference().child(USERS).child(userId);
         expenditure = new ExpenditureLiveData(dbReference.child(EXPENSES).getRef());
+        searchAllExpenditures();
+        searchCurrentBalance();
+
 
     }
 
@@ -158,7 +164,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     }
 
     @Override
-    public ExpenditureLiveData getExpenditure() {
+    public ExpenditureLiveData getChangedExpenditure() {
         return expenditure;
     }
 
@@ -169,23 +175,15 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public void searchThreeLatestExpenditure() {
+        List<Expenditure> value = allExpenditures.getValue();
+        if (value == null) return;
+        List<Expenditure> temp = new ArrayList<>();
+        for (int i = 0; i < 3 && i < value.size(); i++) {
+            if (value.get(i) == null) break;
+            temp.add(value.get(i));
 
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
-        executorService.execute(()->{
-            if (dbReference==null) {
-                try {
-                    Thread.sleep(100);
-                    searchThreeLatestExpenditure();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            List<Expenditure> temp = mockThreeExpenditures();
-
-            mainThreadHandler.post(()->lastThreeExpenses.setValue(temp));
-
-        });
+        }
+        lastThreeExpenses.setValue(temp);
 
 //        dbReference.child(EXPENSES).limitToLast(3).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 //            @Override
@@ -209,8 +207,27 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 //        });
 
 
+    }
 
+    @Override
+    public void searchExpenditureLastMonth() {
 
+        List<Expenditure> temp = new ArrayList<>();
+        temp.addAll(allExpenditures.getValue());
+        temp.removeIf(expenditure -> {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
+            LocalDateTime monthAgo = now.minusMonths(1);
+            return timeOfExpenditure.isBefore(monthAgo);
+//
+        });
+        expendituresLastMonth.setValue(temp);
+
+    }
+
+    @Override
+    public LiveData<List<Expenditure>> getLastMonthExpenseObserver() {
+        return expendituresLastMonth;
     }
 
     @Override
@@ -220,21 +237,15 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
-        executorService.execute(()->{
-            if (dbReference==null) {
-                try {
-                    Thread.sleep(100);
-                    searchCurrentBalance();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+        executorService.execute(() -> {
             dbReference.child(BALANCE).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (task.isSuccessful()) {
                         Balance value = task.getResult().getValue(Balance.class);
-                        currentBalance.setValue(value);
+                        mainThreadHandler.post(() -> {
+                            currentBalance.setValue(value);
+                        });
                     }
                 }
             });
@@ -245,14 +256,15 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public List<Expenditure> getExpenditureLastWeek() {
+
         List<Expenditure> temp = new ArrayList<>();
+
         temp.addAll(allExpenditures.getValue());
         temp.removeIf(expenditure -> {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
-            LocalDateTime weekAgo = now.minusWeeks(1);
-            return timeOfExpenditure.isBefore(weekAgo);
-//
+            LocalDateTime monthAgo = now.minusWeeks(1);
+            return timeOfExpenditure.isBefore(monthAgo);
         });
         return temp;
 
@@ -261,6 +273,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     @Override
     public List<Expenditure> getExpenditureLastMonth() {
         List<Expenditure> temp = new ArrayList<>();
+
         temp.addAll(allExpenditures.getValue());
         temp.removeIf(expenditure -> {
             LocalDateTime now = LocalDateTime.now();
@@ -307,15 +320,6 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
             LocalDateTime monthAgo = now.minusYears(1);
             return timeOfExpenditure.isBefore(monthAgo);
         });
-        return temp;
-    }
-
-    @NonNull
-    private List<Expenditure> mockThreeExpenditures() {
-        List<Expenditure> temp = new ArrayList<>();
-        temp.add(new Expenditure(110, "2022-11-16", "12:11:11", "Food", "test", "test", "test", "test"));
-        temp.add(new Expenditure(110, "2022-11-16", "12:11:11", "Food", "test", "test", "test", "Income"));
-        temp.add(new Expenditure(110, "2022-11-15", "12:11:11", "Food", "test", "test", "test", "test"));
         return temp;
     }
 
@@ -373,31 +377,36 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public void searchAllExpenditures() {
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
-        if (dbReference == null) return;
+        executorService.execute(() -> {
+            dbReference.child(EXPENSES).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Iterable<DataSnapshot> children = snapshot.getChildren();
+                    List<Expenditure> expenditures = new ArrayList<>();
+                    for (DataSnapshot snapshot1 : children) {
 
-        dbReference.child(EXPENSES).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Iterable<DataSnapshot> children = snapshot.getChildren();
-                List<Expenditure> expenditures = new ArrayList<>();
-                for (DataSnapshot snapshot1 : children) {
+                        Expenditure value = snapshot1.getValue(Expenditure.class);
+                        expenditures.add(value);
+                    }
+                    Collections.sort(expenditures);
+                    mainThreadHandler.post(() -> {
+                        allExpenditures.setValue(expenditures);
+                        searchThreeLatestExpenditure();
+                        searchExpenditureLastMonth();
 
-                    Expenditure value = snapshot1.getValue(Expenditure.class);
+                    });
+                }
 
-                    expenditures.add(value);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-                allExpenditures.setValue(expenditures);
-            }
+            });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
-
-//        allExpenditures.setValue(mockAllExpenditures());
     }
 
 

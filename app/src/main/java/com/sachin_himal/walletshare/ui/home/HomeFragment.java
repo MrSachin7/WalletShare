@@ -47,24 +47,30 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initializeAllFields(view);
         viewModal = new ViewModelProvider(this).get(HomeViewModal.class);
+
         lastRecordListView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ExpenseAdapter();
         lastRecordListView.setAdapter(adapter);
+
         lastRecordShowMore.setOnClickListener(this::showMorePressed);
-        viewModal.searchThreeLatestExpenses();
-        viewModal.searchCurrentBalance();
         viewModal.getCurrentBalance().observe(getViewLifecycleOwner(), this::updateBalanceField);
         viewModal.getThreeExpenditure().observe(getViewLifecycleOwner(), this::updateLastExpensesField);
+        viewModal.getLastMonthExpenseObserver().observe(getViewLifecycleOwner(), this::pieChartObserver);
 
-        initializePieChart();
+
         return view;
     }
 
-    private void initializePieChart() {
-        List<Expenditure> expendituresLastMonth = viewModal.getExpendituresLastMonth();
+    private void pieChartObserver(List<Expenditure> expenditures) {
+        if (expenditures != null && !expenditures.isEmpty()){
+            initializePieChart(expenditures);
+        }
+    }
+
+    private void initializePieChart(List<Expenditure> expenditures) {
         HashMap<String, Double> mapCategoryToExpense = new HashMap<>();
 
-        for (Expenditure expenditure : expendituresLastMonth) {
+        for (Expenditure expenditure : expenditures) {
             String category = expenditure.getCategory();
             double amount = expenditure.getAmount();
             if (amount <0) amount = amount * (-1); // The expenses have their amount saved as negative in database.
@@ -96,19 +102,12 @@ public class HomeFragment extends Fragment {
         pieChart.getDescription().setEnabled(true);
         pieChart.setCenterText("Monthly expenditure");
         pieChart.animate();
-
-
     }
 
     private void showMorePressed(View view) {
         ((MainActivity) getActivity()).changeFragment(R.id.allExpensesFragment);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
 
     private void updateBalanceField(Balance balance) {
 
@@ -120,7 +119,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateLastExpensesField(List<Expenditure> expenditures) {
-        adapter.setExpenditures(expenditures);
+        if (expenditures !=null){
+            adapter.setExpenditures(expenditures);
+        }
     }
 
     private void initializeAllFields(View view) {

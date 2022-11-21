@@ -3,7 +3,7 @@ package com.sachin_himal.walletshare.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Expenditure {
+public class Expenditure implements Comparable<Expenditure> {
 
 
     private int id;
@@ -29,8 +29,6 @@ public class Expenditure {
         this.note = note;
         timeOfExpenditure = date + " "+ time;
         this.expenditureType = expenditureType;
-
-
     }
 
     public LocalDateTime retrieveAsLocalDateTime() {
@@ -93,9 +91,6 @@ public class Expenditure {
     }
 
     public void setPaymentType(String paymentType) {
-
-
-
         this.paymentType = paymentType;
     }
 
@@ -142,5 +137,11 @@ public class Expenditure {
                 ", expenditureType='" + expenditureType + '\'' +
                 ", paymentType='" + paymentType + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Expenditure expenditure) {
+        LocalDateTime localDateTime = expenditure.retrieveAsLocalDateTime();
+        return localDateTime.compareTo(retrieveAsLocalDateTime());
     }
 }

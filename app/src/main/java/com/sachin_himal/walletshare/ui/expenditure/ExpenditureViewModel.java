@@ -38,9 +38,9 @@ public class ExpenditureViewModel extends ViewModel {
         } );
     }
 
-    public LiveData<Expenditure> getLastThreeExpenditures(){
+    public LiveData<Expenditure> getChangedExpenditure(){
 
-        return repository.getExpenditure();
+        return repository.getChangedExpenditure();
     }
 
     public LiveData<Boolean> isDone(){
@@ -51,6 +51,8 @@ public class ExpenditureViewModel extends ViewModel {
     public void searchAllExpenditures() {
         repository.searchAllExpenditures();
     }
+
+
 
     public LiveData<List<Expenditure>> getAllExpenditures() {
         return repository.getAllExpenditures();
