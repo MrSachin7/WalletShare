@@ -26,9 +26,9 @@ import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
@@ -66,6 +66,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
         mockCategories();
         mockPaymentTypes();
 
+        allExpenditures.setValue(mockAllExpenditures());
         // More later
     }
 
@@ -231,7 +232,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
             dbReference.child(BALANCE).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         Balance value = task.getResult().getValue(Balance.class);
                         currentBalance.setValue(value);
                     }
@@ -241,12 +242,80 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     }
 
+
+    @Override
+    public List<Expenditure> getExpenditureLastWeek() {
+        List<Expenditure> temp = new ArrayList<>();
+        temp.addAll(allExpenditures.getValue());
+        temp.removeIf(expenditure -> {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
+            LocalDateTime weekAgo = now.minusWeeks(1);
+            return timeOfExpenditure.isBefore(weekAgo);
+//
+        });
+        return temp;
+
+    }
+
+    @Override
+    public List<Expenditure> getExpenditureLastMonth() {
+        List<Expenditure> temp = new ArrayList<>();
+        temp.addAll(allExpenditures.getValue());
+        temp.removeIf(expenditure -> {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
+            LocalDateTime monthAgo = now.minusMonths(1);
+            return timeOfExpenditure.isBefore(monthAgo);
+        });
+        return temp;
+    }
+
+    @Override
+    public List<Expenditure> getExpenditureLastThreeMonths() {
+        List<Expenditure> temp = new ArrayList<>();
+        temp.addAll(allExpenditures.getValue());
+        temp.removeIf(expenditure -> {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
+            LocalDateTime monthAgo = now.minusMonths(3);
+            return timeOfExpenditure.isBefore(monthAgo);
+        });
+        return temp;
+    }
+
+    @Override
+    public List<Expenditure> getExpenditureLastSixMonths() {
+        List<Expenditure> temp = new ArrayList<>();
+        temp.addAll(allExpenditures.getValue());
+        temp.removeIf(expenditure -> {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
+            LocalDateTime monthAgo = now.minusMonths(6);
+            return timeOfExpenditure.isBefore(monthAgo);
+        });
+        return temp;
+    }
+
+    @Override
+    public List<Expenditure> getExpenditureLastOneYear() {
+        List<Expenditure> temp = new ArrayList<>();
+        temp.addAll(allExpenditures.getValue());
+        temp.removeIf(expenditure -> {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
+            LocalDateTime monthAgo = now.minusYears(1);
+            return timeOfExpenditure.isBefore(monthAgo);
+        });
+        return temp;
+    }
+
     @NonNull
     private List<Expenditure> mockThreeExpenditures() {
         List<Expenditure> temp = new ArrayList<>();
-        temp.add(new Expenditure(110,"2022-11-16" ,"12:11:11","Food", "test", "test", "test", "test" ));
-        temp.add(new Expenditure(110,"2022-11-16" ,"12:11:11","Food", "test", "test", "test", "Income" ));
-        temp.add(new Expenditure(110,"2022-11-15" ,"12:11:11","Food", "test", "test", "test", "test" ));
+        temp.add(new Expenditure(110, "2022-11-16", "12:11:11", "Food", "test", "test", "test", "test"));
+        temp.add(new Expenditure(110, "2022-11-16", "12:11:11", "Food", "test", "test", "test", "Income"));
+        temp.add(new Expenditure(110, "2022-11-15", "12:11:11", "Food", "test", "test", "test", "test"));
         return temp;
     }
 
@@ -305,29 +374,30 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     @Override
     public void searchAllExpenditures() {
 
-//        if (dbReference == null) return;
-//
-//        dbReference.child(EXPENSES).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Iterable<DataSnapshot> children = snapshot.getChildren();
-//                List<Expenditure> expenditures = new ArrayList<>();
-//                for (DataSnapshot snapshot1 : children) {
-//
-//                    Object value = snapshot1.getValue();
-//                    error.setValue(value.toString());
-//
-//                }
-//                allExpenditures.setValue(expenditures);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        if (dbReference == null) return;
 
-        allExpenditures.setValue(mockAllExpenditures());
+        dbReference.child(EXPENSES).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterable<DataSnapshot> children = snapshot.getChildren();
+                List<Expenditure> expenditures = new ArrayList<>();
+                for (DataSnapshot snapshot1 : children) {
+
+                    Expenditure value = snapshot1.getValue(Expenditure.class);
+
+                    expenditures.add(value);
+
+                }
+                allExpenditures.setValue(expenditures);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        allExpenditures.setValue(mockAllExpenditures());
     }
 
 

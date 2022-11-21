@@ -52,12 +52,32 @@ public class ExpenditureViewModel extends ViewModel {
         repository.searchAllExpenditures();
     }
 
-    public LiveData<List<Expenditure>> getAllExpenditures(){
+    public LiveData<List<Expenditure>> getAllExpenditures() {
         return repository.getAllExpenditures();
     }
 
 
-    public LiveData<String> getError(){
+    public LiveData<String> getError() {
         return repository.getError();
+    }
+
+    public List<Expenditure> getExpenditureLastWeek() {
+        return repository.getExpenditureLastWeek();
+    }
+
+    public List<Expenditure> getExpenditureLastMonth() {
+        return repository.getExpenditureLastMonth();
+    }
+
+    public List<Expenditure> getExpenditureLastThreeMonths(){
+        return repository.getExpenditureLastThreeMonths();
+    }
+
+    public List<Expenditure> getExpenditureLastSixMonths(){
+        return repository.getExpenditureLastSixMonths();
+    }
+
+    public List<Expenditure> getExpenditureLastOneYear(){
+        return repository.getExpenditureLastOneYear();
     }
 }

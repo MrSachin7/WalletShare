@@ -70,5 +70,7 @@ dependencies {
     // Fancy toast
     implementation 'io.github.shashank02051997:FancyToast:2.0.2'
 
+    // Charts
+    implementation 'com.github.Philjay:mpandroidchart:3.1.0'
 
 }

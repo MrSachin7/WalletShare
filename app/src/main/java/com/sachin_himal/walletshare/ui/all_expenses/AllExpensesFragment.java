@@ -65,6 +65,8 @@ public class AllExpensesFragment extends Fragment {
 
     private void setUpFilterTabs() {
 
+
+
         TabLayout.Tab sevenDay = filterTabLayout.newTab();
         sevenDay.setText("7D");
 
@@ -139,11 +141,34 @@ public class AllExpensesFragment extends Fragment {
 
     private void startFilter() {
 
-        if (adapter !=null){
-            Toast.makeText(getContext(), "Start filter" + selectedTab + filterCategory, Toast.LENGTH_SHORT).show();
-            adapter.filterList(selectedTab, filterCategory);
+        List<Expenditure> expenditureToShow =null;
+        switch (selectedTab) {
+            case 0:
+                expenditureToShow = viewModal.getExpenditureLastWeek();
+                break;
+
+            case 1:
+                expenditureToShow = viewModal.getExpenditureLastMonth();
+                break;
+
+            case 2:
+                expenditureToShow = viewModal.getExpenditureLastThreeMonths();
+                break;
+
+            case 3:
+                expenditureToShow = viewModal.getExpenditureLastSixMonths();
+
+                break;
+
+            case 4:
+                expenditureToShow = viewModal.getExpenditureLastOneYear();
+                break;
         }
 
+        if (adapter != null){
+            adapter.setExpenditures(expenditureToShow);
+            adapter.filterList(filterCategory);
+        }
 
     }
 

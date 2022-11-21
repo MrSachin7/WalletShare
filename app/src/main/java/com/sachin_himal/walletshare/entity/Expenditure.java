@@ -27,10 +27,15 @@ public class Expenditure {
         this.payee = payee;
         this.paymentType = paymentType;
         this.note = note;
-        this.timeOfExpenditure = date + " " + time;
+        timeOfExpenditure = date + " "+ time;
         this.expenditureType = expenditureType;
 
 
+    }
+
+    public LocalDateTime retrieveAsLocalDateTime() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.parse(timeOfExpenditure, dateTimeFormatter);
     }
 
     public double getAmount() {
@@ -41,9 +46,8 @@ public class Expenditure {
         this.amount = amount;
     }
 
-    public LocalDateTime getTimeOfExpenditure() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(timeOfExpenditure, dateTimeFormatter);
+    public String getTimeOfExpenditure() {
+      return timeOfExpenditure;
     }
 
     public void setTimeOfExpenditure(String timeOfExpenditure) {
@@ -99,7 +103,7 @@ public class Expenditure {
 
     public String getDateString(){
 
-        LocalDateTime timeOfExpenditure = getTimeOfExpenditure();
+        LocalDateTime timeOfExpenditure = retrieveAsLocalDateTime();
 
 
         int day = timeOfExpenditure.getDayOfMonth();
@@ -115,7 +119,7 @@ public class Expenditure {
 
     public String getTimeString(){
 
-        LocalDateTime timeOfExpenditure = getTimeOfExpenditure();
+        LocalDateTime timeOfExpenditure = retrieveAsLocalDateTime();
         int hour = timeOfExpenditure.getHour();
         int minute = timeOfExpenditure.getMinute();
 

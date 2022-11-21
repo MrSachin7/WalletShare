@@ -54,7 +54,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
 
         holder.category.setText(expenditure.getCategory());
 
-        LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
+        LocalDateTime timeOfExpenditure = expenditure.retrieveAsLocalDateTime();
         String month = timeOfExpenditure.getMonth().toString();
         month = month.charAt(0) + month.substring(1).toLowerCase();
 

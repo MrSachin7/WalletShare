@@ -24,6 +24,12 @@ public interface ExpenditureRepository {
 
     void searchCurrentBalance();
 
+    List<Expenditure> getExpenditureLastWeek();
+    List<Expenditure> getExpenditureLastMonth();
+    List<Expenditure> getExpenditureLastThreeMonths();
+    List<Expenditure> getExpenditureLastSixMonths();
+    List<Expenditure> getExpenditureLastOneYear();
+
 
 
     LiveData<List<Expenditure>> getThreeLatestExpenditures();

@@ -37,8 +37,8 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
 
     public void setExpenditures(List<Expenditure> expenditures) {
         this.expenditures = expenditures;
-        filterList(0, "");
 //        expendituresToShow.addAll(expenditures);
+        filterList("");
     }
 
     public void addExpenditure(Expenditure expenditure) {
@@ -129,61 +129,13 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
     }
 
 
-    public void filterList(int selectedTab, String filterCategory) {
-
-        Log.d("Filter list", selectedTab+ filterCategory);
+    public void filterList( String filterCategory) {
         expendituresToShow.clear();
         expendituresToShow.addAll(expenditures);
         if ( filterCategory !=null && !filterCategory.equals("")) {
             expendituresToShow.removeIf(expenditure -> !expenditure.getCategory().equals(filterCategory));
         }
 
-        switch (selectedTab) {
-            case 0:
-                expendituresToShow.removeIf(expenditure -> {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
-                    LocalDateTime weekAgo = now.minusWeeks(1);
-                    return timeOfExpenditure.isBefore(weekAgo);
-                });
-                break;
-
-            case 1:
-                expendituresToShow.removeIf(expenditure -> {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
-                    LocalDateTime monthAgo = now.minusMonths(1);
-                    return timeOfExpenditure.isBefore(monthAgo);
-                });
-                break;
-
-            case 2:
-                expendituresToShow.removeIf(expenditure -> {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
-                    LocalDateTime threeMonthsAgo = now.minusMonths(3);
-                    return timeOfExpenditure.isBefore(threeMonthsAgo);
-                });
-                break;
-
-            case 3:
-                expendituresToShow.removeIf(expenditure -> {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
-                    LocalDateTime sixMonthsAgo = now.minusMonths(6);
-                    return timeOfExpenditure.isBefore(sixMonthsAgo);
-                });
-                break;
-
-            case 4:
-                expendituresToShow.removeIf(expenditure -> {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime timeOfExpenditure = expenditure.getTimeOfExpenditure();
-                    LocalDateTime aYearAgo = now.minusYears(1);
-                    return timeOfExpenditure.isBefore(aYearAgo);
-                });
-                break;
-        }
         updateList();
 
     }
