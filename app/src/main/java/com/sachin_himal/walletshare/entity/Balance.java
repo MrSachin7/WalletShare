@@ -10,6 +10,7 @@ public class Balance {
     }
 
     public Balance() {
+
     }
 
     public double getBalance() {

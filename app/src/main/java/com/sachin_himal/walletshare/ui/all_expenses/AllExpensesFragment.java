@@ -63,7 +63,8 @@ public class AllExpensesFragment extends Fragment {
 
     private void setUpFilterTabs() {
 
-
+        TabLayout.Tab all = filterTabLayout.newTab();
+        all.setText("All");
 
         TabLayout.Tab sevenDay = filterTabLayout.newTab();
         sevenDay.setText("7D");
@@ -80,11 +81,12 @@ public class AllExpensesFragment extends Fragment {
         TabLayout.Tab oneYear = filterTabLayout.newTab();
         oneYear.setText("1Y");
 
-        filterTabLayout.addTab(sevenDay, 0, true);
-        filterTabLayout.addTab(thirtyDay, 1);
-        filterTabLayout.addTab(threeMonths, 2);
-        filterTabLayout.addTab(sixMonths, 3);
-        filterTabLayout.addTab(oneYear, 4);
+        filterTabLayout.addTab(all,0,true);
+        filterTabLayout.addTab(sevenDay, 1);
+        filterTabLayout.addTab(thirtyDay, 2);
+        filterTabLayout.addTab(threeMonths, 3);
+        filterTabLayout.addTab(sixMonths, 4);
+        filterTabLayout.addTab(oneYear, 5);
 
         filterTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -141,24 +143,29 @@ public class AllExpensesFragment extends Fragment {
 
         List<Expenditure> expenditureToShow =null;
         switch (selectedTab) {
-            case 0:
-                expenditureToShow = viewModal.getExpenditureLastWeek();
+
+case 0:
+                expenditureToShow = viewModal.getAllExpenditures().getValue();
                 break;
 
             case 1:
-                expenditureToShow = viewModal.getExpenditureLastMonth();
+                expenditureToShow = viewModal.getExpenditureLastWeek();
                 break;
 
             case 2:
-                expenditureToShow = viewModal.getExpenditureLastThreeMonths();
+                expenditureToShow = viewModal.getExpenditureLastMonth();
                 break;
 
             case 3:
+                expenditureToShow = viewModal.getExpenditureLastThreeMonths();
+                break;
+
+            case 4:
                 expenditureToShow = viewModal.getExpenditureLastSixMonths();
 
                 break;
 
-            case 4:
+            case 5:
                 expenditureToShow = viewModal.getExpenditureLastOneYear();
                 break;
         }
@@ -174,6 +181,7 @@ public class AllExpensesFragment extends Fragment {
     private void initializeCategoryField() {
 
         List<String> categories = viewModal.getAllCategories();
+        categories.add(0, "All");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_dropdown_item, categories);
         categoryEditable.setAdapter(adapter);
 

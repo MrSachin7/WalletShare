@@ -36,6 +36,9 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
     }
 
     public void setExpenditures(List<Expenditure> expenditures) {
+        if (expenditures == null) {
+            return;
+        }
         this.expenditures = expenditures;
 //        expendituresToShow.addAll(expenditures);
         filterList("");
@@ -132,7 +135,7 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
     public void filterList( String filterCategory) {
         expendituresToShow.clear();
         expendituresToShow.addAll(expenditures);
-        if ( filterCategory !=null && !filterCategory.equals("")) {
+        if ( filterCategory !=null && !filterCategory.equals("") && !filterCategory.equals("All")) {
             expendituresToShow.removeIf(expenditure -> !expenditure.getCategory().equals(filterCategory));
         }
 
@@ -155,8 +158,7 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
 
         private void setView(Expenditure expenditure) {
             amount.setText(String.format("%s", expenditure.getAmount()) + " kr");
-            if (expenditure.getExpenditureType().equalsIgnoreCase("Income")) {
-
+            if (expenditure.getAmount() > 0) {
                 amount.setTextColor(Color.parseColor("#1ECB89"));
             }
             category.setText(expenditure.getCategory());

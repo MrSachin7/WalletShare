@@ -48,7 +48,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         Expenditure expenditure = allExpenditure.get(position);
         holder.amount.setText(String.format("%s", expenditure.getAmount())+ " kr");
         if (expenditure.getExpenditureType().equalsIgnoreCase("Income")) {
-
             holder.amount.setTextColor(Color.parseColor("#1ECB89"));
         }
 
