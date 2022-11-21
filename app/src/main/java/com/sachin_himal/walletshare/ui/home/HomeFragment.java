@@ -58,16 +58,20 @@ public class HomeFragment extends Fragment {
         viewModal.getLastMonthExpenseObserver().observe(getViewLifecycleOwner(), this::pieChartObserver);
 
 
+
         return view;
     }
 
+
     private void pieChartObserver(List<Expenditure> expenditures) {
-        if (expenditures != null && !expenditures.isEmpty()){
-            initializePieChart(expenditures);
+        if (expenditures != null){
+            updatePieChart(expenditures);
         }
     }
 
-    private void initializePieChart(List<Expenditure> expenditures) {
+
+
+    private void updatePieChart(List<Expenditure> expenditures) {
         HashMap<String, Double> mapCategoryToExpense = new HashMap<>();
 
         for (Expenditure expenditure : expenditures) {
@@ -99,9 +103,9 @@ public class HomeFragment extends Fragment {
 
         PieData pieData = new PieData(dataSet);
         pieChart.setData(pieData);
-        pieChart.getDescription().setEnabled(true);
-        pieChart.setCenterText("Monthly expenditure");
+
         pieChart.animate();
+        pieChart.invalidate();
     }
 
     private void showMorePressed(View view) {

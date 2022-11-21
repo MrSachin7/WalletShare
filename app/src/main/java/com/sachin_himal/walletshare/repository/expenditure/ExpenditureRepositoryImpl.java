@@ -396,7 +396,6 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
                         allExpenditures.setValue(expenditures);
                         searchThreeLatestExpenditure();
                         searchExpenditureLastMonth();
-
                     });
                 }
 
