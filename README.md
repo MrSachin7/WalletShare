@@ -13,11 +13,11 @@ We frequently go out to dine, and some people pay the bill that must be split be
 ### Following are the requirements of the project :
 
  As a user , I want to be able to :-
-- [ ] Create an account with username, password and email address, so that i can use it and all my information are stored.
-- [ ] Add and edit balance on my account, so that i can update and use my balance.
-- [ ] Add an expenditure with appropriate category, date, amount, and a small note so that I can track my expenditures.
-- [ ] Add new expenditure of my own liking so that i can properly categorize my expenditures.
-- [ ] Filter my expenditures by category and date.
+- [x] Create an account with username, password and email address, so that i can use it and all my information are stored.
+- [x] Add and edit balance on my account, so that i can update and use my balance.
+- [x] Add an expenditure with appropriate category, date, amount, and a small note so that I can track my expenditures.
+- [x] Add new expenditure of my own liking so that i can properly categorize my expenditures.
+- [x] Filter my expenditures by category and date.
 - [ ] Visualize by expenditures in different graph formats of different categories at different time.
 - [ ] Send friend request to other users, so that I can add them as a friend.
 - [ ] Accept or reject a friend request, so I can decide who to as a friend. 
