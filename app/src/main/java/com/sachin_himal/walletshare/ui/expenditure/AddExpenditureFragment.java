@@ -90,11 +90,6 @@ public class AddExpenditureFragment extends Fragment {
     }
 
 
-    private void expenditureListener(Expenditure expenditure) {
-        FancyToast.makeText(getContext(),"Expenditure added of "+ expenditure.getAmount(), FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
-    }
-
-
     private void initializePaymentField() {
 
         List<String> paymentTypes = viewModal.getAllPaymentCategories();

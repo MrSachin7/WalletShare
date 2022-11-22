@@ -16,8 +16,6 @@ public interface ExpenditureRepository {
 
     void saveExpenditure(Expenditure expenditure, CallBack callable);
 
-    ExpenditureLiveData getChangedExpenditure();
-
     List<String> getAllPaymentCategories();
 
     void searchThreeLatestExpenditure();

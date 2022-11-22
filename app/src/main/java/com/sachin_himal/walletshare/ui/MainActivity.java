@@ -1,5 +1,8 @@
 package com.sachin_himal.walletshare.ui;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,14 +10,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sachin_himal.walletshare.R;
-
-import com.sachin_himal.walletshare.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -31,22 +28,26 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        initializeFields();
-
         viewModal = new ViewModelProvider(this).get(MainActivityViewModel.class);
         checkIfSignedIn();
+
+        setContentView(R.layout.activity_main);
+        initializeFields();
+
 
 
     }
 
 
+    public void logOut() {
+        viewModal.signOut();
+    }
+
 
     private void initializeFields() {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        navController = Navigation.findNavController(this,R.id.fragmentContainerView);
+        navController = Navigation.findNavController(this, R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
     }
@@ -58,28 +59,19 @@ public class MainActivity extends AppCompatActivity  {
 
     private void checkIfSignedIn() {
         viewModal.getCurrentUser().observe(this, user ->{
-            if (user ==null){
-                startLoginActivity();
-            }
-            else{
+            if (user !=null){
+                navController.navigate(R.id.homeFragment);
+                bottomNavigationView.setVisibility(View.VISIBLE);
                 viewModal.init();
+
+            } else {
+                bottomNavigationView.setVisibility(View.INVISIBLE);
+                changeFragment(R.id.loginFragment);
             }
         });
 
 
     }
-
-    private void startLoginActivity() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
-    }
-
-
-
-
-
-
-
 
 
 

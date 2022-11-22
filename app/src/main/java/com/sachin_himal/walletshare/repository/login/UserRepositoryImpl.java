@@ -23,7 +23,9 @@ public class UserRepositoryImpl implements UserRepository {
     private final UserLiveData currentUser;
     private static UserRepository instance;
     private static Lock lock = new ReentrantLock();
-    MutableLiveData<String> loginError, signUpError;
+
+    private MutableLiveData<String> loginError, signUpError;
+    private MutableLiveData<User> loggedInUser;
 
     private FirebaseAuth mUser;
     private FirebaseDatabase database;
@@ -35,6 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
         database = FirebaseDatabase.getInstance(DB_ADDRESS);
         databaseReference = database.getReference().child(USERS);
         currentUser = new UserLiveData();
+        loggedInUser = new MutableLiveData<>();
         loginError = new MutableLiveData<>();
         signUpError = new MutableLiveData<>();
 
@@ -74,21 +77,22 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void signInWithGoogle(AuthCredential credential) {
-
         mUser.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
+                        if (task.getResult().getAdditionalUserInfo().isNewUser()){
+                            FirebaseUser user = getCurrentUser().getValue();
+                            String displayName = user.getDisplayName();
+                            String[] split = displayName.split("\\s+");
 
-                        FirebaseUser user = getCurrentUser().getValue();
-                        String displayName = user.getDisplayName();
-                        String[] split = displayName.split("\\s+");
+                            String firstName = split[0];
+                            String lastName = split[1];
+                            String email = user.getEmail();
 
-                        String firstName = split[0];
-                        String lastName = split[1];
-                        String email = user.getEmail();
+                            User userToAdd = new User(email, firstName, lastName);
+                            addUserToDatabase(userToAdd);
+                        }
 
-                        User userToAdd = new User(email, firstName, lastName);
-                        addUserToDatabase(userToAdd);
                     }
                 });
 
@@ -101,6 +105,22 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public LiveData<User> getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    @Override
+    public void searchForCurrentUser() {
+        String uid = getCurrentUser().getValue().getUid();
+        databaseReference.child(uid).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                User user = task.getResult().getValue(User.class);
+                loggedInUser.setValue(user);
+            }
+        });
+    }
+
+    @Override
     public void addUser(String email, String password, String firstName, String lastName) {
         mUser.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 
@@ -108,12 +128,15 @@ public class UserRepositoryImpl implements UserRepository {
                 User user = new User(email, password, firstName, lastName);
                 addUserToDatabase(user);
             }
+            else {
+                signUpError.setValue(task.getException().getMessage());
+            }
         });
 
     }
 
     private void addUserToDatabase(User user) {
-        databaseReference.child(getCurrentUser().getValue().getUid()).push().setValue(user);
+        databaseReference.child(getCurrentUser().getValue().getUid()).setValue(user);
     }
 
     @Override
@@ -126,6 +149,8 @@ public class UserRepositoryImpl implements UserRepository {
         FirebaseAuth.getInstance().signOut();
 
     }
+
+
 
 
 

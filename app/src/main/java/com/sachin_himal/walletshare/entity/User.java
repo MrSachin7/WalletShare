@@ -20,6 +20,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
+        this.lastName = lastName;
 
         groupIds = new ArrayList<>();
 
@@ -29,7 +30,6 @@ public class User {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-
         groupIds = new ArrayList<>();
 
     }
@@ -81,4 +81,7 @@ public class User {
     }
 
 
+    public String retrieveFullName() {
+        return firstName + " " + lastName;
+    }
 }

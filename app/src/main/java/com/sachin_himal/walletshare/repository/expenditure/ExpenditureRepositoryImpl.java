@@ -4,7 +4,6 @@ package com.sachin_himal.walletshare.repository.expenditure;
 import static com.sachin_himal.walletshare.repository.Database.BALANCE;
 import static com.sachin_himal.walletshare.repository.Database.DB_ADDRESS;
 import static com.sachin_himal.walletshare.repository.Database.EXPENSES;
-import static com.sachin_himal.walletshare.repository.Database.USERS;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -41,7 +40,6 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     private static Lock lock = new ReentrantLock();
     private DatabaseReference dbReference;
     private FirebaseDatabase firebaseDatabase;
-    private ExpenditureLiveData expenditure;
 
     private List<String> allCategories;
     private List<String> allPaymentTypes;
@@ -88,12 +86,14 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     private void mockCategories() {
         allCategories.add("Food & Drinks");
+        allCategories.add("Rent");
         allCategories.add("Transport");
         allCategories.add("Shopping");
         allCategories.add("Life & Entertainment");
         allCategories.add("Investments");
         allCategories.add("Wage");
         allCategories.add("Salary");
+        allCategories.add("SU");
     }
 
     public static ExpenditureRepository getInstance() {
@@ -115,8 +115,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public void init(String userId) {
-        dbReference = firebaseDatabase.getReference().child(USERS).child(userId);
-        expenditure = new ExpenditureLiveData(dbReference.child(EXPENSES).getRef());
+        dbReference = firebaseDatabase.getReference().child(EXPENSES).child(userId);
         searchAllExpenditures();
         searchCurrentBalance();
 
@@ -161,11 +160,6 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
         });
 
 
-    }
-
-    @Override
-    public ExpenditureLiveData getChangedExpenditure() {
-        return expenditure;
     }
 
     @Override
