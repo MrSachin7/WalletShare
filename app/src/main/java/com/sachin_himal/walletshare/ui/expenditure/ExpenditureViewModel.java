@@ -38,10 +38,7 @@ public class ExpenditureViewModel extends ViewModel {
         } );
     }
 
-    public LiveData<Expenditure> getChangedExpenditure(){
 
-        return repository.getChangedExpenditure();
-    }
 
     public LiveData<Boolean> isDone(){
         return isDone;

@@ -23,4 +23,8 @@ public interface UserRepository {
     void signInWithGoogle(AuthCredential credential);
 
     void loginWithFacebook();
+
+    LiveData<User> getLoggedInUser();
+
+    void searchForCurrentUser();
 }

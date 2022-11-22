@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
+import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.repository.login.UserRepository;
 import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
 
@@ -53,4 +54,11 @@ public class UserViewModel extends ViewModel {
         repository.loginWithFacebook();
     }
 
+    public LiveData<User> getLoggedInUser() {
+        return repository.getLoggedInUser();
+    }
+
+    public void searchForCurrentUser() {
+        repository.searchForCurrentUser();
+    }
 }

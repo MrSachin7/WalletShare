@@ -143,7 +143,7 @@ public class LoginTabFragment extends Fragment {
     private void errorOnLogin(String s) {
         progressBar.setVisibility(View.INVISIBLE);
 
-        FancyToast.makeText(getContext(),s, FancyToast.LENGTH_SHORT,FancyToast.ERROR, true).show();
+        FancyToast.makeText(getContext(),s, FancyToast.LENGTH_LONG,FancyToast.ERROR, true).show();
     }
 
     private void loginBtnPressed(View view) {
