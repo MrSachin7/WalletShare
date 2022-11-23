@@ -17,6 +17,7 @@ import com.sachin_himal.walletshare.entity.Group;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GroupListFragment extends Fragment {
@@ -51,7 +52,12 @@ public class GroupListFragment extends Fragment {
         groupListViewModel = new ViewModelProvider(this).get(GroupListViewModel.class);
         saveGroupButton.setOnClickListener(this::saveGroupPressed);
         groupListViewModel.groupisDone().observe(getViewLifecycleOwner(), this::groupDone);
+        groupListViewModel.getAllGroupForUser().observe(getViewLifecycleOwner(),this::groupListObserver);
         return view;
+    }
+
+    private void groupListObserver(List<Group> groups) {
+        cardAdapter.setGroupArrayList(groups);
     }
 
 
@@ -98,51 +104,4 @@ public class GroupListFragment extends Fragment {
 
     }
 
-    /**
-    private ArrayList<String> getAllGroup() {
-        ArrayList<String> list = new ArrayList<>();
-         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-      String  currentUserID = currentUser.getUid();
-        DatabaseReference getAllGroupName = firebaseDatabase.getReference().child("Users").child(currentUserID).child("GroupList").getRef();
-        getAllGroupName.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for ( DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    System.out.println(dataSnapshot.getValue().toString());
-                    list.add(dataSnapshot.getValue().toString());
-                    DatabaseReference groupListReference = firebaseDatabase.getReference().child("Groups").child(dataSnapshot.getValue().toString());
-                    groupListReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                         //   groupArrayList.add((Group) snapshot.getValue());
-                          //  cardAdapter.notifyDataSetChanged();
-                            System.out.println("Trying to get groups");
-                            String groupName = (String) snapshot.child("groupName").getValue();
-                            int amount =  Integer.parseInt(snapshot.child("amount").getValue().toString()) ;
-
-
-                            Group group = new Group(groupName,amount);
-                            groupArrayList.add(group);
-                            cardAdapter.notifyDataSetChanged();
-                  }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return list;
-    }
-
-*/
 }

@@ -12,11 +12,12 @@ import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Group;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
 
     private Context context;
-    private ArrayList<Group> groupArrayList;
+    private List<Group> groupArrayList;
 
     //Constructor
 
@@ -26,6 +27,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
         this.groupArrayList = groupArrayList;
     }
 
+    public  void setGroupArrayList(List<Group> groups){
+        if (groups == null) {
+            return;
+        }
+        this.groupArrayList = groups;
+    }
 
 
     //Card Adapter

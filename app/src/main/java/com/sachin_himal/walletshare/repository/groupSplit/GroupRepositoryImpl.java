@@ -6,15 +6,19 @@ import static com.sachin_himal.walletshare.repository.Database.GROUPS;
 import static com.sachin_himal.walletshare.repository.Database.USERS;
 
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
+import com.google.firebase.database.ValueEventListener;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Group;
 
@@ -37,12 +41,17 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     private String currentUserID;
 
+
+
+
+
     private GroupRepositoryImpl() {
 
         firebaseDatabase = FirebaseDatabase.getInstance(DB_ADDRESS);
 
         allGroupForUser = new MutableLiveData<>();
 
+        allGroupForUser.postValue(new ArrayList<>());
         error = new MutableLiveData<>();
 
     }
@@ -63,9 +72,9 @@ public class GroupRepositoryImpl implements GroupRepository {
 
         groupDBReference = firebaseDatabase.getReference().child(GROUPS);
         memberDBReference = firebaseDatabase.getReference().child(USERS);
-        currentUserID=uid;
-        //  searchAllExpenditures();
-        //  searchCurrentBalance();
+        currentUserID = uid;
+        searchAllGroup();
+
     }
 
 
@@ -99,52 +108,53 @@ public class GroupRepositoryImpl implements GroupRepository {
         return allGroupForUser;
     }
 
-
-    /**
-     @Override public ArrayList<Group> getAllGroup() {
-
-
-     groupDatabaseRef.addValueEventListener(new ValueEventListener() {
-
-     @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
-     for ( DataSnapshot dataSnapshot: snapshot.getChildren()){
-     Group group = new Group();
-     /**
-     String name = (String) dataSnapshot.child("groupName").getValue();
-     group.setGroupName(name);
-     group.setAmount(0);
-     List<User> users = new ArrayList<>();
-     System.out.println( dataSnapshot.child("users").getValue());
-     group.setUsers((List<User>)  dataSnapshot.child("users").getValue());
-     System.out.println(group.getUsers().toString());
-     groups.add(group);
-     System.out.println("sucesfully added ");
-     // group.setAmount((int) dataSnapshot.child("amount").getValue());
+    private void searchAllGroup() {
 
 
 
-     }
+        DatabaseReference getAllGroupName = memberDBReference.child(currentUserID).child("GroupList").getRef();
+        getAllGroupName.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+           List<Group> list = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    System.out.println(dataSnapshot.getValue().toString());
 
-     }
+                    DatabaseReference groupListReference = groupDBReference.child(dataSnapshot.getValue().toString());
+                    groupListReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            //   groupArrayList.add((Group) snapshot.getValue());
+                            //  cardAdapter.notifyDataSetChanged();
+                            System.out.println("Trying to get groups");
+                            String groupName = (String) snapshot.child("groupName").getValue();
+                            int amount = Integer.parseInt(snapshot.child("amount").getValue().toString());
+                            Group group = new Group(groupName, amount);
+                        list.add(group);
+
+                        }
 
 
-     @Override public void onCancelled(@NonNull DatabaseError error) {
 
-     }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-     });
+                        }
+                    });
+                }
+                allGroupForUser.setValue(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
 
 
-     if (groups != null){
-     System.out.println("FUCKKKKK");
-     return  groups;
-     }
-     else{
-     System.out.println("EMPtyyyyyy");
-     return null;
-     }
 
-     }
-     **/
+    }
+
 
 }
