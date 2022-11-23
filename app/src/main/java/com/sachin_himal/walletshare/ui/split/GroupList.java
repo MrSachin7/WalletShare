@@ -48,26 +48,10 @@ public class GroupList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
         // Inflate the layout for this fragment
         view  =  inflater.inflate(R.layout.fragment_group_list, container, false);
         InitializeCardView(view);
 
-
-
-
-
-        fab  = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view1) {
-                Fragment newGroupFragment = new AddNewGroup();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, newGroupFragment ); // give your fragment container id in first parameter
-                //  transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
-                transaction.commit();}
-        });
         return view;
     }
 
