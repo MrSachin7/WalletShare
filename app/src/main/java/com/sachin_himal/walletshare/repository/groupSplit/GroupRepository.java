@@ -1,12 +1,17 @@
 package com.sachin_himal.walletshare.repository.groupSplit;
 
+import androidx.lifecycle.LiveData;
+
+import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Group;
 
 import java.util.List;
 
 public interface GroupRepository {
-    void  addNewGroup(Group group);
-    List<Group> getAllGroup();
+
+    void initializeGroup(String uid);
+    void  addNewGroup(String groupName, CallBack callBack);
+   LiveData<List<Group>> getAllGroup();
 
 
 

@@ -1,45 +1,42 @@
 package com.sachin_himal.walletshare.ui.split;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Group;
-import com.sachin_himal.walletshare.entity.User;
-import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
-import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class GroupList extends Fragment {
-
+public class GroupListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private  CardAdapter cardAdapter;
     private ArrayList<Group> groupArrayList;
-    FloatingActionButton fab;
-    View view;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private GroupListViewModel groupListViewModel;
+    AppCompatButton saveGroupButton;
+    AppCompatEditText editTextGroupName;
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -49,11 +46,35 @@ public class GroupList extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        view  =  inflater.inflate(R.layout.fragment_group_list, container, false);
+       View view  =  inflater.inflate(R.layout.fragment_group_list, container, false);
         InitializeCardView(view);
-
+        groupListViewModel = new ViewModelProvider(this).get(GroupListViewModel.class);
+        saveGroupButton.setOnClickListener(this::saveGroupPressed);
+        groupListViewModel.groupisDone().observe(getViewLifecycleOwner(), this::groupDone);
         return view;
     }
+
+
+    private void groupDone(Boolean aBoolean) {
+        if (aBoolean){
+            FancyToast.makeText(getContext(),"New Group added successfully ", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
+            editTextGroupName.setText("");
+        }
+
+        else{
+            FancyToast.makeText(getContext(),"Failed to add group", FancyToast.LENGTH_SHORT,FancyToast.ERROR, true).show();
+        }
+    }
+
+    private void saveGroupPressed(View view) {
+        String groupName = editTextGroupName.getText().toString().trim();
+
+        if (groupName.equals("")) {
+            FancyToast.makeText(getContext(),"Amount must be entered", FancyToast.LENGTH_SHORT,FancyToast.WARNING, true).show();
+        }else {
+            groupListViewModel.addNewGroup(groupName);
+        }}
+
 
     private void InitializeCardView(View view) {
         recyclerView = view.findViewById(R.id.recyclerViewsCards);
@@ -61,11 +82,8 @@ public class GroupList extends Fragment {
         groupArrayList = new ArrayList<>();
         cardAdapter = new CardAdapter(getActivity(),groupArrayList);
         recyclerView.setAdapter(cardAdapter);
-
-
-        //MOCKING Data
-        getAllGroup();
-        CreateDataForCards();
+        editTextGroupName= view.findViewById(R.id.group_Name);
+        saveGroupButton= view.findViewById(R.id.saveGroupNameBtn);
 
     }
 
@@ -80,6 +98,7 @@ public class GroupList extends Fragment {
 
     }
 
+    /**
     private ArrayList<String> getAllGroup() {
         ArrayList<String> list = new ArrayList<>();
          FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -124,4 +143,6 @@ public class GroupList extends Fragment {
         });
         return list;
     }
+
+*/
 }

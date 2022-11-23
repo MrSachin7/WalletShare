@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepository;
 import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepositoryImpl;
+import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
+import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 import com.sachin_himal.walletshare.repository.login.UserRepository;
 import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
 
@@ -13,9 +15,11 @@ public class MainActivityViewModel extends ViewModel {
 
     private final UserRepository userRepository;
     private final ExpenditureRepository expenditureRepository;
+    private final GroupRepository groupRepository;
 
 
     public MainActivityViewModel(){
+        groupRepository = GroupRepositoryImpl.getInstance();
         userRepository = UserRepositoryImpl.getInstance();
         expenditureRepository = ExpenditureRepositoryImpl.getInstance();
     }
@@ -34,5 +38,7 @@ public class MainActivityViewModel extends ViewModel {
         String userId = userRepository.getCurrentUser().getValue().getUid();
 
         expenditureRepository.init(userId);
+        groupRepository.initializeGroup(userId);
+
     }
 }
