@@ -2,82 +2,94 @@
 
 
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:background="@color/palette_cyan"
-android:onClick="goToCertainGroup"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-
-
-android:clickable="true"
-android:focusable="true"
-
-app:cardElevation="1dp"
-app:cardCornerRadius="12dp"
-
-app:strokeWidth="5dp">
-<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:background="@color/palette_cyan"
+    android:clickable="true"
+
+
+    android:focusable="true"
+
+
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+
+    app:strokeWidth="5dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp"
-        android:background="@color/palette_cyan"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-
-
-            android:id="@+id/groupNameForCard"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="1dp"
+            android:background="#D570F4C2"
+            android:orientation="vertical"
+            android:padding="12dp"
+
+            >
+
+            <TextView
 
 
+                android:id="@+id/groupNameForCard"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
 
-            android:text="GroupName"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+
+                android:padding="1dp"
+                android:paddingTop="20dp"
+                android:text="GroupName"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="#C1000000"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Amount : "
+
+
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+
+
+                android:id="@+id/groupAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:padding="5dp"
+
+                android:paddingEnd="0dp"
+                android:text="123"
+
+                android:textColor="@color/white"
+                android:textSize="18sp"
+
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:orientation="vertical"
-        android:padding="12dp"
-        android:background="@color/palette_black"
-        >
-
-
-        <TextView
-
-            android:layout_margin="1dp"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="123"
-
-            android:id="@+id/groupAmount"
-            android:textColor="@color/white"
-
-        android:textSize="18sp"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-</androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-    </com.google.android.material.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>
 
