@@ -126,10 +126,11 @@ public class GroupRepositoryImpl implements GroupRepository {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             //   groupArrayList.add((Group) snapshot.getValue());
                             //  cardAdapter.notifyDataSetChanged();
-                            System.out.println("Trying to get groups");
+                            System.out.println("Trying to get groups" + snapshot.getKey());
                             String groupName = (String) snapshot.child("groupName").getValue();
                             int amount = Integer.parseInt(snapshot.child("amount").getValue().toString());
                             Group group = new Group(groupName, amount);
+                            group.setGroupId(snapshot.getKey());
                         list.add(group);
 
                         }

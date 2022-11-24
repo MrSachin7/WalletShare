@@ -10,6 +10,7 @@ public class Group {
     private String groupName;
     private List<String> usersId;
     private int amount;
+    private String groupId;
 
 
     public Group() {
@@ -46,5 +47,13 @@ public class Group {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

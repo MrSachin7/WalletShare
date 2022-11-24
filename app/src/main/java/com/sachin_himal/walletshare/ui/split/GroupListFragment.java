@@ -24,7 +24,7 @@ public class GroupListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private  CardAdapter cardAdapter;
-    private ArrayList<Group> groupArrayList;
+    private List<Group> groupArrayList;
     private GroupListViewModel groupListViewModel;
     AppCompatButton saveGroupButton;
     AppCompatEditText editTextGroupName;
@@ -53,10 +53,24 @@ public class GroupListFragment extends Fragment {
         saveGroupButton.setOnClickListener(this::saveGroupPressed);
         groupListViewModel.groupisDone().observe(getViewLifecycleOwner(), this::groupDone);
         groupListViewModel.getAllGroupForUser().observe(getViewLifecycleOwner(),this::groupListObserver);
+
+        cardAdapter.onItemClickListener(new CardAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(int position) {
+                System.out.println("Group item is clicked ");
+
+                System.out.println(position);
+                FancyToast.makeText(getContext(),groupArrayList.get(position).getGroupId() + " is called ", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
+                System.out.println("as");
+
+            }
+        });
         return view;
     }
 
     private void groupListObserver(List<Group> groups) {
+        groupArrayList=groups;
         cardAdapter.setGroupArrayList(groups);
     }
 
@@ -86,10 +100,13 @@ public class GroupListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewsCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         groupArrayList = new ArrayList<>();
-        cardAdapter = new CardAdapter(getActivity(),groupArrayList);
+        cardAdapter=new CardAdapter(getActivity());
+
         recyclerView.setAdapter(cardAdapter);
         editTextGroupName= view.findViewById(R.id.group_Name);
         saveGroupButton= view.findViewById(R.id.saveGroupNameBtn);
+
+
 
     }
 
