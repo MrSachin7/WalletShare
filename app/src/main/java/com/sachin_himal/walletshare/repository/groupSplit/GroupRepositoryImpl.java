@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Group;
+import com.sachin_himal.walletshare.entity.User;
 
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     private String currentUserID;
 
     private Group currentGroup;
-
+    List<String> strings;
 
 
     private GroupRepositoryImpl() {
@@ -86,7 +87,7 @@ public class GroupRepositoryImpl implements GroupRepository {
         newAddedReference.setValue(group).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 memberDBReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
-                newAddedReference.child("UsersId").push().setValue(currentUserID);
+                newAddedReference.child("usersId").push().setValue(currentUserID);
                 System.out.println("Sucesfully added the group " + keyFromRecentGroup);
                 callBack.callBack();
 
@@ -125,6 +126,7 @@ public class GroupRepositoryImpl implements GroupRepository {
         getAllGroupName.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
            List<Group> list = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     System.out.println(dataSnapshot.getValue().toString());
@@ -133,12 +135,22 @@ public class GroupRepositoryImpl implements GroupRepository {
                     groupListReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                             //   groupArrayList.add((Group) snapshot.getValue());
                             //  cardAdapter.notifyDataSetChanged();
                             System.out.println("Trying to get groups" + snapshot.getKey());
-                            String groupName = (String) snapshot.child("groupName").getValue();
-                            int amount = Integer.parseInt(snapshot.child("amount").getValue().toString());
-                            Group group = new Group(groupName, amount);
+                            strings = new ArrayList<>();
+                         snapshot.child("usersId").getChildren().forEach(dataSnapshot1 -> strings.add(dataSnapshot1.getValue().toString()));
+                            System.out.println(strings.toString());
+
+                            Group group = snapshot.getValue(Group.class);
+                            group.setusersIdManual(strings);
+                           // group.setUsersIdManual(strings);
+                            System.out.println(group.getGroupName());
+                            //String groupName = (String) snapshot.child("groupName").getValue();
+                          //  int amount = Integer.parseInt(snapshot.child("amount").getValue().toString());
+                           // Group group = new Group(groupName, amount);
+
                             group.setGroupId(snapshot.getKey());
                         list.add(group);
 

@@ -2,6 +2,7 @@ package com.sachin_himal.walletshare.ui.split;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 public class ParticularGroupFragment extends Fragment {
 
 
-private TextView textView;
+private AppCompatTextView textView;
 
 private GroupRepository groupRepository;
 
@@ -28,8 +29,8 @@ private GroupRepository groupRepository;
 
  groupRepository = GroupRepositoryImpl.getInstance();
         View view = inflater.inflate(R.layout.fragment_particular_group, container, false);
-        textView = view.findViewById(R.id.textViewTestToPassgroupId);
-        textView.setText(groupRepository.getCurrentGroup().getGroupName());
+       textView = view.findViewById(R.id.particularGroupName);
+     textView.setText(groupRepository.getCurrentGroup().getGroupName());
         return view;
     }
 }

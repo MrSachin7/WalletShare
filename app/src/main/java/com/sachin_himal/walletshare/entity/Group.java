@@ -8,7 +8,7 @@ import java.util.List;
 public class Group {
 
     private String groupName;
-    private List<String> usersId;
+    private List<String> usersIds;
     private int amount;
     private String groupId;
 
@@ -23,6 +23,7 @@ public class Group {
     public Group(String groupName, int amount) {
         this.groupName = groupName;
         this.amount = amount;
+        usersIds = new ArrayList<>();
     }
 
     public String getGroupName() {
@@ -34,12 +35,21 @@ public class Group {
     }
 
     public List<String> getUsersId() {
-        return usersId;
+        return usersIds;
     }
 
-    public void setUsersId(List<String> usersId) {
-        this.usersId = usersId;
+    public void setusersIdManual(List<String> usersId) {
+        this.usersIds = usersId;
     }
+
+   /**
+    * TODO: ask about how to deserialize
+    * public void setUsersId(List<String> usersId) {
+        this.usersIds = usersId;
+    }
+**/
+
+
 
     public int getAmount() {
         return amount;
