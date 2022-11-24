@@ -35,4 +35,7 @@ public class GroupListViewModel extends ViewModel {
     }
 
 
+    public void setCurrentGroup(Group group) {
+        groupRepository.setCurrentGroup(group);
+    }
 }

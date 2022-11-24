@@ -14,5 +14,6 @@ public interface GroupRepository {
    LiveData<List<Group>> getAllGroup();
 
 
-
+    void setCurrentGroup(Group group);
+    Group getCurrentGroup();
 }

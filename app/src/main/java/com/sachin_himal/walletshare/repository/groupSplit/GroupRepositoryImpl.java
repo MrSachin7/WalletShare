@@ -41,7 +41,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     private String currentUserID;
 
-
+    private Group currentGroup;
 
 
 
@@ -106,6 +106,15 @@ public class GroupRepositoryImpl implements GroupRepository {
     @Override
     public LiveData<List<Group>> getAllGroup() {
         return allGroupForUser;
+    }
+
+    @Override
+    public void setCurrentGroup(Group group) {
+        currentGroup = group;
+    }
+
+    public Group getCurrentGroup() {
+        return currentGroup;
     }
 
     private void searchAllGroup() {

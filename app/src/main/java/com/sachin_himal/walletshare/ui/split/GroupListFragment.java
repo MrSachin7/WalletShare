@@ -9,6 +9,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,16 +60,17 @@ public class GroupListFragment extends Fragment {
 
             @Override
             public void onItemClick(int position) {
-                System.out.println("Group item is clicked ");
+              groupListViewModel.setCurrentGroup(groupArrayList.get(position));
+                Navigation.findNavController(view).navigate(R.id.particularGroupFragment);
+               // FancyToast.makeText(getContext(),groupArrayList.get(position).getGroupId() + " is called ", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
 
-                System.out.println(position);
-                FancyToast.makeText(getContext(),groupArrayList.get(position).getGroupId() + " is called ", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
-                System.out.println("as");
 
             }
         });
         return view;
     }
+
+
 
     private void groupListObserver(List<Group> groups) {
         groupArrayList=groups;
@@ -79,6 +82,7 @@ public class GroupListFragment extends Fragment {
         if (aBoolean){
             FancyToast.makeText(getContext(),"New Group added successfully ", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
             editTextGroupName.setText("");
+
         }
 
         else{
