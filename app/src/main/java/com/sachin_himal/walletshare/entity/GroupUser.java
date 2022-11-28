@@ -2,17 +2,17 @@ package com.sachin_himal.walletshare.entity;
 
 public class GroupUser {
     private String uId;
-    private int amountDue;
+    private Double amountDue;
     private String email;
 
     public GroupUser() {
     }
 
-    public int getAmountDue() {
+    public Double getAmountDue() {
         return amountDue;
     }
 
-    public void setAmountDue(int amountDue) {
+    public void setAmountDue(Double amountDue) {
         this.amountDue = amountDue;
     }
 

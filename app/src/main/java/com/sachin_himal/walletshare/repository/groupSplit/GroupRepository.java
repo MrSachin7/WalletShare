@@ -19,5 +19,5 @@ public interface GroupRepository {
     void setCurrentGroup(Group group);
     Group getCurrentGroup();
 
-   MutableLiveData<List<GroupUser>> getUserDataForGroup();
+   LiveData<List<GroupUser>> getUserDataForGroup();
 }

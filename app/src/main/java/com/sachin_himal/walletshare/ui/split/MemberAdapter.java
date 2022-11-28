@@ -67,10 +67,9 @@ public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberLis
             }
         }
          **/
+        System.out.println("on bind called");
 
-        for (int i = 0; i < groupUserList.size(); i++) {
-            holder.setDetails(groupUserList.get(i).getEmail(),groupUserList.get(i).getAmountDue());
-        }
+       holder.setDetails(groupUserList.get(position));
 
 
 
@@ -95,10 +94,10 @@ public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberLis
 
 
 
-        public void setDetails(String i, Integer integer) {
-            memberName.setText(i);
-            memberAmount.setText(integer + "");
-
+        public void setDetails(GroupUser groupUser) {
+            System.out.println(groupUser.toString() + "whyyyy");
+            memberName.setText(groupUser.getEmail());
+            memberAmount.setText(groupUser.getAmountDue().toString());
         }
     }
 }
