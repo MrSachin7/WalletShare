@@ -40,6 +40,7 @@
                     />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/memberList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -47,8 +48,7 @@
                     android:fontFamily="@font/heletica_regular_family"
                     android:text="Member list"
 
-
-                    ></androidx.appcompat.widget.AppCompatButton>
+                    />
 
 
             </LinearLayout>

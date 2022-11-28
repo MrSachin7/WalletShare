@@ -41,4 +41,9 @@
         android:name="com.sachin_himal.walletshare.ui.split.ParticularGroupFragment"
         android:label="fragment_particular_group"
         tools:layout="@layout/fragment_particular_group" />
+    <fragment
+        android:id="@+id/groupMemberFragment"
+        android:name="com.sachin_himal.walletshare.ui.split.GroupMemberFragment"
+        android:label="fragment_group_member"
+        tools:layout="@layout/fragment_group_member" />
 </navigation>

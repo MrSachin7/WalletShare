@@ -1,9 +1,11 @@
 package com.sachin_himal.walletshare.repository.groupSplit;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Group;
+import com.sachin_himal.walletshare.entity.GroupUser;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ public interface GroupRepository {
 
     void setCurrentGroup(Group group);
     Group getCurrentGroup();
+
+   MutableLiveData<List<GroupUser>> getUserDataForGroup();
 }

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.split.GroupMemberFragment">
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#27FFF5F5">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutMember"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/addNewMemberLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewsMember"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNewMemberLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/addNewGroupTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#DAD0D0"
+                android:fontFamily="@font/helvetica_regular"
+                android:gravity="center"
+                android:text="Add New Friend"
+                android:textColor="@color/palette_black"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toTopOf="@id/editTextLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayoutCard" />
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:id="@+id/memberSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addNewGroupTextView"
+                app:layout_constraintBottom_toTopOf="@id/saveGroupNameBtn">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_baseline_group_add_24" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/helvetica_regular"
+                    android:text="Email"
+                    android:textColor="@color/palette_black"
+                    android:textSize="20sp" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/friendEmail"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/helvetica_regular"
+                    android:gravity="center"
+                    android:hint="Friend Email id"
+                    android:padding="1dp"
+                    android:textSize="20sp"
+                    android:maxLines="1"
+                    android:inputType="text"/>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+
+                android:id="@+id/saveMemberNameBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/palette_light_blue"
+                android:text="@string/save"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextLayout"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintWidth_percent="0.7"
+
+
+                />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

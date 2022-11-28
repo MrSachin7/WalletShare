@@ -39,6 +39,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
         if (groups == null) {
             return;
         }
+
         this.groupArrayList = groups;
     }
 
