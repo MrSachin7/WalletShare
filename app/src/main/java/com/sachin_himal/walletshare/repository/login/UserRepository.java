@@ -27,4 +27,11 @@ public interface UserRepository {
     LiveData<User> getLoggedInUser();
 
     void searchForCurrentUser();
+
+    void updateProfile(String firstNameText, String lastNameText);
+
+    LiveData<String> getSuccessMessage();
+
+    LiveData<String> getErrorMessage();
+
 }
