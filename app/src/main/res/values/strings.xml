@@ -57,9 +57,12 @@
     <string name="friend">Friends</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
+    <string name="addGroup">AddGroup</string>
+    <string name="add_group">Group Name</string>
     <string name="spending">Spendings</string>
     <string name="update_profile_information">Update profile information</string>
     <string name="update">Update</string>
+
 
 
 </resources>
