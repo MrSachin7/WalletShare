@@ -7,11 +7,11 @@ import static com.sachin_himal.walletshare.repository.Database.USERS;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,10 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Group;
+import com.sachin_himal.walletshare.entity.GroupUser;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -41,18 +43,22 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     private String currentUserID;
 
+    private Group currentGroup;
 
+private DatabaseReference referenceForAddingFriend;
 
+    MutableLiveData<List<GroupUser>> userDetail;
 
 
     private GroupRepositoryImpl() {
-
         firebaseDatabase = FirebaseDatabase.getInstance(DB_ADDRESS);
 
         allGroupForUser = new MutableLiveData<>();
-
         allGroupForUser.postValue(new ArrayList<>());
         error = new MutableLiveData<>();
+
+        userDetail = new MutableLiveData<>();
+        userDetail.postValue(new ArrayList<>());
 
     }
 
@@ -73,7 +79,8 @@ public class GroupRepositoryImpl implements GroupRepository {
         groupDBReference = firebaseDatabase.getReference().child(GROUPS);
         memberDBReference = firebaseDatabase.getReference().child(USERS);
         currentUserID = uid;
-        searchAllGroup();
+
+                searchAllGroup();
 
     }
 
@@ -86,7 +93,8 @@ public class GroupRepositoryImpl implements GroupRepository {
         newAddedReference.setValue(group).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 memberDBReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
-                newAddedReference.child("UsersId").push().setValue(currentUserID);
+                newAddedReference.child("usersId").push().setValue(currentUserID);
+                newAddedReference.child("amount").child(currentUserID).push().setValue(0);
                 System.out.println("Sucesfully added the group " + keyFromRecentGroup);
                 callBack.callBack();
 
@@ -108,33 +116,139 @@ public class GroupRepositoryImpl implements GroupRepository {
         return allGroupForUser;
     }
 
-    private void searchAllGroup() {
+    @Override
+    public void setCurrentGroup(Group group) {
+        currentGroup = group;
+
+       getUserDataForGroupQuery();
+
+    }
+
+    public Group getCurrentGroup() {
+        return currentGroup;
+    }
+
+    @Override
+    public LiveData<List<GroupUser>> getUserDataForGroup() {
+        return userDetail;
+    }
+
+    @Override
+    public void addNewFriend(String friendEmail) {
+
+        String key ="";
+
+        System.out.println(friendEmail);
 
 
-
-        DatabaseReference getAllGroupName = memberDBReference.child(currentUserID).child("GroupList").getRef();
-        getAllGroupName.addValueEventListener(new ValueEventListener() {
+    memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-           List<Group> list = new ArrayList<>();
+                snapshot.getChildren().forEach(dataSnapshot -> {
+                  dataSnapshot.getKey();
+
+
+                        DatabaseReference     referenceForAddingFriend = dataSnapshot.getRef();
+
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+     /**
+        memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
+         @Override
+         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+         snapshot.getChildren().forEach(dataSnapshot -> {
+
+             String snapshotKey = dataSnapshot.getKey();
+             groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(snapshotKey);
+             dataSnapshot.child("GroupList").getRef().push().setValue(currentGroup.getGroupId());
+
+
+              //   groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue();
+
+         }   );
+
+
+
+
+
+
+
+
+
+
+         //snapshot.getRef().child("GroupList").push().setValue(currentGroup.getGroupId());
+         }
+
+         @Override
+         public void onCancelled(@NonNull DatabaseError error) {
+
+         }
+     });
+      */
+
+    }
+
+
+    public void addNewFriendWithRef(){
+
+        System.out.println("in the refrence method");
+        String snapshotKey = referenceForAddingFriend.getKey();
+        groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(snapshotKey);
+        groupDBReference.child("GroupList").getRef().push().setValue(currentGroup.getGroupId());
+    }
+
+
+    private void searchAllGroup() {
+
+        List<Group> list = new ArrayList<>();
+        DatabaseReference getAllGroupName = memberDBReference.child(currentUserID).child("GroupList").getRef();
+
+        getAllGroupName.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     System.out.println(dataSnapshot.getValue().toString());
+                    list.clear();
+
 
                     DatabaseReference groupListReference = groupDBReference.child(dataSnapshot.getValue().toString());
                     groupListReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            //   groupArrayList.add((Group) snapshot.getValue());
-                            //  cardAdapter.notifyDataSetChanged();
+
                             System.out.println("Trying to get groups" + snapshot.getKey());
                             String groupName = (String) snapshot.child("groupName").getValue();
-                            int amount = Integer.parseInt(snapshot.child("amount").getValue().toString());
-                            Group group = new Group(groupName, amount);
+
+                            final Double[] aDouble = {0.0};
+                            if (snapshot.child("amount").child(currentUserID).getValue() != null) {
+
+                                snapshot.child("amount").child(currentUserID).getChildren().forEach(dataSnapshot1 -> aDouble[0] = Double.valueOf(dataSnapshot1.getValue().toString()));
+
+                            }
+
+
+                            Group group = new Group(groupName, aDouble[0]);
+
                             group.setGroupId(snapshot.getKey());
-                        list.add(group);
+                            group.getUsersId().toString();
+                            System.out.println(group.getGroupName() + "   " + group.getAmount());
+                            group.setGroupId(snapshot.getKey());
+                            list.add(group);
 
                         }
-
 
 
                         @Override
@@ -143,7 +257,8 @@ public class GroupRepositoryImpl implements GroupRepository {
                         }
                     });
                 }
-                allGroupForUser.setValue(list);
+
+
             }
 
             @Override
@@ -153,9 +268,76 @@ public class GroupRepositoryImpl implements GroupRepository {
 
         });
 
-
+ allGroupForUser.setValue(list);
 
     }
+
+
+    //////
+    ////
+    //
+
+    public void getUserDataForGroupQuery() {
+        List<GroupUser> groupUserList = new ArrayList<>();
+        System.out.println(currentGroup.getGroupId());
+
+        if (currentGroup != null) {
+
+            System.out.println("current group is not null");
+            groupDBReference.child(currentGroup.getGroupId()).addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    groupUserList.clear();
+                    System.out.println("printing user id");
+                    System.out.println(snapshot.getValue());
+                    for (DataSnapshot userssnapshot : snapshot.child("usersId").getChildren()) {
+
+                        //user id:
+                        System.out.println(userssnapshot.getValue());
+                        GroupUser groupUser = new GroupUser();
+                        groupUser.setuId(userssnapshot.getValue().toString());
+                        // amount for this user
+                        for (DataSnapshot amountSnapshot : snapshot.child("amount").child(userssnapshot.getValue().toString()).getChildren()) {
+                            System.out.print(amountSnapshot.getValue());
+                            System.out.println("printed");
+                            groupUser.setAmountDue(Double.valueOf(amountSnapshot.getValue().toString()));
+                        }
+
+                        //getting username for that user
+                        memberDBReference.child(userssnapshot.getValue().toString()).child("email").addValueEventListener(new ValueEventListener(
+                        ) {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                System.out.println(snapshot.getValue());
+                                groupUser.setEmail(snapshot.getValue().toString());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        groupUserList.add(groupUser);
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            userDetail.setValue(groupUserList);
+        }
+
+    }
+
+
+
 
 
 }

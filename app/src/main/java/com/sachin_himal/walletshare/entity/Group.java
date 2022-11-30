@@ -3,26 +3,47 @@ package com.sachin_himal.walletshare.entity;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Group {
 
     private String groupName;
-    private List<String> usersId;
-    private int amount;
+    private List<String> usersIds;
+    private double amount;
     private String groupId;
+    private List<HashMap<String,Integer>> userDue ;
+    private List<GroupUser> groupUsers;
 
+    public List<GroupUser> getGroupUsers() {
+        return groupUsers;
+    }
+
+    public void setGroupUsers(List<GroupUser> groupUsers) {
+        this.groupUsers = groupUsers;
+    }
 
     public Group() {
+    }
+
+
+    public List<HashMap<String, Integer>> getUserDue() {
+        return userDue;
+    }
+
+    public void setUserDue(List<HashMap<String, Integer>> userDue) {
+
+        this.userDue = userDue;
     }
 
     public Group(String groupName) {
         this.groupName = groupName;
     }
 
-    public Group(String groupName, int amount) {
+    public Group(String groupName, Double amount) {
         this.groupName = groupName;
         this.amount = amount;
+        usersIds = new ArrayList<>();
     }
 
     public String getGroupName() {
@@ -34,14 +55,23 @@ public class Group {
     }
 
     public List<String> getUsersId() {
-        return usersId;
+        return usersIds;
     }
 
-    public void setUsersId(List<String> usersId) {
-        this.usersId = usersId;
+    public void setusersIdManual(List<String> usersId) {
+        this.usersIds = usersId;
     }
 
-    public int getAmount() {
+   /**
+    * TODO: ask about how to deserialize
+    * public void setUsersId(List<String> usersId) {
+        this.usersIds = usersId;
+    }
+**/
+
+
+
+    public double getAmount() {
         return amount;
     }
 
@@ -56,4 +86,6 @@ public class Group {
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
+
+
 }

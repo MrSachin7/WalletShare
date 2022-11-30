@@ -1,10 +1,12 @@
 package com.sachin_himal.walletshare.ui.split;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sachin_himal.walletshare.entity.Group;
+import com.sachin_himal.walletshare.entity.GroupUser;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 
@@ -35,4 +37,24 @@ public class GroupListViewModel extends ViewModel {
     }
 
 
+    public void setCurrentGroup(Group group) {
+        groupRepository.setCurrentGroup(group);
+    }
+
+    public Group getCurrentGroup() {
+        return groupRepository.getCurrentGroup();
+    }
+
+    public LiveData<List<GroupUser>> getUserForCurrentGroup() {
+        return  groupRepository.getUserDataForGroup();
+    }
+
+    public GroupRepository getGroupRepository() {
+        return groupRepository;
+    }
+
+    public void addNewFriend(String friendEmail) {
+        groupRepository.addNewFriend(friendEmail);
+
+    }
 }
