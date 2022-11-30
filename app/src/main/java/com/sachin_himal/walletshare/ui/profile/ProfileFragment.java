@@ -10,12 +10,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.User;
+import com.sachin_himal.walletshare.ui.MainActivity;
 import com.sachin_himal.walletshare.ui.login.UserViewModel;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -25,6 +27,8 @@ public class ProfileFragment extends Fragment {
     AppCompatButton
             logOutButton;
     TextView profileName, profileEmail;
+
+    LinearLayoutCompat editProfileButton;
 
     UserViewModel viewModel;
 
@@ -39,8 +43,15 @@ public class ProfileFragment extends Fragment {
 
         viewModel.searchForCurrentUser();
         viewModel.getLoggedInUser().observe(getViewLifecycleOwner(),this::updateUI);
+        editProfileButton.setOnClickListener(this::openEditProfileFragment);
 
         return view;
+    }
+
+    private void openEditProfileFragment(View view) {
+
+        ((MainActivity) getActivity()).changeFragment(R.id.editProfileFragment);
+
     }
 
     private void updateUI(User user) {
@@ -59,5 +70,6 @@ public class ProfileFragment extends Fragment {
         logOutButton = view.findViewById(R.id.log_out);
         profileName = view.findViewById(R.id.profile_name);
         profileEmail = view.findViewById(R.id.profile_email);
+        editProfileButton = view.findViewById(R.id.edit_profile);
     }
 }

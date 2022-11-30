@@ -33,7 +33,7 @@ import java.util.Map;
 public class HomeFragment extends Fragment {
 
 
-    TextView balance_field, lastRecordShowMore;
+    TextView balance_field, lastRecordShowMore, filterChartShowMore;
     RecyclerView lastRecordListView;
     PieChart pieChart;
 
@@ -53,13 +53,15 @@ public class HomeFragment extends Fragment {
         lastRecordListView.setAdapter(adapter);
 
         lastRecordShowMore.setOnClickListener(this::showMorePressed);
+        filterChartShowMore.setOnClickListener(this::showMoreChartPressed);
         viewModal.getCurrentBalance().observe(getViewLifecycleOwner(), this::updateBalanceField);
         viewModal.getThreeExpenditure().observe(getViewLifecycleOwner(), this::updateLastExpensesField);
         viewModal.getLastMonthExpenseObserver().observe(getViewLifecycleOwner(), this::pieChartObserver);
-
-
-
         return view;
+    }
+
+    private void showMoreChartPressed(View view) {
+        ((MainActivity) getActivity()).changeFragment(R.id.filterChartFragment);
     }
 
 
@@ -92,10 +94,6 @@ public class HomeFragment extends Fragment {
             records.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
         }
 
-//        records.add( new PieEntry(200, "Transport"));
-//        records.add( new PieEntry(300, "Food"));
-//        records.add( new PieEntry(200, "Fight"));
-//        records.add( new PieEntry(400, "Test"));
 
         PieDataSet dataSet = new PieDataSet(records, "Categories");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -103,7 +101,6 @@ public class HomeFragment extends Fragment {
 
         PieData pieData = new PieData(dataSet);
         pieChart.setData(pieData);
-
         pieChart.animate();
         pieChart.invalidate();
     }
@@ -116,6 +113,7 @@ public class HomeFragment extends Fragment {
     private void updateBalanceField(Balance balance) {
 
         if (balance !=null){
+            // Formatter for money
             String format = String.format("%,.2f",balance.getBalance());
             balance_field.setText(format+ " kr");
         }
@@ -133,7 +131,7 @@ public class HomeFragment extends Fragment {
         lastRecordShowMore = view.findViewById(R.id.last_records_show_more);
         lastRecordListView = view.findViewById(R.id.last_records_list_view);
         pieChart = view.findViewById(R.id.pieChart);
-
+        filterChartShowMore = view.findViewById(R.id.filter_chart_show_more);
 
     }
 }
