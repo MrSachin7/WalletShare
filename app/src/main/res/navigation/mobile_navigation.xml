@@ -44,19 +44,4 @@
         android:id="@+id/editProfileFragment"
         android:name="com.sachin_himal.walletshare.ui.edit_profile.EditProfileFragment"
         android:label="EditProfileFragment" />
-    <fragment
-        android:id="@+id/particularGroupFragment"
-        android:name="com.sachin_himal.walletshare.ui.split.ParticularGroupFragment"
-        android:label="fragment_particular_group"
-        tools:layout="@layout/fragment_particular_group" />
-    <fragment
-        android:id="@+id/groupMemberFragment"
-        android:name="com.sachin_himal.walletshare.ui.split.GroupMemberFragment"
-        android:label="fragment_group_member"
-        tools:layout="@layout/fragment_group_member" />
-    <fragment
-        android:id="@+id/friendFragment"
-        android:name="com.sachin_himal.walletshare.ui.profile.FriendFragment"
-        android:label="fragment_friend"
-        tools:layout="@layout/fragment_friend" />
 </navigation>
