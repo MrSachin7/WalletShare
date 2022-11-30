@@ -24,7 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static UserRepository instance;
     private static Lock lock = new ReentrantLock();
 
-    private MutableLiveData<String> loginError, signUpError;
+    private MutableLiveData<String> loginError, signUpError, successMessage, errorMessage;
     private MutableLiveData<User> loggedInUser;
 
     private FirebaseAuth mUser;
@@ -38,8 +38,11 @@ public class UserRepositoryImpl implements UserRepository {
         databaseReference = database.getReference().child(USERS);
         currentUser = new UserLiveData();
         loggedInUser = new MutableLiveData<>();
+
         loginError = new MutableLiveData<>();
         signUpError = new MutableLiveData<>();
+        successMessage = new MutableLiveData<>();
+        errorMessage = new MutableLiveData<>();
 
         // More later
     }
@@ -95,7 +98,6 @@ public class UserRepositoryImpl implements UserRepository {
 
                     }
                 });
-
     }
 
     @Override
@@ -113,7 +115,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void searchForCurrentUser() {
         String uid = getCurrentUser().getValue().getUid();
         databaseReference.child(uid).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 User user = task.getResult().getValue(User.class);
                 loggedInUser.setValue(user);
             }
@@ -121,14 +123,49 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void updateProfile(String firstNameText, String lastNameText) {
+
+        successMessage.setValue(null
+        );
+        errorMessage.setValue(null);
+        FirebaseUser user = getCurrentUser().getValue();
+        String uid = user.getUid();
+
+
+        databaseReference.child(uid).child("firstName").setValue(firstNameText).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                databaseReference.child(uid).child("lastName").setValue(lastNameText).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        successMessage.setValue("Profile updated successfully");
+                    } else {
+                        errorMessage.setValue(task1.getException().getMessage());
+                    }
+                });
+            } else {
+                errorMessage.setValue(task.getException().getMessage());
+            }
+        });
+
+    }
+
+    @Override
+    public LiveData<String> getSuccessMessage() {
+        return successMessage;
+    }
+
+    @Override
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+
+    @Override
     public void addUser(String email, String password, String firstName, String lastName) {
         mUser.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 User user = new User(email, password, firstName, lastName);
                 addUserToDatabase(user);
-            }
-            else {
+            } else {
                 signUpError.setValue(task.getException().getMessage());
             }
         });

@@ -124,16 +124,18 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public void saveExpenditure(Expenditure expenditure, CallBack callBack) {
-
-
         dbReference.child(EXPENSES).push().setValue(expenditure).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 updateBalance(expenditure.getAmount());
                 callBack.callBack();
             }
         });
-
     }
+
+
+
+    // tyo ta friends ko page bata garne ho
+    // get all friends and put them on a deopdown list instead of ty
 
     private void updateBalance(double amount) {
         if (dbReference ==null) return;

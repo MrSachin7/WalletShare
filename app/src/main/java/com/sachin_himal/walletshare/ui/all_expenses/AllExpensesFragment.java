@@ -21,6 +21,7 @@ import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.ui.expenditure.ExpenditureViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AllExpensesFragment extends Fragment {
@@ -178,8 +179,7 @@ public class AllExpensesFragment extends Fragment {
 
 
     private void initializeCategoryField() {
-
-        List<String> categories = viewModal.getAllCategories();
+        List<String> categories = new ArrayList<>(viewModal.getAllCategories());
         categories.add(0, "All");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_dropdown_item, categories);
         categoryEditable.setAdapter(adapter);

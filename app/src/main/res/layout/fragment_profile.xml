@@ -47,7 +47,7 @@
         android:src="@drawable/profile_scarf" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayout_1"
+        android:id="@+id/edit_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_scarf"
@@ -75,13 +75,12 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/friendLinearLayout"
+        android:id="@+id/linearLayout_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout_1"
-        android:layout_marginTop="31dp"
+        android:layout_below="@+id/edit_profile"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -105,11 +104,12 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayout_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/friendLinearLayout"
+        android:layout_below="@+id/linearLayout_2"
         android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
@@ -142,7 +142,8 @@
         android:layout_below="@+id/linearLayout_3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
-        android:background="#cf63f5"
+        android:backgroundTint="@color/palette_light_blue"
+        android:background="@drawable/btn_bg"
         android:drawableStart="@drawable/ic_baseline_logout_24"
         android:gravity="center"
         android:text="@string/logout">

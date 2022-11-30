@@ -61,4 +61,16 @@ public class UserViewModel extends ViewModel {
     public void searchForCurrentUser() {
         repository.searchForCurrentUser();
     }
+
+    public void updateProfile(String firstNameText, String lastNameText) {
+        repository.updateProfile(firstNameText, lastNameText);
+    }
+
+    public LiveData<String> getSuccessMessage() {
+        return repository.getSuccessMessage();
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return repository.getErrorMessage();
+    }
 }
