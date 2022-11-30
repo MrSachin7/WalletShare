@@ -3,6 +3,7 @@ package com.sachin_himal.walletshare.ui.split;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +34,7 @@ public class GroupMemberFragment extends Fragment {
     private Group group;
     private List<String> userNames;
     
-    private AppCompatButton friendEmail;
+    private AppCompatEditText friendEmail;
     private AppCompatButton appCompatButton;
 
     @Override
@@ -57,13 +58,17 @@ public class GroupMemberFragment extends Fragment {
         appCompatButton = v.findViewById(R.id.saveMemberNameBtn);
         friendEmail = v.findViewById(R.id.friendEmail);
         
-        friendEmail.setOnClickListener(this::saveNewFriend);
+        appCompatButton.setOnClickListener(this::saveNewFriend);
         
         return v;
 
     }
 
     private void saveNewFriend(View view) {
+        System.out.println(friendEmail.getText().toString().trim());
+        groupListViewModel.addNewFriend(friendEmail.getText().toString().trim());
+
+
     }
 
     private void memberForGroup(List<GroupUser> groupUsers) {

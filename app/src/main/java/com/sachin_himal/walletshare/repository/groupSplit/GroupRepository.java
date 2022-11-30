@@ -1,5 +1,6 @@
 package com.sachin_himal.walletshare.repository.groupSplit;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -20,4 +21,7 @@ public interface GroupRepository {
     Group getCurrentGroup();
 
    LiveData<List<GroupUser>> getUserDataForGroup();
+
+    void addNewFriend(String friendEmail);
+    void addNewFriendWithRef();
 }

@@ -7,9 +7,11 @@ import static com.sachin_himal.walletshare.repository.Database.USERS;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +45,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     private Group currentGroup;
 
+private DatabaseReference referenceForAddingFriend;
 
     MutableLiveData<List<GroupUser>> userDetail;
 
@@ -56,6 +59,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 
         userDetail = new MutableLiveData<>();
         userDetail.postValue(new ArrayList<>());
+
     }
 
     public static GroupRepository getInstance() {
@@ -75,7 +79,8 @@ public class GroupRepositoryImpl implements GroupRepository {
         groupDBReference = firebaseDatabase.getReference().child(GROUPS);
         memberDBReference = firebaseDatabase.getReference().child(USERS);
         currentUserID = uid;
-        searchAllGroup();
+
+                searchAllGroup();
 
     }
 
@@ -126,6 +131,79 @@ public class GroupRepositoryImpl implements GroupRepository {
     @Override
     public LiveData<List<GroupUser>> getUserDataForGroup() {
         return userDetail;
+    }
+
+    @Override
+    public void addNewFriend(String friendEmail) {
+
+        String key ="";
+
+        System.out.println(friendEmail);
+
+
+    memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getChildren().forEach(dataSnapshot -> {
+                  dataSnapshot.getKey();
+
+
+                        DatabaseReference     referenceForAddingFriend = dataSnapshot.getRef();
+
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+     /**
+        memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
+         @Override
+         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+         snapshot.getChildren().forEach(dataSnapshot -> {
+
+             String snapshotKey = dataSnapshot.getKey();
+             groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(snapshotKey);
+             dataSnapshot.child("GroupList").getRef().push().setValue(currentGroup.getGroupId());
+
+
+              //   groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue();
+
+         }   );
+
+
+
+
+
+
+
+
+
+
+         //snapshot.getRef().child("GroupList").push().setValue(currentGroup.getGroupId());
+         }
+
+         @Override
+         public void onCancelled(@NonNull DatabaseError error) {
+
+         }
+     });
+      */
+
+    }
+
+
+    public void addNewFriendWithRef(){
+
+        System.out.println("in the refrence method");
+        String snapshotKey = referenceForAddingFriend.getKey();
+        groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(snapshotKey);
+        groupDBReference.child("GroupList").getRef().push().setValue(currentGroup.getGroupId());
     }
 
 
