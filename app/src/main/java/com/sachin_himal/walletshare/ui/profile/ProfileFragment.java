@@ -45,9 +45,11 @@ public class ProfileFragment extends Fragment {
 
         viewModel.searchForCurrentUser();
         viewModel.getLoggedInUser().observe(getViewLifecycleOwner(),this::updateUI);
+
         friendLinearLayout.setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.friendFragment);
         });
+
         editProfileButton.setOnClickListener(this::openEditProfileFragment);
 
         return view;
@@ -75,7 +77,9 @@ public class ProfileFragment extends Fragment {
         logOutButton = view.findViewById(R.id.log_out);
         profileName = view.findViewById(R.id.profile_name);
         profileEmail = view.findViewById(R.id.profile_email);
+
         friendLinearLayout = view.findViewById(R.id.friendLinearLayout);
+
         editProfileButton = view.findViewById(R.id.edit_profile);
     }
 }

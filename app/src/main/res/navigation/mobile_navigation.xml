@@ -55,8 +55,18 @@
         android:label="fragment_group_member"
         tools:layout="@layout/fragment_group_member" />
     <fragment
+
         android:id="@+id/friendFragment"
         android:name="com.sachin_himal.walletshare.ui.profile.FriendFragment"
         android:label="fragment_friend"
         tools:layout="@layout/fragment_friend" />
+
+        android:id="@+id/filterChartFragment"
+        android:name="com.sachin_himal.walletshare.ui.filter_chart.FilterChartFragment"
+        android:label="FilterChartFragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.sachin_himal.walletshare.ui.edit_profile.EditProfileFragment"
+        android:label="EditProfileFragment" />
+
 </navigation>
