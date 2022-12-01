@@ -3,8 +3,10 @@ package com.sachin_himal.walletshare.repository.user;
 import androidx.lifecycle.LiveData;
 
 import com.sachin_himal.walletshare.entity.CallBack;
+import com.sachin_himal.walletshare.entity.User;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface FriendRepository {
     void initializeFriend(String uid);
@@ -29,4 +31,9 @@ HashMap<String, String> getCurrentFriendList();
     LiveData<String> getErrorMessage();
 
     void getFriendName();
+
+    LiveData<List<User>> getAllReceivedFriendRequest();
+
+    void searchForFriendRequest();
+
 }

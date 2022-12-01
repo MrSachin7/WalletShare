@@ -40,17 +40,17 @@ public class FriendListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.friendListRecyclerView);
-        friendListAdapter = new FriendListAdapter(getActivity());
+        friendListAdapter = new FriendListAdapter();
         recyclerView.setAdapter(friendListAdapter);
         friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
         HashMap<String,String> a = friendViewModel.getALlFriends();
-        friendListObserver(a);
+//        friendListObserver(a);
         friendViewModel.getFriendName();
     }
 
-    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
-        friendListAdapter.setFriendList(stringStringHashMap);
-    }
+//    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
+//        friendListAdapter.setFriendList(stringStringHashMap);
+//    }
 
 
 }

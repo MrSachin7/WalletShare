@@ -13,29 +13,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sachin_himal.walletshare.R;
+import com.sachin_himal.walletshare.entity.User;
 
 import java.util.HashMap;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AcceptRequestFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AcceptRequestFragment extends Fragment {
 
 
     RecyclerView recyclerView;
     FriendListAdapter friendListAdapter;
-    TextView friendName;
     FriendViewModel friendViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_accept_request, container, false);
+
+
+        View view = inflater.inflate(R.layout.fragment_accept_request, container, false);
+
+
+        friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
+
+        friendViewModel.searchForFriendRequest();
+        //TODO : Does not work :
+
+//        friendViewModel.getAllReceivedRequests().observe(getViewLifecycleOwner(),this::friendListObserver);
+
+        friendViewModel.getAllReceievedFriendRequest().observe(getViewLifecycleOwner(),this::friendRequestObserver);
+        return view;
     }
 
     @Override
@@ -43,22 +54,29 @@ public class AcceptRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.recyclerViewsCardsForAcceptingRequest);
-        friendListAdapter = new FriendListAdapter(getActivity());
-        recyclerView.setAdapter(friendListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
-        //TODO : Does not work :
 
-        friendViewModel.getAllReceivedRequests().observe(getViewLifecycleOwner(),this::friendListObserver);
+        friendListAdapter = new FriendListAdapter();
+        recyclerView.setAdapter(friendListAdapter);
+
+
+
 
 
     }
 
-    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
-        if (stringStringHashMap != null) {
-            friendListAdapter.setFriendList(stringStringHashMap);
-            friendListAdapter.setFriendRequest(true);
+    private void friendRequestObserver(List<User> users) {
+
+        if (users !=null && !users.isEmpty()){
+            friendListAdapter.setAllReceivedFriendList(users);
         }
     }
+
+//    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
+//        if (stringStringHashMap != null) {
+//            friendListAdapter.setFriendList(stringStringHashMap);
+//            friendListAdapter.setFriendRequest(true);
+//        }
+//    }
 
 }

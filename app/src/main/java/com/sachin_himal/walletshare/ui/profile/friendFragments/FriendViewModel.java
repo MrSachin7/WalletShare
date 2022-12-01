@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.repository.user.FriendRepository;
 import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class FriendViewModel extends ViewModel {
 private MutableLiveData<Boolean> friendSearchedFinished;
@@ -55,5 +57,16 @@ FriendRepository friendRepository;
 
     public void getFriendName() {
         friendRepository.getFriendName();
+    }
+
+    public LiveData<List<User>> getAllReceievedFriendRequest() {
+        return friendRepository.getAllReceivedFriendRequest();
+
+
+    }
+
+    public void searchForFriendRequest() {
+
+        friendRepository.searchForFriendRequest();
     }
 }

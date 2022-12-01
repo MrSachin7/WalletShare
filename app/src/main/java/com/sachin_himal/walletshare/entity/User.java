@@ -5,7 +5,7 @@ import java.util.List;
 
 public class User {
 
-
+    private String uid;
     private String firstName;
     private String lastName;
     private String email;
@@ -14,6 +14,15 @@ public class User {
 
     public User(){
         groupIds = new ArrayList<>();
+    }
+
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public User(String email, String password, String firstName, String lastName) {
