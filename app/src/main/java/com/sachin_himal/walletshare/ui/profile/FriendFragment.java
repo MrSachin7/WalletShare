@@ -50,7 +50,6 @@ public class FriendFragment extends Fragment {
         FragmentManager fragmentManager = getParentFragmentManager();
         friendFragmentAdapter = new FriendFragmentAdapter(fragmentManager,getLifecycle());
         viewPager2.setAdapter(friendFragmentAdapter);
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

@@ -40,6 +40,9 @@ public class FriendRepositoryImpl implements FriendRepository{
     private MutableLiveData<List<String>> allCurrentFriendKey;
     private MutableLiveData<List<String>> allReceivedFriendRequestKey;
 
+    private MutableLiveData<String> errorMessage;
+    private MutableLiveData<String> successMessage;
+
 
     private MutableLiveData<HashMap<String,String>> allReceivesRequest;
 
@@ -65,8 +68,11 @@ public class FriendRepositoryImpl implements FriendRepository{
         allReceivedFriendRequestKey.setValue(new ArrayList<>());
 
         allReceivesRequest = new MutableLiveData<>();
+
+        errorMessage = new MutableLiveData<>();
+        successMessage = new MutableLiveData<>();
         allReceivesRequest.setValue(new HashMap<>());
-        getCurrentFriendList();
+
 
     }
 
@@ -87,11 +93,11 @@ public class FriendRepositoryImpl implements FriendRepository{
         currentUID = uid;
         currentUserDBReference = firebaseDatabase.getReference().child(USERS).child(uid);
         usersDBReference = firebaseDatabase.getReference().child(USERS);
-        getCurrentFriendListKey();
+
         getReceivedRequestedFriendKey();
         getSentFriendRequestKey();
-        getFriendsName();
-        System.out.println("The size of friends == " + getCurrentFriendList().size());
+        getCurrentFriendListKey();
+
     }
 
 
@@ -102,6 +108,7 @@ public class FriendRepositoryImpl implements FriendRepository{
         currentUserDBReference.child("sentFriendRequest").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 snapshot.getChildren().forEach(dataSnapshot -> key.add(dataSnapshot.getValue().toString()));
 
             }
@@ -111,6 +118,7 @@ public class FriendRepositoryImpl implements FriendRepository{
 
             }
         });
+
         allFriendRequestSentKey.setValue(key);
     }
 
@@ -129,7 +137,6 @@ public class FriendRepositoryImpl implements FriendRepository{
             }
         });
         allCurrentFriendKey.setValue(key);
-        System.out.println("get friend name is called");
         getFriendsName();
     }
 
@@ -137,19 +144,23 @@ public class FriendRepositoryImpl implements FriendRepository{
 
     private void getReceivedRequestedFriendKey() {
         List<String> key = new ArrayList<>();
-        currentUserDBReference.child("receivedFriendRequests").addValueEventListener(new ValueEventListener() {
+
+     currentUserDBReference.child("receivedFriendRequests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    snapshot.getChildren().forEach(dataSnapshot -> key.add(dataSnapshot.getValue().toString()));
+                snapshot.getValue().toString();
+                    snapshot.getChildren().forEach(dataSnapshot ->
+                        key.add(dataSnapshot.getValue().toString()));
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
-        System.out.println(key.size() + " key size while getting recived friend key");
-        allReceivedFriendRequestKey.setValue(key);
+        allReceivedFriendRequestKey.postValue(key);
     }
 
 
@@ -161,15 +172,26 @@ public class FriendRepositoryImpl implements FriendRepository{
     @Override
     public void addNewFriend(CallBack callBack) {
 
+        successMessage.setValue(null);
+        errorMessage.setValue(null);
         if (currentFriendKeyData != null && !(currentFriendKeyData.isEmpty()) && !(allFriendRequestSentKey.getValue().contains(currentFriendKeyData)) && !(allCurrentFriendKey.getValue().contains(currentFriendKeyData)) && !(allReceivedFriendRequestKey.getValue().contains(currentFriendKeyData))) {
 
             currentUserDBReference.child("sentFriendRequest").push().setValue(currentFriendKeyData).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    usersDBReference.child(currentFriendKeyData).child("receivedFriendRequests").push().setValue(currentUID);
-                    callBack.callBack();
+
+                    if (task.isSuccessful()){
+                        usersDBReference.child(currentFriendKeyData).child("receivedFriendRequests").push().setValue(currentUID);
+                        successMessage.setValue("Friend request has been send");
+                    }
+                    else{
+                        errorMessage.setValue("Something wen wrong");
+                    }
+
                 }
             });
+        }else{
+            errorMessage.setValue("Selected account is either already a friend or there is a pending request");
         }
 
     };
@@ -213,11 +235,7 @@ public class FriendRepositoryImpl implements FriendRepository{
 
     @Override
     public LiveData<HashMap<String, String>> getAllReceivedRequests() {
-        getAllReceivedRequest();
-        if (allReceivesRequest!=null){
             return allReceivesRequest;
-        }else return new MutableLiveData<>() ;
-
     }
 
     @Override
@@ -226,7 +244,22 @@ public class FriendRepositoryImpl implements FriendRepository{
         return userFriends.getValue();
     }
 
-   void getFriendsName(){
+    @Override
+    public LiveData<String> getSuccessMessage() {
+        return successMessage;
+    }
+
+    @Override
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+
+    @Override
+    public void getFriendName() {
+        getAllReceivedRequest();
+    }
+
+    void getFriendsName(){
         HashMap<String,String> names = new HashMap<>();
         List<String> key = allCurrentFriendKey.getValue();
        for (int i = 0; i <key.size(); i++) {
@@ -240,9 +273,10 @@ public class FriendRepositoryImpl implements FriendRepository{
     }
 
     public void getAllReceivedRequest() {
-        System.out.println("dhjsbdnds");
+
         HashMap<String,String> allFriends = new HashMap<>();
         List<String> all = allReceivedFriendRequestKey.getValue();
+        System.out.println(allReceivedFriendRequestKey.getValue().size());
         System.out.println("I am heree");
         for (int i = 0; i < all.size(); i++) {
             System.out.println("can i pass");
@@ -262,6 +296,12 @@ public class FriendRepositoryImpl implements FriendRepository{
             return "";
         } else
             return currentFriendName;
+    }
+
+    public void retrieveAllFriendRequests(){
+
+
+      //  currentUserDBReference.child("receivedFriendRequests").
     }
     }
 

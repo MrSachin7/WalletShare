@@ -44,4 +44,16 @@ FriendRepository friendRepository;
     public HashMap<String, String> getALlFriends() {
         return friendRepository.getCurrentFriendList();
     }
+
+    public LiveData<String> getSuccessMessage() {
+        return friendRepository.getSuccessMessage();
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return friendRepository.getErrorMessage();
+    }
+
+    public void getFriendName() {
+        friendRepository.getFriendName();
+    }
 }

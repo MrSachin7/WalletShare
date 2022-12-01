@@ -1,7 +1,6 @@
 package com.sachin_himal.walletshare.repository.user;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.sachin_himal.walletshare.entity.CallBack;
 
@@ -24,4 +23,10 @@ public interface FriendRepository {
     LiveData<HashMap<String,String>> getAllReceivedRequests();
 
 HashMap<String, String> getCurrentFriendList();
+
+    LiveData<String> getSuccessMessage();
+
+    LiveData<String> getErrorMessage();
+
+    void getFriendName();
 }

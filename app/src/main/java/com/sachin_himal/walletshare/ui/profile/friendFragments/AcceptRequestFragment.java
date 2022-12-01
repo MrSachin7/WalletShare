@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -43,10 +45,11 @@ public class AcceptRequestFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewsCardsForAcceptingRequest);
         friendListAdapter = new FriendListAdapter(getActivity());
         recyclerView.setAdapter(friendListAdapter);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
         //TODO : Does not work :
 
-        //friendViewModel.getAllReceivedRequests().observe(getViewLifecycleOwner(),this::friendListObserver);
+        friendViewModel.getAllReceivedRequests().observe(getViewLifecycleOwner(),this::friendListObserver);
 
 
     }
