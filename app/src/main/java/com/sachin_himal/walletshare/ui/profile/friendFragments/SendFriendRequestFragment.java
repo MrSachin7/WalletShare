@@ -51,18 +51,31 @@ AppCompatTextView friendName;
         friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
         searchForFriend.setOnClickListener(this::searchFriend);
         friendViewModel.getFriendSearchedFinished().observe(getViewLifecycleOwner(),this::updateFriendName);
+        sendFriendRequest.setVisibility(View.INVISIBLE);
+        sendFriendRequest.setOnClickListener(this::addFriend);
 
 
     }
 
+    private void addFriend(View view) {
+        friendViewModel.addFriend();
+    }
+
 
     private void searchFriend(View view) {
-        friendViewModel.findFriendDetail("himal28924@gmail.com");
+        String friendEmail = emailId.getText().toString().trim();
+        friendViewModel.findFriendDetail(friendEmail);
     }
 
     private void updateFriendName(Boolean aBoolean) {
         if (aBoolean){
             friendName.setText(friendViewModel.getSearchedFriendDetail());
+            if (!friendName.getText().toString().trim().isEmpty()){
+                sendFriendRequest.setVisibility(View.VISIBLE);
+            }else {
+                sendFriendRequest.setVisibility(View.INVISIBLE);
+            }
+
         }
     }
 

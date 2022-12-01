@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.repository.user.FriendRepository;
 import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
 
@@ -13,15 +12,16 @@ import java.util.HashMap;
 public class FriendViewModel extends ViewModel {
 private MutableLiveData<Boolean> friendSearchedFinished;
 FriendRepository friendRepository;
-
+    private MutableLiveData<Boolean> friendAddedFinished;
     public FriendViewModel() {
         this.friendRepository = FriendRepositoryImpl.getInstance();
         friendSearchedFinished = new MutableLiveData<>();
+        friendAddedFinished= new MutableLiveData<>();
     }
 
     public void findFriendDetail(String email){
          friendRepository.findFriend(email,()-> friendSearchedFinished.setValue(true));
-         getFriendSearchedFinished();
+       //  getFriendSearchedFinished();
     }
 
     public LiveData<Boolean> getFriendSearchedFinished() {
@@ -30,5 +30,18 @@ FriendRepository friendRepository;
 
     public String getSearchedFriendDetail() {
         return friendRepository.getSearchedFriendDetail();
+    }
+
+    public void addFriend() {
+        friendRepository.addNewFriend(() -> friendAddedFinished.setValue(true));
+    }
+
+    public LiveData<HashMap<String,String>> getAllReceivedRequests(){
+        return friendRepository.getAllReceivedRequests();
+    }
+
+
+    public HashMap<String, String> getALlFriends() {
+        return friendRepository.getCurrentFriendList();
     }
 }

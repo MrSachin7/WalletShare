@@ -12,11 +12,16 @@ public interface FriendRepository {
 
     LiveData<HashMap<String,String>> getFriendList();
 
-    void addNewFriend(String friendEmail, CallBack callBack);
+    void addNewFriend( CallBack callBack);
 
 
 
     String getSearchedFriendDetail();
 
     void findFriend(String email, CallBack callBack);
+
+
+    LiveData<HashMap<String,String>> getAllReceivedRequests();
+
+HashMap<String, String> getCurrentFriendList();
 }

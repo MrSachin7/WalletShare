@@ -12,23 +12,36 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sachin_himal.walletshare.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListGroup> {
 
 
 
     private Context context;
-    private ArrayList<String> userName;
+    private HashMap<String,String> friendList;
+
+    private Boolean isFriendRequest;
 
 
 
     public FriendListAdapter(Context context) {
         this.context = context;
-
+        isFriendRequest = false;
     }
 
-    public void setUserName(ArrayList<String> userName) {
-        this.userName = userName;
+    public void setFriendList(HashMap<String, String> friendList) {
+        if (friendList == null || friendList.size() <0){
+            return;
+        }
+        this.friendList = friendList;
+    }
+
+
+    public void setFriendRequest(Boolean friendRequest) {
+
+        isFriendRequest = friendRequest;
     }
 
     @NonNull
@@ -42,12 +55,13 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     @Override
     public void onBindViewHolder(@NonNull FriendListGroup holder, int position) {
-        holder.setDetails(userName.get(position));
+        System.out.println(friendList.get(position));
+        holder.setDetails(friendList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return userName.size();
+        return friendList.size();
     }
 
 
