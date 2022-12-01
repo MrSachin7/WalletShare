@@ -45,7 +45,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     private Group currentGroup;
 
-private DatabaseReference referenceForAddingFriend;
+    private DatabaseReference referenceForAddingFriend;
 
     MutableLiveData<List<GroupUser>> userDetail;
 
@@ -80,7 +80,7 @@ private DatabaseReference referenceForAddingFriend;
         memberDBReference = firebaseDatabase.getReference().child(USERS);
         currentUserID = uid;
 
-                searchAllGroup();
+        searchAllGroup();
 
     }
 
@@ -95,7 +95,6 @@ private DatabaseReference referenceForAddingFriend;
                 memberDBReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
                 newAddedReference.child("usersId").push().setValue(currentUserID);
                 newAddedReference.child("amount").child(currentUserID).push().setValue(0);
-                System.out.println("Sucesfully added the group " + keyFromRecentGroup);
                 callBack.callBack();
 
                 /**
@@ -120,7 +119,7 @@ private DatabaseReference referenceForAddingFriend;
     public void setCurrentGroup(Group group) {
         currentGroup = group;
 
-       getUserDataForGroupQuery();
+        getUserDataForGroupQuery();
 
     }
 
@@ -136,19 +135,19 @@ private DatabaseReference referenceForAddingFriend;
     @Override
     public void addNewFriend(String friendEmail) {
 
-        String key ="";
+        String key = "";
 
         System.out.println(friendEmail);
 
 
-    memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
+        memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 snapshot.getChildren().forEach(dataSnapshot -> {
-                  dataSnapshot.getKey();
+                    dataSnapshot.getKey();
 
 
-                        DatabaseReference     referenceForAddingFriend = dataSnapshot.getRef();
+                    DatabaseReference referenceForAddingFriend = dataSnapshot.getRef();
 
                 });
             }
@@ -160,22 +159,20 @@ private DatabaseReference referenceForAddingFriend;
         });
 
 
-     /**
-        memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull DataSnapshot snapshot) {
+        /**
+         memberDBReference.orderByChild("email").equalTo(friendEmail).addValueEventListener(new ValueEventListener() {
+        @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-         snapshot.getChildren().forEach(dataSnapshot -> {
+        snapshot.getChildren().forEach(dataSnapshot -> {
 
-             String snapshotKey = dataSnapshot.getKey();
-             groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(snapshotKey);
-             dataSnapshot.child("GroupList").getRef().push().setValue(currentGroup.getGroupId());
+        String snapshotKey = dataSnapshot.getKey();
+        groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(snapshotKey);
+        dataSnapshot.child("GroupList").getRef().push().setValue(currentGroup.getGroupId());
 
 
-              //   groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue();
+        //   groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue();
 
-         }   );
-
+        }   );
 
 
 
@@ -185,20 +182,20 @@ private DatabaseReference referenceForAddingFriend;
 
 
 
-         //snapshot.getRef().child("GroupList").push().setValue(currentGroup.getGroupId());
-         }
 
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
+        //snapshot.getRef().child("GroupList").push().setValue(currentGroup.getGroupId());
+        }
 
-         }
-     });
-      */
+        @Override public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+        });
+         */
 
     }
 
 
-    public void addNewFriendWithRef(){
+    public void addNewFriendWithRef() {
 
         System.out.println("in the refrence method");
         String snapshotKey = referenceForAddingFriend.getKey();
@@ -218,7 +215,6 @@ private DatabaseReference referenceForAddingFriend;
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
 
-
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     System.out.println(dataSnapshot.getValue().toString());
                     list.clear();
@@ -229,7 +225,7 @@ private DatabaseReference referenceForAddingFriend;
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            System.out.println("Trying to get groups" + snapshot.getKey());
+
                             String groupName = (String) snapshot.child("groupName").getValue();
 
                             final Double[] aDouble = {0.0};
@@ -268,7 +264,7 @@ private DatabaseReference referenceForAddingFriend;
 
         });
 
- allGroupForUser.setValue(list);
+        allGroupForUser.setValue(list);
 
     }
 
@@ -283,7 +279,7 @@ private DatabaseReference referenceForAddingFriend;
 
         if (currentGroup != null) {
 
-            System.out.println("current group is not null");
+
             groupDBReference.child(currentGroup.getGroupId()).addValueEventListener(new ValueEventListener() {
 
                 @Override
@@ -299,8 +295,8 @@ private DatabaseReference referenceForAddingFriend;
                         groupUser.setuId(userssnapshot.getValue().toString());
                         // amount for this user
                         for (DataSnapshot amountSnapshot : snapshot.child("amount").child(userssnapshot.getValue().toString()).getChildren()) {
-                            System.out.print(amountSnapshot.getValue());
-                            System.out.println("printed");
+
+
                             groupUser.setAmountDue(Double.valueOf(amountSnapshot.getValue().toString()));
                         }
 
@@ -335,9 +331,6 @@ private DatabaseReference referenceForAddingFriend;
         }
 
     }
-
-
-
 
 
 }

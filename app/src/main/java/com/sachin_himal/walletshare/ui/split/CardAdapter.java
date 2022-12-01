@@ -27,6 +27,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
+
     public  void onItemClickListener(OnItemClickListener listener){
         this.listener = listener;
     }
@@ -89,7 +90,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
                 public void onClick(View v) {
                     if (listener!=null){
                         int position = getAdapterPosition();
-                        System.out.println(position + "asddasdsd");
                         if (position!= RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
                         }

@@ -9,17 +9,15 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sachin_himal.walletshare.R;
-import com.sachin_himal.walletshare.entity.CallBack;
-
-import java.util.HashMap;
+import com.sachin_himal.walletshare.ui.MainActivity;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,16 +51,45 @@ AppCompatTextView friendName;
         friendViewModel.getFriendSearchedFinished().observe(getViewLifecycleOwner(),this::updateFriendName);
 
 
+        sendFriendRequest.setVisibility(View.INVISIBLE);
+        sendFriendRequest.setOnClickListener(this::addFriend);
+
+
+    }
+
+    private void errorObserver(String s) {
+                if (s==null || s.isEmpty()) return;
+
+        FancyToast.makeText(getContext(), s,FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+    }
+
+    private void succeessObserver(String s) {
+        if (s==null || s.isEmpty()) return;
+        FancyToast.makeText(getContext(), s,FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+        ((MainActivity)getActivity()).changeFragment(R.id.friendFragment);
+    }
+
+    private void addFriend(View view) {
+        friendViewModel.addFriend();
+        friendViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::succeessObserver);
+        friendViewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::errorObserver);
     }
 
 
     private void searchFriend(View view) {
-        friendViewModel.findFriendDetail("himal28924@gmail.com");
+        String friendEmail = emailId.getText().toString().trim();
+        friendViewModel.findFriendDetail(friendEmail);
     }
 
     private void updateFriendName(Boolean aBoolean) {
         if (aBoolean){
             friendName.setText(friendViewModel.getSearchedFriendDetail());
+            if (!friendName.getText().toString().trim().isEmpty()){
+                sendFriendRequest.setVisibility(View.VISIBLE);
+            }else {
+                sendFriendRequest.setVisibility(View.INVISIBLE);
+            }
+
         }
     }
 

@@ -22,15 +22,17 @@
         android:layout_margin="1dp"
         android:background="#D5B0E8D3"
         android:orientation="horizontal"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        >
 
         <TextView
 
 
             android:id="@+id/friendNameInList"
-            android:layout_width="wrap_content"
+          android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_weight="1"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/heletica_regular_family"
             android:padding="1dp"
@@ -38,7 +40,27 @@
 
             android:text="Member"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:ellipsize="start"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="end"
+            android:id="@+id/friendRequestList">
+            <TextView
+                android:id="@+id/acceptFriendRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  ACCEPT  "/>
+            <TextView
+                android:id="@+id/rejectFriendRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  REJECT  "/>
+        </LinearLayout>
+
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

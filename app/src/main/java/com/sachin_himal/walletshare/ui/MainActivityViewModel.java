@@ -10,18 +10,22 @@ import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 import com.sachin_himal.walletshare.repository.login.UserRepository;
 import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
+import com.sachin_himal.walletshare.repository.user.FriendRepository;
+import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
 
 public class MainActivityViewModel extends ViewModel {
 
     private final UserRepository userRepository;
     private final ExpenditureRepository expenditureRepository;
     private final GroupRepository groupRepository;
-
+private final FriendRepository friendRepository;
 
     public MainActivityViewModel(){
         groupRepository = GroupRepositoryImpl.getInstance();
         userRepository = UserRepositoryImpl.getInstance();
         expenditureRepository = ExpenditureRepositoryImpl.getInstance();
+        friendRepository = FriendRepositoryImpl.getInstance();
+
     }
 
 
@@ -39,6 +43,8 @@ public class MainActivityViewModel extends ViewModel {
 
         expenditureRepository.init(userId);
         groupRepository.initializeGroup(userId);
+        friendRepository.initializeFriend(userId);
+
 
     }
 }
