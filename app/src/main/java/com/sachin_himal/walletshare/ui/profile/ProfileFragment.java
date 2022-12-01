@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.R;
@@ -31,6 +32,7 @@ public class ProfileFragment extends Fragment {
     LinearLayoutCompat editProfileButton;
 
     UserViewModel viewModel;
+    LinearLayoutCompat friendLinearLayout;
 
 
     @Nullable
@@ -43,6 +45,9 @@ public class ProfileFragment extends Fragment {
 
         viewModel.searchForCurrentUser();
         viewModel.getLoggedInUser().observe(getViewLifecycleOwner(),this::updateUI);
+        friendLinearLayout.setOnClickListener(v -> {
+            Navigation.findNavController(view).navigate(R.id.friendFragment);
+        });
         editProfileButton.setOnClickListener(this::openEditProfileFragment);
 
         return view;
@@ -70,6 +75,7 @@ public class ProfileFragment extends Fragment {
         logOutButton = view.findViewById(R.id.log_out);
         profileName = view.findViewById(R.id.profile_name);
         profileEmail = view.findViewById(R.id.profile_email);
+        friendLinearLayout = view.findViewById(R.id.friendLinearLayout);
         editProfileButton = view.findViewById(R.id.edit_profile);
     }
 }
