@@ -76,7 +76,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayout_2"
+        android:id="@+id/friendLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_profile"
@@ -109,7 +109,7 @@
         android:id="@+id/linearLayout_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout_2"
+        android:layout_below="@+id/friendLinearLayout"
         android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
