@@ -4,14 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.sachin_himal.walletshare.R;
@@ -27,6 +30,7 @@ public class ProfileFragment extends Fragment {
     TextView profileName, profileEmail;
 
     UserViewModel viewModel;
+    LinearLayoutCompat friendLinearLayout;
 
 
     @Nullable
@@ -39,6 +43,9 @@ public class ProfileFragment extends Fragment {
 
         viewModel.searchForCurrentUser();
         viewModel.getLoggedInUser().observe(getViewLifecycleOwner(),this::updateUI);
+        friendLinearLayout.setOnClickListener(v -> {
+            Navigation.findNavController(view).navigate(R.id.friendFragment);
+        });
 
         return view;
     }
@@ -59,5 +66,6 @@ public class ProfileFragment extends Fragment {
         logOutButton = view.findViewById(R.id.log_out);
         profileName = view.findViewById(R.id.profile_name);
         profileEmail = view.findViewById(R.id.profile_email);
+        friendLinearLayout = view.findViewById(R.id.friendLinearLayout);
     }
 }
