@@ -28,7 +28,7 @@
         android:label="AllExpensesFragment" />
     <fragment
         android:id="@+id/groupList"
-        android:name="com.sachin_himal.walletshare.ui.split.GroupList"
+        android:name="com.sachin_himal.walletshare.ui.split.GroupListFragment"
         android:label="fragment_group_list"
         tools:layout="@layout/fragment_group_list" />
     <fragment
