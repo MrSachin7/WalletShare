@@ -10,6 +10,10 @@ public interface Database {
 
     String GROUPS = "Groups";
 
+    String SENTFRIENDREQUEST = "sentFriendRequest";
+    String RECEIVEDFRIENDREQUEST ="receivedFriendRequests";
+    String ALLFRIENDLIST = "friendList";
+
 
 
 }

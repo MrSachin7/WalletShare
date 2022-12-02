@@ -38,14 +38,10 @@ FriendRepository friendRepository;
         friendRepository.addNewFriend(() -> friendAddedFinished.setValue(true));
     }
 
-    public LiveData<HashMap<String,String>> getAllReceivedRequests(){
-        return friendRepository.getAllReceivedRequests();
-    }
 
 
-    public HashMap<String, String> getALlFriends() {
-        return friendRepository.getCurrentFriendList();
-    }
+
+
 
     public LiveData<String> getSuccessMessage() {
         return friendRepository.getSuccessMessage();
@@ -55,18 +51,24 @@ FriendRepository friendRepository;
         return friendRepository.getErrorMessage();
     }
 
-    public void getFriendName() {
-        friendRepository.getFriendName();
-    }
+
 
     public LiveData<List<User>> getAllReceievedFriendRequest() {
         return friendRepository.getAllReceivedFriendRequest();
-
-
     }
+
+
 
     public void searchForFriendRequest() {
 
         friendRepository.searchForFriendRequest();
+    }
+
+    public void initializeFriendKey() {
+        friendRepository.initializeFriend();
+    }
+
+    public void acceptFriendRequest(String uid) {
+        friendRepository.acceptFriendRequest(uid);
     }
 }

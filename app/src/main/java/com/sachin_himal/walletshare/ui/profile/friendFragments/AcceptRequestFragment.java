@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.User;
+import com.sachin_himal.walletshare.ui.MainActivity;
+import com.sachin_himal.walletshare.ui.split.CardAdapter;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,13 +30,11 @@ public class AcceptRequestFragment extends Fragment {
 
     RecyclerView recyclerView;
     FriendListAdapter friendListAdapter;
-    FriendViewModel friendViewModel;
+    FriendViewModel friendViewModel;List<User> users;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
 
         View view = inflater.inflate(R.layout.fragment_accept_request, container, false);
 
@@ -41,9 +42,6 @@ public class AcceptRequestFragment extends Fragment {
         friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
 
         friendViewModel.searchForFriendRequest();
-        //TODO : Does not work :
-
-//        friendViewModel.getAllReceivedRequests().observe(getViewLifecycleOwner(),this::friendListObserver);
 
         friendViewModel.getAllReceievedFriendRequest().observe(getViewLifecycleOwner(),this::friendRequestObserver);
         return view;
@@ -59,19 +57,39 @@ public class AcceptRequestFragment extends Fragment {
         friendListAdapter = new FriendListAdapter();
         recyclerView.setAdapter(friendListAdapter);
 
+        friendListAdapter.onItemClickListener(new CardAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(int position) {
+                addFriend(users.get(position));
+            }
+        });
 
 
 
+    }
 
+    private void addFriend(User user) {
+
+        friendViewModel.acceptFriendRequest(user.getUid());
+
+
+        friendViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::succeessObserver);
     }
 
     private void friendRequestObserver(List<User> users) {
 
         if (users !=null && !users.isEmpty()){
+            this.users = users;
             friendListAdapter.setAllReceivedFriendList(users);
         }
     }
 
+    private void succeessObserver(String s) {
+        if (s==null || s.isEmpty()) return;
+        FancyToast.makeText(getContext(), s,FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+        ((MainActivity)getActivity()).changeFragment(R.id.friendFragment);
+    }
 //    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
 //        if (stringStringHashMap != null) {
 //            friendListAdapter.setFriendList(stringStringHashMap);

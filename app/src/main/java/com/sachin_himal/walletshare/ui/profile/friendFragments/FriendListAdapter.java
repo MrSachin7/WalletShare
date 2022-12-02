@@ -6,30 +6,38 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.User;
+import com.sachin_himal.walletshare.ui.split.CardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
+// This Adapter is For friend Request adapter
+
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListGroup> {
 
 
     private List<User> allReceivedFriendList = new ArrayList<>();
 
+    public CardAdapter.OnItemClickListener listener;
+    //Constructor
 
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public  void onItemClickListener(CardAdapter.OnItemClickListener listener){
+        this.listener = listener;
+    }
     public FriendListAdapter() {
 
     }
-
-//    public void setFriendList(HashMap<String, String> friendList) {
-//        if (friendList == null || friendList.size() <0){
-//            return;
-//        }
-//        this.friendList = friendList;
-//    }
 
 
 
@@ -38,7 +46,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     public FriendListGroup onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list, parent, false);
 
-        return new FriendListGroup(view);
+        return new FriendListGroup(view,listener);
 
     }
 
@@ -68,15 +76,30 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     public class FriendListGroup extends RecyclerView.ViewHolder {
         TextView friendNameTextView;
+        AppCompatButton accept,reject;
 
-        public FriendListGroup(@NonNull View itemView) {
+        public FriendListGroup(@NonNull View itemView, CardAdapter.OnItemClickListener listener) {
             super(itemView);
             friendNameTextView = itemView.findViewById(R.id.friendNameInList);
+            accept = itemView.findViewById(R.id.acceptFriendRequest);
+            reject = itemView.findViewById(R.id.rejectFriendRequest);
+
+            accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position!= RecyclerView.NO_POSITION){
+                        listener.onItemClick(position);
+                    }
+                }
+            });
 
         }
 
         public void setDetails(User user) {
-            friendNameTextView.setText(user.getFirstName() + " " + user.getLastName());
+            friendNameTextView.setText(user.retrieveFullName());
         }
+
+
     }
 }
