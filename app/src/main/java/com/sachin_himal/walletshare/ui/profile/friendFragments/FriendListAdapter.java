@@ -26,6 +26,10 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     private List<User> allReceivedFriendList = new ArrayList<>();
 
     public CardAdapter.OnItemClickListener listener;
+
+
+
+
     //Constructor
 
     public interface OnItemClickListener{
@@ -52,7 +56,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     @Override
     public void onBindViewHolder(@NonNull FriendListGroup holder, int position) {
-        holder.setDetails(allReceivedFriendList.get(position));
+   holder.setDetails(allReceivedFriendList.get(position));
+
     }
 
     @Override
@@ -62,11 +67,6 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     public void setAllReceivedFriendList(List<User> users) {
         allReceivedFriendList.clear();
-        System.out.println("ALl users \n\n\n");
-        users.forEach(System.out::println);
-
-        System.out.println("ALl users \n\n\n");
-
         allReceivedFriendList.addAll(users);
         notifyDataSetChanged();
 

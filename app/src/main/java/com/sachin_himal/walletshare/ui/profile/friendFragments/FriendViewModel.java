@@ -8,7 +8,6 @@ import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.repository.user.FriendRepository;
 import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class FriendViewModel extends ViewModel {
@@ -70,5 +69,13 @@ FriendRepository friendRepository;
 
     public void acceptFriendRequest(String uid) {
         friendRepository.acceptFriendRequest(uid);
+    }
+
+    public void searchForALlFriends() {
+        friendRepository.searchForALlFriends();
+    }
+
+    public LiveData<List<User>> getALlFriendList() {
+        return friendRepository.getAllFriendListData();
     }
 }

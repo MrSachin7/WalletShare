@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.User;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface FriendRepository {
@@ -28,4 +27,8 @@ public interface FriendRepository {
     void searchForFriendRequest();
 
     void acceptFriendRequest(String uid);
+
+    void searchForALlFriends();
+
+    LiveData<List<User>> getAllFriendListData();
 }
