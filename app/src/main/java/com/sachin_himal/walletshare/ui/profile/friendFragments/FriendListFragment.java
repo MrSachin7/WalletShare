@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sachin_himal.walletshare.R;
+import com.sachin_himal.walletshare.ui.split.CardAdapter;
 
 import java.util.HashMap;
 
@@ -43,14 +45,13 @@ public class FriendListFragment extends Fragment {
         friendListAdapter = new FriendListAdapter();
         recyclerView.setAdapter(friendListAdapter);
         friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
-        HashMap<String,String> a = friendViewModel.getALlFriends();
-//        friendListObserver(a);
-        friendViewModel.getFriendName();
+        friendViewModel.initializeFriendKey();
+
+
+
+
     }
 
-//    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
-//        friendListAdapter.setFriendList(stringStringHashMap);
-//    }
 
 
 }
