@@ -97,7 +97,7 @@ public class FriendRepositoryImpl implements FriendRepository {
         currentUID = uid;
         currentUserDBReference = firebaseDatabase.getReference().child(USERS).child(uid);
         usersDBReference = firebaseDatabase.getReference().child(USERS);
-
+        searchForALlFriends ();
 
     }
 
@@ -260,7 +260,10 @@ public class FriendRepositoryImpl implements FriendRepository {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         usersDBReference.child(uid).child(ALLFRIENDLIST).push().setValue(currentUID);
+                                                        successMessage.setValue("Successfully  Added");
+
                                                     }
+
                                                 }
                                             });
                                         }
@@ -288,7 +291,6 @@ public class FriendRepositoryImpl implements FriendRepository {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            successMessage.setValue("Successfully  Added");
                                         }
                                     }
                                 });
@@ -430,9 +432,11 @@ public class FriendRepositoryImpl implements FriendRepository {
                         if (type == 1) {
                             listOfCurrentFriend.add(user);
                             allFriendRequests.setValue(listOfCurrentFriend);
+                            System.out.println(listOfCurrentFriend.size());
                         } else if (type == 2) {
                             listOfCurrentFriend.add(user);
                             allCurrentFriend.setValue(listOfCurrentFriend);
+                            System.out.println(listOfCurrentFriend.size());
                         }
                     }
                 }

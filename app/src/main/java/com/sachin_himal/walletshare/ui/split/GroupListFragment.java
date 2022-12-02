@@ -67,6 +67,8 @@ public class GroupListFragment extends Fragment {
 
             }
         });
+        groupListViewModel.searchAllGroup();
+
         return view;
     }
 
@@ -82,6 +84,7 @@ public class GroupListFragment extends Fragment {
         if (aBoolean){
             FancyToast.makeText(getContext(),"New Group added successfully ", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
             editTextGroupName.setText("");
+            groupListViewModel.searchAllGroup();
 
         }
 
@@ -94,7 +97,7 @@ public class GroupListFragment extends Fragment {
         String groupName = editTextGroupName.getText().toString().trim();
 
         if (groupName.equals("")) {
-            FancyToast.makeText(getContext(),"Amount must be entered", FancyToast.LENGTH_SHORT,FancyToast.WARNING, true).show();
+            FancyToast.makeText(getContext(),"Name must be entered", FancyToast.LENGTH_SHORT,FancyToast.WARNING, true).show();
         }else {
             groupListViewModel.addNewGroup(groupName);
         }}

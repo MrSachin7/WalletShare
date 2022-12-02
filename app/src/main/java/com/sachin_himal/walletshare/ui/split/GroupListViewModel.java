@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.sachin_himal.walletshare.entity.Group;
 import com.sachin_himal.walletshare.entity.GroupUser;
+import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 
@@ -53,8 +54,21 @@ public class GroupListViewModel extends ViewModel {
         return groupRepository;
     }
 
-    public void addNewFriend(String friendEmail) {
-        groupRepository.addNewFriend(friendEmail);
+    public void addNewFriend(String fId) {
+        groupRepository.addNewFriend(fId);
 
+    }
+
+    public void searchAllGroup() {
+        groupRepository.searchAllGroup();
+    }
+
+    public LiveData<List<User>> getUserThatCanBeAdded() {
+        return groupRepository.getCanBeAddedUser();
+    }
+
+
+    public LiveData<String> getSuccessMessage(){
+        return groupRepository.getSuccessMessage();
     }
 }

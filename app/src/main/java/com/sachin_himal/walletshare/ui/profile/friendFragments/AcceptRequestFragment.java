@@ -75,6 +75,7 @@ public class AcceptRequestFragment extends Fragment {
 
 
         friendViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::succeessObserver);
+
     }
 
     private void friendRequestObserver(List<User> users) {
@@ -89,6 +90,8 @@ public class AcceptRequestFragment extends Fragment {
         if (s==null || s.isEmpty()) return;
         FancyToast.makeText(getContext(), s,FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
         ((MainActivity)getActivity()).changeFragment(R.id.friendFragment);
+        friendViewModel.searchForFriendRequest();
+
     }
 //    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
 //        if (stringStringHashMap != null) {

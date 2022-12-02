@@ -3,7 +3,16 @@ package com.sachin_himal.walletshare.entity;
 public class GroupUser {
     private String uId;
     private Double amountDue;
-    private String email;
+    private String firstName;
+    private String lastName;
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public GroupUser() {
     }
@@ -16,12 +25,12 @@ public class GroupUser {
         this.amountDue = amountDue;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getuId() {
@@ -31,4 +40,9 @@ public class GroupUser {
     public void setuId(String uId) {
         this.uId = uId;
     }
+
+    public String retrieveFullName() {
+        return firstName + " " + lastName;
+    }
+
 }
