@@ -43,7 +43,6 @@ public class FriendRepositoryImpl implements FriendRepository {
     private DatabaseReference currentUserDBReference;
     private DatabaseReference usersDBReference;
 
-    private MutableLiveData<HashMap<String, String>> userFriends;
     private String currentUID;
 
     private String currentFriendKeyData;
@@ -61,9 +60,6 @@ public class FriendRepositoryImpl implements FriendRepository {
 
     public FriendRepositoryImpl() {
         firebaseDatabase = FirebaseDatabase.getInstance(DB_ADDRESS);
-
-        userFriends = new MutableLiveData<>();
-        userFriends.setValue(new HashMap<>());
 
 
         //All Friend  keys
@@ -245,13 +241,12 @@ public class FriendRepositoryImpl implements FriendRepository {
 
     @Override
     public void acceptFriendRequest(String uid) {
-        successMessage.setValue(null);
+
         errorMessage.setValue(null);
         currentUserDBReference.child(ALLFRIENDLIST).push().setValue(uid).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                System.out.println(uid);
-
+                successMessage.setValue(null);
                 if (task.isSuccessful()) {
 
                     usersDBReference.child(uid).child(SENTFRIENDREQUEST).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -310,7 +305,7 @@ public class FriendRepositoryImpl implements FriendRepository {
         retrieveAllFriendRequests();
     }
 
-        /**  void getFriendsName() {
+    /**  void getFriendsName() {
          HashMap<String, String> names = new HashMap<>();
          List<String> key = allCurrentFriendKey.getValue();
          for (int i = 0; i < key.size(); i++) {
@@ -382,13 +377,14 @@ public class FriendRepositoryImpl implements FriendRepository {
         }
 
 
-        public void retrieveAllFriendList () {
+        @Override
+        public void searchForALlFriends () {
 
             ExecutorService executorService = Executors.newFixedThreadPool(2);
             Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
             executorService.execute(() -> {
-                currentUserDBReference.child("friendList").addValueEventListener(new ValueEventListener() {
+                currentUserDBReference.child(ALLFRIENDLIST).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Iterable<DataSnapshot> children = snapshot.getChildren();
@@ -400,7 +396,6 @@ public class FriendRepositoryImpl implements FriendRepository {
                                 convertAndAdd(uId, userArrayList, 2);
                             });
                         }
-
                     }
 
                     @Override
@@ -409,10 +404,18 @@ public class FriendRepositoryImpl implements FriendRepository {
                     }
                 });
             });
-
         }
 
-        private void convertAndAdd (String uId, List < User > listOfCurrentFriend,int type){
+
+
+    @Override
+    public LiveData<List<User>> getAllFriendListData() {
+        return allCurrentFriend;
+    }
+
+    private void convertAndAdd (String uId, List < User > listOfCurrentFriend,int type){
+            successMessage.setValue(null);
+            errorMessage.setValue(null);
             //Set int type as 1 If you want request , 2 if you want all friend list
             User user = new User();
             usersDBReference.child(uId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
