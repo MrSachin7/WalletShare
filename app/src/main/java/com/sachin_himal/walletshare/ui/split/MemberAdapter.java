@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
-import com.sachin_himal.walletshare.entity.Group;
 import com.sachin_himal.walletshare.entity.GroupUser;
 
 import java.util.ArrayList;
@@ -31,7 +30,8 @@ public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberLis
     }
 
     public void setGroupUserList(List<GroupUser> groupUserList) {
-        this.groupUserList = groupUserList;
+         this.groupUserList = groupUserList;
+        notifyDataSetChanged();
     }
 
     /**
@@ -95,9 +95,8 @@ public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberLis
 
 
         public void setDetails(GroupUser groupUser) {
-            System.out.println(groupUser.toString() + "whyyyy");
-            memberName.setText(groupUser.getEmail());
-            memberAmount.setText(groupUser.getAmountDue().toString());
+            memberName.setText(groupUser.getFirstName());
+            if (groupUser.getAmountDue()!=null)memberAmount.setText(groupUser.getAmountDue().toString());
         }
     }
 }

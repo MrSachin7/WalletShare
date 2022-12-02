@@ -2,6 +2,8 @@ package com.sachin_himal.walletshare.ui.split;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
@@ -49,11 +51,15 @@ private Group group;
 
      memberButton.setOnClickListener(v -> {
          Navigation.findNavController(v).navigate(R.id.groupMemberFragment);
-
      });
 
 
      return  view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private Group setCurrentGroup() {

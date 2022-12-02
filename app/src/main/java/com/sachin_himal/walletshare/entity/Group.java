@@ -10,10 +10,10 @@ public class Group {
 
     private String groupName;
     private List<String> usersIds;
-    private double amount;
+    private Double amount;
     private String groupId;
-    private List<HashMap<String,Integer>> userDue ;
     private List<GroupUser> groupUsers;
+
 
     public List<GroupUser> getGroupUsers() {
         return groupUsers;
@@ -27,14 +27,8 @@ public class Group {
     }
 
 
-    public List<HashMap<String, Integer>> getUserDue() {
-        return userDue;
-    }
 
-    public void setUserDue(List<HashMap<String, Integer>> userDue) {
 
-        this.userDue = userDue;
-    }
 
     public Group(String groupName) {
         this.groupName = groupName;
@@ -71,11 +65,11 @@ public class Group {
 
 
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
