@@ -15,25 +15,25 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/groupTextViewLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="horizontal"
-                android:id="@+id/groupTextViewLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/particularGroupName"
                     android:layout_width="0dp"
-                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:background="#97DAFFF3"
                     android:fontFamily="@font/helvetica_regular"
                     android:gravity="center"
-                    android:layout_weight="1"
                     android:text="GroupName"
                     android:textColor="@color/palette_black"
                     android:textSize="25sp"
@@ -43,9 +43,9 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/memberList"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:background="@color/palette_light_blue"
                     android:fontFamily="@font/helvetica_regular_family"
                     android:text="See all members"
@@ -57,14 +57,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/textViewFromAddingGroupExpense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/groupTextViewLayout"
                 app:layout_constraintBottom_toTopOf="@id/groupMemberExpenseAdderRecyclerView"
-                android:id="@+id/textViewFromAddingGroupExpense">
+                app:layout_constraintTop_toBottomOf="@id/groupTextViewLayout">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -89,7 +89,6 @@
                     android:hint="0 kr"
                     android:inputType="numberDecimal"
                     android:textColor="@color/palette_black"
-                    android:textColorHint="@color/palette_black"
                     android:textSize="30sp" />
             </LinearLayout>
 
@@ -108,12 +107,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/saveBtnGroupExpense"
                 app:layout_constraintTop_toBottomOf="@id/hr"
-   />
+                app:layout_constraintVertical_bias="0.0" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/split_equally"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/palette_light_blue"
+                android:text="Split equally"
+                app:layout_constraintBottom_toTopOf="@+id/saveBtnGroupExpense"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/groupMemberExpenseAdderRecyclerView" />
+
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/saveBtnGroupExpense"
                 android:layout_width="match_parent"
@@ -123,10 +136,17 @@
                 android:fontFamily="@font/helvetica_regular_family"
                 android:text="Save Expense"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.73" />
 
 
-
-                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
