@@ -27,24 +27,15 @@ We frequently go out to dine, and some people pay the bill that must be split be
 - [ ] Join a group using the group code so i can join a group.
 - [ ] Generate a QR code for the group.
 - [ ] Scan a QR Code to join the group so its easier to join a group.
- 
 
-```java
-// Deadline --> December 4, 2022 :: 23:59.
-LocalDate deadLineDay = LocalDate.of(2022, 12, 04);
-LocalTime deadLineTime = LocalTime.of(23, 59);
-LocalDateTime deadLineDateTime = LocalDateTime.of(deadLineDay, deadLineTime);
+---
 
-boolean isDeadline = deadLineDateTime.isBefore(LocalDateTime.now());
-        
-while(!isDeadline){
-    wakeUp();
-    breakFast();
-    code();
-    lunch();
-    code();
-    dinner();
-    code();
-    sleep();
-    Thread.sleep(8*60*60*1000); //Sleeping for 8h is important 
-}
+Sources :
+
+   The following sources were used for different components used in the app. They can be accessed by
+   adding the corresponding lines to the 'build.gradle' file and we do not own any of those codes.
+* Fancy Toast : implementation 'io.github.shashank02051997:FancyToast:2.0.2'
+* Charts : implementation 'com.github.Philjay:mpandroidchart:3.1.0'
+* Circle image view : implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+           
