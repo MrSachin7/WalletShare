@@ -273,6 +273,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     //
 
     public void getUserDataForGroupQuery() {
+        userDetail.setValue(new ArrayList<>());
         List<GroupUser> groupUserList = new ArrayList<>();
         List<String> uids = new ArrayList<>();
         System.out.println(currentGroup.getGroupId());
@@ -422,6 +423,7 @@ public class GroupRepositoryImpl implements GroupRepository {
  **/
         }
         userDetail.setValue(new ArrayList<>());
+        getUserDataForGroupQuery();
     }
 
 
