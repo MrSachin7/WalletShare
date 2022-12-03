@@ -46,6 +46,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference memberDBReference;
     private DatabaseReference currentUserDBReference;
+    private DatabaseReference currentGroupDBReference;
 
     private MutableLiveData<List<Group>> allGroupForUser;
     private MutableLiveData<String> error;
@@ -57,9 +58,9 @@ public class GroupRepositoryImpl implements GroupRepository {
     private DatabaseReference referenceForAddingFriend;
 
     MutableLiveData<List<GroupUser>> userDetail;
-MutableLiveData<List<User>> canBeAddedToGroup;
-FriendRepository friendRepository ;
-MutableLiveData<String> successMessage;
+    MutableLiveData<List<User>> canBeAddedToGroup;
+    FriendRepository friendRepository;
+    MutableLiveData<String> successMessage;
 
     private GroupRepositoryImpl() {
         firebaseDatabase = FirebaseDatabase.getInstance(DB_ADDRESS);
@@ -70,8 +71,8 @@ MutableLiveData<String> successMessage;
         userDetail = new MutableLiveData<>();
         userDetail.postValue(new ArrayList<>());
         canBeAddedToGroup = new MutableLiveData<>();
-this.friendRepository = FriendRepositoryImpl.getInstance();
-successMessage = new MutableLiveData<>();
+        this.friendRepository = FriendRepositoryImpl.getInstance();
+        successMessage = new MutableLiveData<>();
     }
 
     public static GroupRepository getInstance() {
@@ -92,7 +93,6 @@ successMessage = new MutableLiveData<>();
         memberDBReference = firebaseDatabase.getReference().child(USERS);
 
 
-
         currentUserDBReference = firebaseDatabase.getReference().child(USERS).child(currentUserID);
         searchAllGroup();
 
@@ -108,7 +108,8 @@ successMessage = new MutableLiveData<>();
             if (task.isSuccessful()) {
                 memberDBReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
                 newAddedReference.child("usersId").push().setValue(currentUserID);
-                newAddedReference.child("amount").child(currentUserID).push().setValue(0.0);
+                newAddedReference.child("amount").child(currentUserID).getRef().push().setValue(0.00);
+               // newAddedReference.child("amount").child(currentUserID).push().setValue(0.0);
                 callBack.callBack();
 
                 /**
@@ -132,6 +133,7 @@ successMessage = new MutableLiveData<>();
     @Override
     public void setCurrentGroup(Group group) {
         currentGroup = group;
+        currentGroupDBReference = groupDBReference.child(group.getGroupId()).getRef();
 
         getUserDataForGroupQuery();
         friendRepository.searchForALlFriends();
@@ -155,32 +157,22 @@ successMessage = new MutableLiveData<>();
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                if (task.isSuccessful()){
-                groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).push().setValue(0.00);
-                memberDBReference.child(fId).child("GroupList").push().setValue(currentGroup.getGroupId()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            successMessage.setValue("Friend Is Successfully Added");
+                if (task.isSuccessful()) {
+                    groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).getRef().push().setValue(0.00);
+                    memberDBReference.child(fId).child("GroupList").push().setValue(currentGroup.getGroupId()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                successMessage.setValue("Friend Is Successfully Added");
+                            }
                         }
-                    }
-                });
-            }}
+                    });
+                }
+            }
 
         });
 
 
-    }
-
-
-
-
-    public void addNewFriendWithRef() {
-
-        System.out.println("in the refrence method");
-        String snapshotKey = referenceForAddingFriend.getKey();
-        groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(snapshotKey);
-        groupDBReference.child("GroupList").getRef().push().setValue(currentGroup.getGroupId());
     }
 
 
@@ -215,39 +207,28 @@ successMessage = new MutableLiveData<>();
     private void convertAndAdd(String groupId, List<Group> allGroup) {
 
 
-Group group = new Group();
+        Group group = new Group();
 
-                groupDBReference.child(groupId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                if (task.isSuccessful()){
-                                    DataSnapshot dataSnapshot = task.getResult();
-                                    group.setGroupId(dataSnapshot.getKey());
-                                    group.setGroupName(dataSnapshot.child("groupName").getValue(String.class));
-                                        task.getResult().getRef().child("amount").child(currentUserID).addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                               snapshot.getChildren().forEach(dataSnapshot1 -> group.setAmount(dataSnapshot1.getValue(Double.class)) );
-                                            }
+        groupDBReference.child(groupId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    group.setGroupId(dataSnapshot.getKey());
+                    group.setGroupName(dataSnapshot.child("groupName").getValue(String.class));
+                  group.setAmount(dataSnapshot.child("amount").child(currentUserID).getValue(Double.class));
+                    //  group.setusersIdManual(dataSnapshot.child("usersId").getValue(List<User>.class));
+                    // System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue(Double.class));
+                    allGroup.add(group);
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
+                }
 
-                                            }
-                                        });
+            }
 
-                                    //  group.setusersIdManual(dataSnapshot.child("usersId").getValue(List<User>.class));
-                                   // System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue(Double.class));
-                                    group.setAmount(1.0);
-                                    allGroup.add(group);
 
-                            }
-
+        });
+        allGroupForUser.setValue(allGroup);
     }
-
-
-    });
-    allGroupForUser.setValue(allGroup);}
 
 
     //////
@@ -271,16 +252,18 @@ Group group = new Group();
                     for (DataSnapshot userssnapshot : snapshot.child("usersId").getChildren()) {
 
                         //user id:
-                        System.out.println(userssnapshot.getValue());
                         GroupUser groupUser = new GroupUser();
 
+
+
+                            /**
                         // amount for this user
                         for (DataSnapshot amountSnapshot : snapshot.child("amount").child(userssnapshot.getValue().toString()).getChildren()) {
 
 
                             groupUser.setAmountDue(Double.valueOf(amountSnapshot.getValue().toString()));
                         }
-
+**/
 
                         memberDBReference.child(userssnapshot.getValue().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
@@ -291,11 +274,14 @@ Group group = new Group();
                                     groupUser.setLastName(dataSnapshot.child("lastName").getValue(String.class));
                                     groupUser.setuId(dataSnapshot.getKey());
                                     String a = dataSnapshot.getKey();
+                                    groupUser.setAmountDue((snapshot.child("amount").child(a).getValue(Double.class)));
+                                    System.out.println(userssnapshot.child(groupUser.getuId()).getValue(String.class));
 
-                                        groupUserList.add(groupUser);
-                                        uids.add(a);
-                                        userDetail.setValue(groupUserList);
-                                        currentGroup.setusersIdManual(uids);
+
+                                    groupUserList.add(groupUser);
+                                    uids.add(a);
+                                    userDetail.setValue(groupUserList);
+                                    currentGroup.setusersIdManual(uids);
                                     checkForFriendthatCanbeAdded(userDetail.getValue());
 
                                 }
@@ -315,12 +301,12 @@ Group group = new Group();
 
     private void checkForFriendthatCanbeAdded(List<GroupUser> groupUserList) {
         canBeAddedToGroup.setValue(new ArrayList<>());
-        List<User> allCurrent=friendRepository.getAllFriendListData().getValue();
+        List<User> allCurrent = friendRepository.getAllFriendListData().getValue();
         List<User> canBeAdded = new ArrayList<>();
-        for (int i = 0;i<allCurrent.size();i++){
-           if (!currentGroup.getUsersId().contains(allCurrent.get(i).getUid())){
-               canBeAdded.add(allCurrent.get(i));
-           }
+        for (int i = 0; i < allCurrent.size(); i++) {
+            if (!currentGroup.getUsersId().contains(allCurrent.get(i).getUid())) {
+                canBeAdded.add(allCurrent.get(i));
+            }
         }
         canBeAddedToGroup.setValue(canBeAdded);
 
@@ -333,4 +319,37 @@ Group group = new Group();
     public MutableLiveData<String> getSuccessMessage() {
         return successMessage;
     }
+
+
+    /*** Adding expenses oF the group
+     *
+     *
+     * 1st . add expense of the current user and deduct it from his current balance
+     *
+     * 2nd loop for all group user and add balance
+     *
+     *
+     */
+
+
+    public void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList) {
+        List<GroupUser> groupUser = updatedList;
+        for (int i = 0; i < groupUser.size(); i++) {
+            GroupUser tempGroup = groupUser.get(i);
+            currentGroupDBReference.child("amount").child(tempGroup.getuId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+                    snapshot.getRef().setValue(tempGroup.getAmountDue());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+
 }

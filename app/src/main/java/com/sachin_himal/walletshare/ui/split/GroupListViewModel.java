@@ -1,6 +1,5 @@
 package com.sachin_himal.walletshare.ui.split;
 
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -70,5 +69,9 @@ public class GroupListViewModel extends ViewModel {
 
     public LiveData<String> getSuccessMessage(){
         return groupRepository.getSuccessMessage();
+    }
+
+    public void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList) {
+        groupRepository.addNewExpensesToGroup(totalMoney,updatedList);
     }
 }
