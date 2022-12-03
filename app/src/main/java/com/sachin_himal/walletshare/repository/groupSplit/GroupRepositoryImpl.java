@@ -13,6 +13,7 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.core.os.HandlerCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -377,6 +378,7 @@ public class GroupRepositoryImpl implements GroupRepository {
                 updatingCurrentBalance = updatingCurrentBalance - totalMoney;
                 firebaseDatabase.getReference().child(EXPENSES).child(tempGroup.getuId()).child(BALANCE).child("balance").setValue(updatingCurrentBalance);
             }
+
             ;
             /**
              Expenditure expenditure = new Expenditure();
