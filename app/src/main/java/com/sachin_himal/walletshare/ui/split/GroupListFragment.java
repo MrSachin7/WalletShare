@@ -33,31 +33,22 @@ public class GroupListFragment extends Fragment {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
        View view  =  inflater.inflate(R.layout.fragment_group_list, container, false);
-        InitializeCardView(view);
+        initializeCardView(view);
+
         groupListViewModel = new ViewModelProvider(this).get(GroupListViewModel.class);
+        groupListViewModel.searchAllGroup();
+
         saveGroupButton.setOnClickListener(this::saveGroupPressed);
+
         groupListViewModel.groupisDone().observe(getViewLifecycleOwner(), this::groupDone);
         groupListViewModel.getAllGroupForUser().observe(getViewLifecycleOwner(), this::groupListObserver);
 
-        cardAdapter.setItemClickListener(this::groupClicked);
-        groupListViewModel.searchAllGroup();
 
         return view;
     }
@@ -101,13 +92,15 @@ public class GroupListFragment extends Fragment {
         }}
 
 
-    private void InitializeCardView(View view) {
+    private void initializeCardView(View view) {
         recyclerView = view.findViewById(R.id.recyclerViewsCards);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         groupArrayList = new ArrayList<>();
-        cardAdapter=new CardAdapter(getActivity());
+        cardAdapter=new CardAdapter();
 
         recyclerView.setAdapter(cardAdapter);
+        cardAdapter.setItemClickListener(this::groupClicked);
+
         editTextGroupName= view.findViewById(R.id.group_Name);
         saveGroupButton= view.findViewById(R.id.saveGroupNameBtn);
 

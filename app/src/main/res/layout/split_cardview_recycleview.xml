@@ -13,8 +13,6 @@
         android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
         android:background="@color/palette_cyan"
-        android:clickable="true"
-        android:focusable="true"
         app:cardCornerRadius="12dp"
         app:strokeColor="@color/palette_black"
         android:elevation="10dp"
@@ -41,11 +39,9 @@
                     android:background="#8fcf7c">
 
                     <TextView
-
                         android:id="@+id/groupNameForCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:fontFamily="@font/helvetica_bold_family"
                         android:gravity="center"
                         android:paddingTop="30dp"
