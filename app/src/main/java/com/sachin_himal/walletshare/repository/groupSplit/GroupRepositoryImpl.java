@@ -115,9 +115,9 @@ public class GroupRepositoryImpl implements GroupRepository {
             if (task.isSuccessful()) {
                 memberDBReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
                 newAddedReference.child("usersId").push().setValue(currentUserID);
-                newAddedReference.child("amount").child(currentUserID).getRef().push().setValue(0.00);
+             //   newAddedReference.child("amount").child(currentUserID).getRef().push().setValue(0.00);
 
-                newAddedReference.child("amount").child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                newAddedReference.child("amount").child(currentUserID).setValue(0.00);  /**addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //     snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
@@ -129,6 +129,7 @@ public class GroupRepositoryImpl implements GroupRepository {
 
                     }
                 });
+                 **/
 
                 // newAddedReference.child("amount").child(currentUserID).push().setValue(0.0);
                 callBack.callBack();
@@ -393,20 +394,14 @@ public class GroupRepositoryImpl implements GroupRepository {
 
 
 
-
-
-
-
-
-
-
             currentGroupDBReference.child("amount").child(tempGroup.getuId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     //snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
 
-                    snapshot.getRef().setValue(tempGroup.getAmountDue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    Double sendingBalance = tempGroup.getAmountDue();
+                    snapshot.getRef().setValue(sendingBalance).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
