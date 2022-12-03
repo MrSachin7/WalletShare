@@ -1,6 +1,7 @@
 package com.sachin_himal.walletshare.repository.user;
 
 import static com.sachin_himal.walletshare.repository.Database.DB_ADDRESS;
+import static com.sachin_himal.walletshare.repository.Database.SENT_FRIEND_REQUEST;
 import static com.sachin_himal.walletshare.repository.Database.USERS;
 
 import android.os.Handler;
@@ -108,42 +109,6 @@ public class FriendRepositoryImpl implements FriendRepository {
     }
 
 
-    private void getSentFriendRequestKey() {
-        List<String> key = new ArrayList<>();
-        currentUserDBReference.child("sentFriendRequest").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                snapshot.getChildren().forEach(dataSnapshot -> key.add(dataSnapshot.getValue().toString()));
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        allFriendRequestSentKey.setValue(key);
-    }
-
-    private void getCurrentFriendListKey() {
-        List<String> key = new ArrayList<>();
-        currentUserDBReference.child("friendList").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                System.out.println(snapshot.getValue());
-                snapshot.getChildren().forEach(dataSnapshot -> key.add(dataSnapshot.getValue().toString()));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        allCurrentFriendKey.setValue(key);
-        getFriendsName();
-    }
 
 
 //    private void getReceivedRequestedFriendKey() {
@@ -178,26 +143,23 @@ public class FriendRepositoryImpl implements FriendRepository {
 
         successMessage.setValue(null);
         errorMessage.setValue(null);
-        if (currentFriendKeyData != null && !(currentFriendKeyData.isEmpty()) && !(allFriendRequestSentKey.getValue().contains(currentFriendKeyData)) && !(allCurrentFriendKey.getValue().contains(currentFriendKeyData)) && !(allReceivedFriendRequestKey.getValue().contains(currentFriendKeyData))) {
 
-            currentUserDBReference.child("sentFriendRequest").push().setValue(currentFriendKeyData).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
 
-                    if (task.isSuccessful()) {
-                        usersDBReference.child(currentFriendKeyData).child("receivedFriendRequests").push().setValue(currentUID);
-                        successMessage.setValue("Friend request has been send");
-                    } else {
-                        errorMessage.setValue("Something wen wrong");
-                    }
+        currentUserDBReference.child(SENT_FRIEND_REQUEST).push().setValue(currentFriendKeyData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
 
+                if (task.isSuccessful()) {
+                    usersDBReference.child(currentFriendKeyData).child("receivedFriendRequests").push().setValue(currentUID);
+                    successMessage.setValue("Friend request has been send");
+                } else {
+                    errorMessage.setValue("Something wen wrong");
                 }
-            });
-        } else {
-            errorMessage.setValue("Selected account is either already a friend or there is a pending request");
-        }
 
+            }
+        });
     }
+
 
     ;
 

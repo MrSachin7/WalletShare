@@ -36,14 +36,7 @@
         android:name="com.sachin_himal.walletshare.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
-    <fragment
-        android:id="@+id/filterChartFragment"
-        android:name="com.sachin_himal.walletshare.ui.filter_chart.FilterChartFragment"
-        android:label="FilterChartFragment" />
-    <fragment
-        android:id="@+id/editProfileFragment"
-        android:name="com.sachin_himal.walletshare.ui.edit_profile.EditProfileFragment"
-        android:label="EditProfileFragment" />
+
     <fragment
         android:id="@+id/particularGroupFragment"
         android:name="com.sachin_himal.walletshare.ui.split.ParticularGroupFragment"
@@ -61,6 +54,7 @@
         android:label="fragment_friend"
         tools:layout="@layout/fragment_friend" />
 
+    <fragment
         android:id="@+id/filterChartFragment"
         android:name="com.sachin_himal.walletshare.ui.filter_chart.FilterChartFragment"
         android:label="FilterChartFragment" />

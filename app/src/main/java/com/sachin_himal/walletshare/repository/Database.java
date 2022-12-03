@@ -7,8 +7,12 @@ public interface Database {
     String BALANCE = "Balance";
     String USERS = "Users";
     String EXPENSES = "Expenses";
-
     String GROUPS = "Groups";
+
+
+    String SENT_FRIEND_REQUEST = "sentFriendRequest";
+
+    String RECEIVED_FRIEND_REQUESTS = "receivedFriendRequests";
 
 
 

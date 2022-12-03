@@ -52,12 +52,12 @@
                 android:id="@+id/acceptFriendRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  ACCEPT  "/>
+                android:text="ACCEPT"/>
             <TextView
                 android:id="@+id/rejectFriendRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  REJECT  "/>
+                android:text="REJECT"/>
         </LinearLayout>
 
 
