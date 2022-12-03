@@ -28,4 +28,6 @@ public interface GroupRepository {
     LiveData<String> getSuccessMessage();
 
     void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList);
+
+
 }

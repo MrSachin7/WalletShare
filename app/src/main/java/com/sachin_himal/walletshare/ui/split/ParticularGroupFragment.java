@@ -24,21 +24,21 @@ import com.sachin_himal.walletshare.entity.GroupUser;
 import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
+import com.sachin_himal.walletshare.ui.MainActivity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ParticularGroupFragment extends Fragment {
 
 
-private AppCompatTextView textView;
-private AppCompatButton memberButton,saveExpensesBtn;
-AppCompatEditText totalExpensesEditText;
+    AppCompatEditText totalExpensesEditText;
 
-private GroupListViewModel groupListViewModel;
-private Group group;
-private RecyclerView recyclerView;
-    private List<User> userList;
-    List<String> userName;
+    private AppCompatTextView textView;
+    private AppCompatButton memberButton, saveExpensesBtn;
+    private GroupListViewModel groupListViewModel;
+    private Group group;
+    private RecyclerView recyclerView;
     private AddingExpensesToGroupAdapter adapter;
 
 
@@ -51,7 +51,7 @@ private RecyclerView recyclerView;
         groupListViewModel = new ViewModelProvider(this).get(GroupListViewModel.class);
 
         View view = inflater.inflate(R.layout.fragment_particular_group, container, false);
-       textView = view.findViewById(R.id.particularGroupName);
+        textView = view.findViewById(R.id.particularGroupName);
 
         recyclerView = view.findViewById(R.id.groupMemberExpenseAdderRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -60,44 +60,53 @@ private RecyclerView recyclerView;
         recyclerView.setAdapter(adapter);
         totalExpensesEditText = view.findViewById(R.id.expense_amount_field_for_group);
 
-        group =  setCurrentGroup();
-     textView.setText(group.getGroupName());
+        group = setCurrentGroup();
+        textView.setText(group.getGroupName());
 
 
+        memberButton = view.findViewById(R.id.memberList);
+        groupListViewModel.getUserForCurrentGroup().observe(getViewLifecycleOwner(), this::memberForGroup);
 
-     memberButton = view.findViewById(R.id.memberList);
-        groupListViewModel.getUserForCurrentGroup().observe(getViewLifecycleOwner(),this::memberForGroup);
 
-
-     memberButton.setOnClickListener(v -> {
-         Navigation.findNavController(v).navigate(R.id.groupMemberFragment);
-     });
+        memberButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.groupMemberFragment);
+        });
         saveExpensesBtn = view.findViewById(R.id.saveBtnGroupExpense);
 
         saveExpensesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Double value =0.00;
+                try {
+                 value  = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
 
 
-                if (adapter.getExpenseFinalTotal()==Double.parseDouble(totalExpensesEditText.getText().toString().trim())){
+                }catch (NumberFormatException e){
+                    System.out.println("could not " + totalExpensesEditText.getText().toString().trim());
+                }
+                System.out.println("Value + " +value);
+                System.out.println(adapter.getExpenseFinalTotal());
+                if (Objects.equals(adapter.getExpenseFinalTotal(), value)) {
                     Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
                     System.out.println("DOnne " + adapter.expenseFinalTotal);
-                    groupListViewModel.addNewExpensesToGroup(a,adapter.getUpdatedList());
-                }else{
+                    groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
+                    groupListViewModel.getSuccessMessage().observe(getViewLifecycleOwner(),this::messageObserver);
+                } else{
                     System.out.println("NOT EQUAL");
                 }
             }
+
+            private void messageObserver(String s) {
+             //   if (s!)
+            }
+
+
         });
-
-
-
-
-
-
-     return  view;
+        return view;
     }
 
     private void memberForGroup(List<GroupUser> groupUsers) {
+
         adapter.setAllFriendList(groupUsers);
     }
 
@@ -107,7 +116,7 @@ private RecyclerView recyclerView;
     }
 
     private Group setCurrentGroup() {
-      return   groupListViewModel.getCurrentGroup();
+        return groupListViewModel.getCurrentGroup();
     }
 
 

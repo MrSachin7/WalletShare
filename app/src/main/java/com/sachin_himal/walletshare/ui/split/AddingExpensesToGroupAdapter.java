@@ -37,20 +37,23 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
         expenseFinalTotal = 0.00;
         System.out.println("---");
         for (int i = 0; i < doubles.length; i++) {
+            System.out.println(doubles[i] + "asasasassas");
             expenseFinalTotal+=doubles[i];
         }
 
         toString();
 
         System.out.println(expenseFinalTotal +" is the total ");
+
         return expenseFinalTotal;
     }
 
 
     public void setAllFriendList(List<GroupUser> allFriendList) {
+        doubles = new Double[allFriendList.size()];
         this.allFriendList = allFriendList;
         notifyDataSetChanged();
-         doubles = new Double[allFriendList.size()];
+
     }
 
    public List<GroupUser> getUpdatedList(){
@@ -98,12 +101,18 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
 
         public void setDetails(GroupUser user,int position) {
 
-            memberName.setText(user.retrieveFullName());
 
+            memberName.setText(user.retrieveFullName());
+            if (doubles[position] == null){
+                doubles[position]=0.00;
+            }
+            //amountForUser.setText("0.00");
             amountForUser.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                    if (doubles[position] == null){
+                        doubles[position]=0.00;
+                    }
                 }
 
                 @Override

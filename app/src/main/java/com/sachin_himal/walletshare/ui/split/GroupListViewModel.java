@@ -46,6 +46,7 @@ public class GroupListViewModel extends ViewModel {
     }
 
     public LiveData<List<GroupUser>> getUserForCurrentGroup() {
+
         return  groupRepository.getUserDataForGroup();
     }
 

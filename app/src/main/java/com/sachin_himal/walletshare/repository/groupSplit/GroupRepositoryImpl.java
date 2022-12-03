@@ -109,6 +109,20 @@ public class GroupRepositoryImpl implements GroupRepository {
                 memberDBReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
                 newAddedReference.child("usersId").push().setValue(currentUserID);
                 newAddedReference.child("amount").child(currentUserID).getRef().push().setValue(0.00);
+
+                newAddedReference.child("amount").child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                   //     snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+                        snapshot.getRef().setValue(0.00);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
                // newAddedReference.child("amount").child(currentUserID).push().setValue(0.0);
                 callBack.callBack();
 
@@ -158,7 +172,21 @@ public class GroupRepositoryImpl implements GroupRepository {
             public void onComplete(@NonNull Task<Void> task) {
 
                 if (task.isSuccessful()) {
-                    groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).getRef().push().setValue(0.00);
+                  //  groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).getRef().push().setValue(0.00);
+                    groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                           // snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+                            snapshot.getRef().setValue(0.00);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
                     memberDBReference.child(fId).child("GroupList").push().setValue(currentGroup.getGroupId()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -216,7 +244,8 @@ public class GroupRepositoryImpl implements GroupRepository {
                     DataSnapshot dataSnapshot = task.getResult();
                     group.setGroupId(dataSnapshot.getKey());
                     group.setGroupName(dataSnapshot.child("groupName").getValue(String.class));
-                  group.setAmount(dataSnapshot.child("amount").child(currentUserID).getValue(Double.class));
+                    System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue().toString());
+                  group.setAmount(Double.valueOf(dataSnapshot.child("amount").child(currentUserID).getValue().toString()));
                     //  group.setusersIdManual(dataSnapshot.child("usersId").getValue(List<User>.class));
                     // System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue(Double.class));
                     allGroup.add(group);
@@ -339,7 +368,9 @@ public class GroupRepositoryImpl implements GroupRepository {
             currentGroupDBReference.child("amount").child(tempGroup.getuId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+
+                    //snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+
                     snapshot.getRef().setValue(tempGroup.getAmountDue());
                 }
 
@@ -349,6 +380,7 @@ public class GroupRepositoryImpl implements GroupRepository {
                 }
             });
         }
+        userDetail.setValue(new ArrayList<>());
     }
 
 
