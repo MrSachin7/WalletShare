@@ -115,19 +115,17 @@ public class GroupRepositoryImpl implements GroupRepository {
             if (task.isSuccessful()) {
                 memberDBReference.child(currentUserID).child("GroupList").push().setValue(keyFromRecentGroup);
                 newAddedReference.child("usersId").push().setValue(currentUserID);
-             //   newAddedReference.child("amount").child(currentUserID).getRef().push().setValue(0.00);
+                //   newAddedReference.child("amount").child(currentUserID).getRef().push().setValue(0.00);
 
                 newAddedReference.child("amount").child(currentUserID).setValue(0.00);  /**addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //     snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
-                        snapshot.getRef().setValue(0.00);
-                    }
+                @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //     snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+                snapshot.getRef().setValue(0.00);
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                @Override public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
+                }
                 });
                  **/
 
@@ -175,39 +173,37 @@ public class GroupRepositoryImpl implements GroupRepository {
     public void addNewFriend(String fId) {
 
         successMessage.setValue("");
-        groupDBReference.child(currentGroup.getGroupId()).child("usersId").push().setValue(fId).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
+       currentGroupDBReference.child("usersId").push().setValue(fId);
+        currentGroupDBReference.child("amount").child(fId).setValue(0.00);
+        getUserDataForGroupQuery();
 
-                if (task.isSuccessful()) {
-                    //  groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).getRef().push().setValue(0.00);
-                    groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
-                            snapshot.getRef().setValue(0.00);
-                        }
+        /**
+         .addOnCompleteListener(new OnCompleteListener<Void>() {
+        @Override public void onComplete(@NonNull Task<Void> task) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+        if (task.isSuccessful()) {
+        //  groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).getRef().push().setValue(0.00);
+        groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
+        // snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+        snapshot.getRef().setValue(0.00);
+        }
 
-                        }
-                    });
+        @Override public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+        });
 
 
-                    memberDBReference.child(fId).child("GroupList").push().setValue(currentGroup.getGroupId()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                successMessage.setValue("Friend Is Successfully Added");
-                            }
-                        }
-                    });
-                }
-            }
+
+        }
+        }
 
         });
 
+         */
+
+        memberDBReference.child(fId).child("GroupList").push().setValue(currentGroup.getGroupId());
 
     }
 
@@ -273,7 +269,81 @@ public class GroupRepositoryImpl implements GroupRepository {
     //
 
     public void getUserDataForGroupQuery() {
-        userDetail.setValue(new ArrayList<>());
+
+        /**
+        List<GroupUser> groupUserList = new ArrayList<>();
+        List<String> uids = new ArrayList<>();
+        System.out.println(currentGroup.getGroupId());
+
+        if (currentGroup != null) {
+
+
+            groupDBReference.child(currentGroup.getGroupId()).addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //groupUserList.clear();
+                  //  uids.clear();
+                    for (DataSnapshot userssnapshot : snapshot.child("usersId").getChildren()) {
+
+                        //user id:
+                        GroupUser groupUser = new GroupUser();
+
+
+                        /**
+                         // amount for this user
+                         for (DataSnapshot amountSnapshot : snapshot.child("amount").child(userssnapshot.getValue().toString()).getChildren()) {
+
+
+                         groupUser.setAmountDue(Double.valueOf(amountSnapshot.getValue().toString()));
+                         }
+                         **/
+        /**
+                        System.out.println(currentGroupDBReference.child("amount").child(userssnapshot.getValue().toString()));
+                        System.out.println(currentGroupDBReference.child("amount").child(userssnapshot.getValue(String.class)));
+
+                       // System.out.println(Double.valueOf(userssnapshot.getKey()));
+                        memberDBReference.child(userssnapshot.getValue().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DataSnapshot dataSnapshot = task.getResult();
+                                    groupUser.setFirstName(dataSnapshot.child("firstName").getValue(String.class));
+                                    groupUser.setLastName(dataSnapshot.child("lastName").getValue(String.class));
+                                    groupUser.setuId(dataSnapshot.getKey());
+                                    String a = dataSnapshot.getKey();
+                                    System.out.println(a);
+                                    System.out.println(snapshot.getValue());
+                                  //  groupUser.setAmountDue(Double.valueOf((snapshot.child("amount").child(a).getValue().toString())));
+                                   // System.out.println(Double.valueOf((snapshot.child("amount").child(a).getValue().toString())) + "group amount sset");
+
+
+
+                                    groupUserList.add(groupUser);
+                                    uids.add(a);
+                                    userDetail.setValue(groupUserList);
+                                    currentGroup.setusersIdManual(uids);
+                                    checkForFriendthatCanbeAdded(userDetail.getValue());
+
+                                }
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+*/
+
+
+
+
+        ///////////////
+
         List<GroupUser> groupUserList = new ArrayList<>();
         List<String> uids = new ArrayList<>();
         System.out.println(currentGroup.getGroupId());
@@ -296,8 +366,6 @@ public class GroupRepositoryImpl implements GroupRepository {
                         /**
                          // amount for this user
                          for (DataSnapshot amountSnapshot : snapshot.child("amount").child(userssnapshot.getValue().toString()).getChildren()) {
-
-
                          groupUser.setAmountDue(Double.valueOf(amountSnapshot.getValue().toString()));
                          }
                          **/
@@ -334,20 +402,22 @@ public class GroupRepositoryImpl implements GroupRepository {
             });
         }
 
+        ///////
     }
 
     private void checkForFriendthatCanbeAdded(List<GroupUser> groupUserList) {
         canBeAddedToGroup.setValue(new ArrayList<>());
         List<User> allCurrent = friendRepository.getAllFriendListData().getValue();
         List<User> canBeAdded = new ArrayList<>();
+
         for (int i = 0; i < allCurrent.size(); i++) {
             if (!currentGroup.getUsersId().contains(allCurrent.get(i).getUid())) {
                 canBeAdded.add(allCurrent.get(i));
             }
         }
         canBeAddedToGroup.setValue(canBeAdded);
-
     }
+
 
     public LiveData<List<User>> getCanBeAddedUser() {
         return canBeAddedToGroup;
@@ -376,7 +446,7 @@ public class GroupRepositoryImpl implements GroupRepository {
             GroupUser tempGroup = groupUser.get(i);
             if (currentUserID.equals(tempGroup.getuId())) {
                 tempGroup.addingMoneyToGroupExpense(totalMoney);
-                Double updatingCurrentBalance   = expenditureRepository.getCurrentBalance().getValue().getBalance();
+                Double updatingCurrentBalance = expenditureRepository.getCurrentBalance().getValue().getBalance();
                 updatingCurrentBalance = updatingCurrentBalance - totalMoney;
                 firebaseDatabase.getReference().child(EXPENSES).child(tempGroup.getuId()).child(BALANCE).child("balance").setValue(updatingCurrentBalance);
             }
@@ -397,29 +467,26 @@ public class GroupRepositoryImpl implements GroupRepository {
 
 
 /**
-            currentGroupDBReference.child("amount").child(tempGroup.getuId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
+ currentGroupDBReference.child("amount").child(tempGroup.getuId()).addListenerForSingleValueEvent(new ValueEventListener() {
+@Override public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    //snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+//snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
 
-                    Double sendingBalance = tempGroup.getAmountDue();
-                    System.out.println(tempGroup.getAmountDue());
-                    snapshot.getRef().setValue(sendingBalance).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
+Double sendingBalance = tempGroup.getAmountDue();
+System.out.println(tempGroup.getAmountDue());
+snapshot.getRef().setValue(sendingBalance).addOnCompleteListener(new OnCompleteListener<Void>() {
+@Override public void onComplete(@NonNull Task<Void> task) {
+if (task.isSuccessful()) {
 
-                            }
-                        }
-                    });
-                }
+}
+}
+});
+}
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+@Override public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
+}
+});
  **/
         }
         userDetail.setValue(new ArrayList<>());
