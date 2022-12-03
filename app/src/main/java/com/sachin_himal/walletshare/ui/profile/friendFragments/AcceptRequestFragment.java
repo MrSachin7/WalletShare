@@ -54,20 +54,18 @@ public class AcceptRequestFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewsCardsForAcceptingRequest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        friendListAdapter = new FriendListAdapter();
+        friendListAdapter = new FriendListAdapter(friendViewModel);
         recyclerView.setAdapter(friendListAdapter);
 
-        friendListAdapter.onItemClickListener(new CardAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(int position) {
-                addFriend(users.get(position));
-            }
-        });
 
 
 
     }
+
+    private void friendClicked(User user) {
+
+    }
+
 
     private void addFriend(User user) {
 

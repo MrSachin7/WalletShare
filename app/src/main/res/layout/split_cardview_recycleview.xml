@@ -17,7 +17,6 @@
         android:focusable="true"
         app:cardCornerRadius="12dp"
         app:strokeColor="@color/palette_black"
-
         android:elevation="10dp"
         app:layout_constraintWidth_percent="0.85"
         app:layout_constraintEnd_toEndOf="parent"
