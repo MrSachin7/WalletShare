@@ -90,15 +90,12 @@ public class ParticularGroupFragment extends Fragment {
                     Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
                     System.out.println("DOnne " + adapter.expenseFinalTotal);
                     groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
-                    groupListViewModel.getSuccessMessage().observe(getViewLifecycleOwner(),this::messageObserver);
                 } else{
                     System.out.println("NOT EQUAL");
                 }
             }
 
-            private void messageObserver(String s) {
-             //   if (s!)
-            }
+
 
 
         });

@@ -9,6 +9,9 @@ public class GroupUser {
 
 
 
+   public void addingMoneyToGroupExpense(Double a ){
+        amountDue+=a;
+    }
 
     public void updateAmountDue() {
         this.amountDue = amountDue-tempAmount;
@@ -63,4 +66,5 @@ public class GroupUser {
     public void setTempAmount(Double tempAmount) {
         this.tempAmount = tempAmount;
     }
+
 }

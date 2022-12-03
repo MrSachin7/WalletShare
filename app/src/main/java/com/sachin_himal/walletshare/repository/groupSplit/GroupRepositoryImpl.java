@@ -1,7 +1,9 @@
 package com.sachin_himal.walletshare.repository.groupSplit;
 
+import static com.sachin_himal.walletshare.repository.Database.BALANCE;
 import static com.sachin_himal.walletshare.repository.Database.DB_ADDRESS;
 
+import static com.sachin_himal.walletshare.repository.Database.EXPENSES;
 import static com.sachin_himal.walletshare.repository.Database.GROUPS;
 import static com.sachin_himal.walletshare.repository.Database.USERS;
 
@@ -24,15 +26,20 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.ValueEventListener;
 import com.sachin_himal.walletshare.entity.CallBack;
+import com.sachin_himal.walletshare.entity.Expenditure;
 import com.sachin_himal.walletshare.entity.Group;
 import com.sachin_himal.walletshare.entity.GroupUser;
 import com.sachin_himal.walletshare.entity.User;
+import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepository;
+import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepositoryImpl;
 import com.sachin_himal.walletshare.repository.user.FriendRepository;
 import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
@@ -42,25 +49,21 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     private static GroupRepository groupRepositoryInstance;
     private static Lock groupLock = new ReentrantLock();
+    MutableLiveData<List<GroupUser>> userDetail;
+    MutableLiveData<List<User>> canBeAddedToGroup;
+    FriendRepository friendRepository;
+    MutableLiveData<String> successMessage;
+    ExpenditureRepository expenditureRepository;
     private DatabaseReference groupDBReference;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference memberDBReference;
     private DatabaseReference currentUserDBReference;
     private DatabaseReference currentGroupDBReference;
-
     private MutableLiveData<List<Group>> allGroupForUser;
     private MutableLiveData<String> error;
-
     private String currentUserID;
-
     private Group currentGroup;
-
     private DatabaseReference referenceForAddingFriend;
-
-    MutableLiveData<List<GroupUser>> userDetail;
-    MutableLiveData<List<User>> canBeAddedToGroup;
-    FriendRepository friendRepository;
-    MutableLiveData<String> successMessage;
 
     private GroupRepositoryImpl() {
         firebaseDatabase = FirebaseDatabase.getInstance(DB_ADDRESS);
@@ -73,6 +76,7 @@ public class GroupRepositoryImpl implements GroupRepository {
         canBeAddedToGroup = new MutableLiveData<>();
         this.friendRepository = FriendRepositoryImpl.getInstance();
         successMessage = new MutableLiveData<>();
+
     }
 
     public static GroupRepository getInstance() {
@@ -96,6 +100,8 @@ public class GroupRepositoryImpl implements GroupRepository {
         currentUserDBReference = firebaseDatabase.getReference().child(USERS).child(currentUserID);
         searchAllGroup();
 
+        expenditureRepository = ExpenditureRepositoryImpl.getInstance();
+
     }
 
 
@@ -113,7 +119,7 @@ public class GroupRepositoryImpl implements GroupRepository {
                 newAddedReference.child("amount").child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                   //     snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+                        //     snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
                         snapshot.getRef().setValue(0.00);
                     }
 
@@ -123,7 +129,7 @@ public class GroupRepositoryImpl implements GroupRepository {
                     }
                 });
 
-               // newAddedReference.child("amount").child(currentUserID).push().setValue(0.0);
+                // newAddedReference.child("amount").child(currentUserID).push().setValue(0.0);
                 callBack.callBack();
 
                 /**
@@ -144,6 +150,10 @@ public class GroupRepositoryImpl implements GroupRepository {
         return allGroupForUser;
     }
 
+    public Group getCurrentGroup() {
+        return currentGroup;
+    }
+
     @Override
     public void setCurrentGroup(Group group) {
         currentGroup = group;
@@ -152,10 +162,6 @@ public class GroupRepositoryImpl implements GroupRepository {
         getUserDataForGroupQuery();
         friendRepository.searchForALlFriends();
 
-    }
-
-    public Group getCurrentGroup() {
-        return currentGroup;
     }
 
     @Override
@@ -172,11 +178,11 @@ public class GroupRepositoryImpl implements GroupRepository {
             public void onComplete(@NonNull Task<Void> task) {
 
                 if (task.isSuccessful()) {
-                  //  groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).getRef().push().setValue(0.00);
+                    //  groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).getRef().push().setValue(0.00);
                     groupDBReference.child(currentGroup.getGroupId()).child("amount").child(fId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                           // snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
+                            // snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
                             snapshot.getRef().setValue(0.00);
                         }
 
@@ -245,7 +251,7 @@ public class GroupRepositoryImpl implements GroupRepository {
                     group.setGroupId(dataSnapshot.getKey());
                     group.setGroupName(dataSnapshot.child("groupName").getValue(String.class));
                     System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue().toString());
-                  group.setAmount(Double.valueOf(dataSnapshot.child("amount").child(currentUserID).getValue().toString()));
+                    group.setAmount(Double.valueOf(dataSnapshot.child("amount").child(currentUserID).getValue().toString()));
                     //  group.setusersIdManual(dataSnapshot.child("usersId").getValue(List<User>.class));
                     // System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue(Double.class));
                     allGroup.add(group);
@@ -284,15 +290,14 @@ public class GroupRepositoryImpl implements GroupRepository {
                         GroupUser groupUser = new GroupUser();
 
 
+                        /**
+                         // amount for this user
+                         for (DataSnapshot amountSnapshot : snapshot.child("amount").child(userssnapshot.getValue().toString()).getChildren()) {
 
-                            /**
-                        // amount for this user
-                        for (DataSnapshot amountSnapshot : snapshot.child("amount").child(userssnapshot.getValue().toString()).getChildren()) {
 
-
-                            groupUser.setAmountDue(Double.valueOf(amountSnapshot.getValue().toString()));
-                        }
-**/
+                         groupUser.setAmountDue(Double.valueOf(amountSnapshot.getValue().toString()));
+                         }
+                         **/
 
                         memberDBReference.child(userssnapshot.getValue().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
@@ -363,15 +368,50 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     public void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList) {
         List<GroupUser> groupUser = updatedList;
+
         for (int i = 0; i < groupUser.size(); i++) {
             GroupUser tempGroup = groupUser.get(i);
+            if (currentUserID.equals(tempGroup.getuId())) {
+                tempGroup.addingMoneyToGroupExpense(totalMoney);
+                Double updatingCurrentBalance   = expenditureRepository.getCurrentBalance().getValue().getBalance();
+                updatingCurrentBalance = updatingCurrentBalance - totalMoney;
+                firebaseDatabase.getReference().child(EXPENSES).child(tempGroup.getuId()).child(BALANCE).child("balance").setValue(updatingCurrentBalance);
+            }
+            ;
+            /**
+             Expenditure expenditure = new Expenditure();
+             expenditure.setAmount(totalMoney);
+             expenditure.setExpenditureType("Expense");
+             expenditure.setTimeOfExpenditure("29 November 2022");
+             // expenditure.setTimeOfExpenditure(LocalDateTime.now().toString());
+             expenditure.setCategory("Group Expense");
+             CallBack callBack = null;
+             expenditureRepository.saveExpenditure(expenditure, null);
+             **/
+
+
+
+
+
+
+
+
+
+
             currentGroupDBReference.child("amount").child(tempGroup.getuId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     //snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
 
-                    snapshot.getRef().setValue(tempGroup.getAmountDue());
+                    snapshot.getRef().setValue(tempGroup.getAmountDue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+
+                            }
+                        }
+                    });
                 }
 
                 @Override
