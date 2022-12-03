@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.repository.user;
+package com.sachin_himal.walletshare.repository.friends;
 
 import static com.sachin_himal.walletshare.repository.Database.ALLFRIENDLIST;
 import static com.sachin_himal.walletshare.repository.Database.DB_ADDRESS;

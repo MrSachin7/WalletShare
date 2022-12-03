@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sachin_himal.walletshare.entity.User;
-import com.sachin_himal.walletshare.repository.user.FriendRepository;
-import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
+import com.sachin_himal.walletshare.repository.friends.FriendRepository;
+import com.sachin_himal.walletshare.repository.friends.FriendRepositoryImpl;
 
 import java.util.List;
 

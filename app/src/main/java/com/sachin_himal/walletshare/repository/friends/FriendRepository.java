@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.repository.user;
+package com.sachin_himal.walletshare.repository.friends;
 
 import androidx.lifecycle.LiveData;
 

@@ -33,14 +33,13 @@ import com.sachin_himal.walletshare.entity.GroupUser;
 import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepository;
 import com.sachin_himal.walletshare.repository.expenditure.ExpenditureRepositoryImpl;
-import com.sachin_himal.walletshare.repository.user.FriendRepository;
-import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
+import com.sachin_himal.walletshare.repository.friends.FriendRepository;
+import com.sachin_himal.walletshare.repository.friends.FriendRepositoryImpl;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;

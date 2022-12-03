@@ -35,7 +35,9 @@
         android:id="@+id/loginFragment"
         android:name="com.sachin_himal.walletshare.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+
+    </fragment>
     <fragment
         android:id="@+id/filterChartFragment"
         android:name="com.sachin_himal.walletshare.ui.filter_chart.FilterChartFragment"
