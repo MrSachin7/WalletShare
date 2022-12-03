@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginTop="24dp"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.friendFragments.SendFriendRequestFragment"
     android:orientation="vertical"
-    >
+    tools:context=".ui.profile.friendFragments.SendFriendRequestFragment">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -17,24 +17,24 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="5dp"
-android:gravity="end"
         android:background="@drawable/rounded_corners"
+        android:gravity="end"
         app:layout_constraintBottom_toTopOf="@id/friendNameToShow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.appcompat.widget.AppCompatEditText
 
             android:id="@+id/editTextFriendEmail"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
+            android:layout_weight="3"
             android:background="@drawable/rounded_corners"
             android:ems="11"
             android:fontFamily="@font/helvetica_regular_family"
@@ -47,17 +47,16 @@ android:gravity="end"
         <androidx.appcompat.widget.AppCompatButton
 
             android:id="@+id/searchForEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-
-
+            android:layout_marginEnd="0dp"
+            android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:backgroundTint="#957BA6FA"
             android:drawableStart="@drawable/ic_baseline_person_search_24"
             android:padding="15dp"
-            android:text="   Search"
+            android:text="Search"
             android:textSize="15sp"
-            android:layout_marginEnd="0dp"
 
 
             />
@@ -67,42 +66,40 @@ android:gravity="end"
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/friendNameToShow"
-        android:paddingStart="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:background="@drawable/rounded_corners"
+        android:paddingStart="15dp"
         android:text=""
+        android:textColor="@color/black"
         android:textSize="25sp"
         app:layout_constraintTop_toBottomOf="@id/linearLayoutfriendList"
         tools:layout_editor_absoluteX="0dp"
-        android:textColor="@color/black"
 
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:padding="15dp"
         android:id="@+id/sendFriendRequestBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-
         android:layout_marginBottom="0dp"
 
-        android:text="   Add Friend"
+        android:background="@drawable/btn_bg"
+
+        android:backgroundTint="@color/palette_light_blue"
+        android:drawableStart="@drawable/ic_baseline_group_add_24"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Add Friend"
+        android:textSize="15sp"
         app:layout_constraintBaseline_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/friendNameToShow"
-        app:layout_constraintVertical_bias="0.1"
-        android:backgroundTint="@color/palette_light_blue"
-        android:background="@drawable/btn_bg"
-        android:drawableStart="@drawable/ic_baseline_group_add_24"
-        android:gravity="center"
-        android:textSize="15sp"
-        />
+        app:layout_constraintVertical_bias="0.1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
