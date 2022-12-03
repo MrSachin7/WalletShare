@@ -41,7 +41,6 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
             expenseFinalTotal+=doubles[i];
         }
 
-        toString();
 
         System.out.println(expenseFinalTotal +" is the total ");
 

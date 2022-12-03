@@ -17,7 +17,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:id="@+id/groupTextViewLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -27,12 +27,13 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/particularGroupName"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:background="#97DAFFF3"
                     android:fontFamily="@font/helvetica_regular"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:layout_weight="1"
                     android:text="GroupName"
                     android:textColor="@color/palette_black"
                     android:textSize="25sp"
@@ -41,12 +42,13 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/memberList"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:background="@drawable/appcompact_btn_radicus"
+                    android:background="@color/palette_light_blue"
                     android:fontFamily="@font/helvetica_regular_family"
-                    android:text="Member list"
+                    android:text="See all members"
 
 
                     />
@@ -59,21 +61,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/groupTextViewLayout"
                 app:layout_constraintBottom_toTopOf="@id/groupMemberExpenseAdderRecyclerView"
                 android:id="@+id/textViewFromAddingGroupExpense">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+
+
                     android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/helvetica_regular"
-                    android:text="I am paying"
+                    android:text="I pay"
                     android:textColor="@color/palette_black"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -81,19 +82,26 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/expense_amount_field_for_group"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="15dp"
-                    android:background="@color/palette_black"
-                    android:gravity="right"
-                    android:hint="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="0 kr"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="60sp"
-                    android:padding="5dp"/>
+                    android:textColor="@color/palette_black"
+                    android:textColorHint="@color/palette_black"
+                    android:textSize="30sp" />
             </LinearLayout>
 
+
+            <View
+                android:id="@+id/hr"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="#CCBEBE"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFromAddingGroupExpense" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/groupMemberExpenseAdderRecyclerView"
@@ -104,7 +112,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/saveBtnGroupExpense"
-                app:layout_constraintTop_toBottomOf="@id/textViewFromAddingGroupExpense"
+                app:layout_constraintTop_toBottomOf="@id/hr"
    />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/saveBtnGroupExpense"
