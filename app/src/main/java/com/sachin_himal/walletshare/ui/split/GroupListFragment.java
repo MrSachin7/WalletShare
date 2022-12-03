@@ -4,18 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Group;
+import com.sachin_himal.walletshare.ui.MainActivity;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
@@ -54,28 +54,26 @@ public class GroupListFragment extends Fragment {
         groupListViewModel = new ViewModelProvider(this).get(GroupListViewModel.class);
         saveGroupButton.setOnClickListener(this::saveGroupPressed);
         groupListViewModel.groupisDone().observe(getViewLifecycleOwner(), this::groupDone);
-        groupListViewModel.getAllGroupForUser().observe(getViewLifecycleOwner(),this::groupListObserver);
+        groupListViewModel.getAllGroupForUser().observe(getViewLifecycleOwner(), this::groupListObserver);
 
-        cardAdapter.onItemClickListener(new CardAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(int position) {
-              groupListViewModel.setCurrentGroup(groupArrayList.get(position));
-                Navigation.findNavController(view).navigate(R.id.particularGroupFragment);
-               // FancyToast.makeText(getContext(),groupArrayList.get(position).getGroupId() + " is called ", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
-
-
-            }
-        });
+        cardAdapter.setItemClickListener(this::groupClicked);
         groupListViewModel.searchAllGroup();
 
         return view;
     }
 
+    private void groupClicked(Group group) {
+        groupListViewModel.setCurrentGroup(group);
+        Toast.makeText(getContext(), "Groupppppp", Toast.LENGTH_SHORT).show();
+
+        ((MainActivity) getActivity()).changeFragment(R.id.particularGroupFragment);
+
+
+    }
 
 
     private void groupListObserver(List<Group> groups) {
-        groupArrayList=groups;
+        groupArrayList = groups;
         cardAdapter.setGroupArrayList(groups);
     }
 
