@@ -100,7 +100,6 @@ public class GroupMemberFragment extends Fragment {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("WOOOOOWOOOOWOOOW ----" + userName.get(position));
                 memberTobBeAdded = userList.get(position).getUid();
             }
         });
@@ -110,13 +109,6 @@ public class GroupMemberFragment extends Fragment {
 
     private void addMemberList(List<User> users) {
 userList = users;
-/**
-userName = new String[userList.size()];
-
-        for (int i = 0; i < userList.size(); i++) {
-            userName[i] = userList.get(i).retrieveFullName();
-        }
- **/
 userList.forEach(
         user -> {
             userName.add(user.retrieveFullName());

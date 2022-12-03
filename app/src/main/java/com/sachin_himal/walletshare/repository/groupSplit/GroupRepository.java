@@ -26,4 +26,8 @@ public interface GroupRepository {
     LiveData<List<User>> getCanBeAddedUser();
 
     LiveData<String> getSuccessMessage();
+
+    void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList);
+
+
 }

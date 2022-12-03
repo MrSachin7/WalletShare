@@ -5,6 +5,19 @@ public class GroupUser {
     private Double amountDue;
     private String firstName;
     private String lastName;
+    private Double tempAmount=0.00;
+
+
+
+   public void addingMoneyToGroupExpense(Double a ){
+        amountDue+=a;
+    }
+
+    public void updateAmountDue() {
+        this.amountDue = amountDue-tempAmount;
+        tempAmount=0.00;
+
+    }
 
     public String getLastName() {
         return lastName;
@@ -15,9 +28,10 @@ public class GroupUser {
     }
 
     public GroupUser() {
+
     }
 
-    public Double getAmountDue() {
+    public Double getAmountDue() {updateAmountDue();
         return amountDue;
     }
 
@@ -43,6 +57,14 @@ public class GroupUser {
 
     public String retrieveFullName() {
         return firstName + " " + lastName;
+    }
+
+    public Double getTempAmount() {
+        return tempAmount;
+    }
+
+    public void setTempAmount(Double tempAmount) {
+        this.tempAmount = tempAmount;
     }
 
 }
