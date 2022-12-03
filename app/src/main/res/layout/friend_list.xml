@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/palette_cyan"
-    android:clickable="true"
+
 
 
     android:focusable="true"
@@ -34,7 +34,7 @@
 
             android:layout_weight="1"
             android:layout_marginBottom="20dp"
-            android:fontFamily="@font/heletica_regular_family"
+            android:fontFamily="@font/helvetica_regular_family"
             android:paddingTop="15dp"
             android:text="Member"
             android:textColor="@color/black"

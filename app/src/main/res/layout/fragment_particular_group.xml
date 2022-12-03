@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:background="@drawable/appcompact_btn_radicus"
-                    android:fontFamily="@font/heletica_regular_family"
+                    android:fontFamily="@font/helvetica_regular_family"
                     android:text="Member list"
 
 
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:background="@drawable/appcompact_btn_radicus"
-                android:fontFamily="@font/heletica_regular_family"
+                android:fontFamily="@font/helvetica_regular_family"
                 android:text="Save Expense"
                 app:layout_constraintBottom_toBottomOf="parent"
 
