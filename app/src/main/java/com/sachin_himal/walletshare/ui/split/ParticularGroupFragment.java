@@ -91,6 +91,7 @@ public class ParticularGroupFragment extends Fragment {
                 if (Objects.equals(adapter.getExpenseFinalTotal(), value)) {
                     Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
                     System.out.println("DOnne " + adapter.expenseFinalTotal);
+                    groupListViewModel.getUserForCurrentGroup();
                     groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
                 } else{
                     System.out.println("NOT EQUAL");
