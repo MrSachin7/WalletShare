@@ -25,6 +25,7 @@ import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 import com.sachin_himal.walletshare.ui.MainActivity;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class ParticularGroupFragment extends Fragment {
     AppCompatEditText totalExpensesEditText;
 
     private AppCompatTextView textView;
-    private AppCompatButton memberButton, saveExpensesBtn;
+    private AppCompatButton memberButton, saveExpensesBtn, splitEqually;
     private GroupListViewModel groupListViewModel;
     private Group group;
     private RecyclerView recyclerView;
@@ -52,6 +53,7 @@ public class ParticularGroupFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_particular_group, container, false);
         textView = view.findViewById(R.id.particularGroupName);
+        splitEqually = view.findViewById(R.id.split_equally);
 
         recyclerView = view.findViewById(R.id.groupMemberExpenseAdderRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -89,6 +91,7 @@ public class ParticularGroupFragment extends Fragment {
                 if (Objects.equals(adapter.getExpenseFinalTotal(), value)) {
                     Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
                     System.out.println("DOnne " + adapter.expenseFinalTotal);
+                    groupListViewModel.getUserForCurrentGroup();
                     groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
                 } else{
                     System.out.println("NOT EQUAL");
@@ -99,7 +102,22 @@ public class ParticularGroupFragment extends Fragment {
 
 
         });
+        splitEqually.setOnClickListener(this :: splitEqually);
         return view;
+    }
+
+    private void splitEqually(View view) {
+        String s = totalExpensesEditText.getText().toString();
+        try {
+            double parseDouble = Double.parseDouble(s);
+            adapter.splitEqually(parseDouble);
+        } catch (NumberFormatException e) {
+            FancyToast.makeText(getActivity(), "Please enter a valid amount", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+        }
+
+
+
+
     }
 
     private void memberForGroup(List<GroupUser> groupUsers) {

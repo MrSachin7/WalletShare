@@ -10,14 +10,12 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -97,14 +95,28 @@ public class FriendRepositoryImpl implements FriendRepository {
         currentUID = uid;
         currentUserDBReference = firebaseDatabase.getReference().child(USERS).child(uid);
         usersDBReference = firebaseDatabase.getReference().child(USERS);
-        searchForALlFriends ();
 
     }
 
     public void initializeFriend() {
+
+        clearAllData();
+
+        searchForALlFriends();
         getReceivedRequestedFriendKey();
         getSentFriendRequestKey();
         getCurrentFriendListKey();
+
+    }
+
+    private void clearAllData() {
+
+        allFriendRequestSentKey.postValue(null);
+        allCurrentFriendKey.postValue(null);
+        allReceivedFriendRequestKey.postValue(null);
+        allFriendRequests.postValue(null);
+        allCurrentFriend.postValue(null);
+
     }
 
 
@@ -240,6 +252,44 @@ public class FriendRepositoryImpl implements FriendRepository {
     }
 
     @Override
+    public void rejectFriendRequest(String uid) {
+        errorMessage.setValue(null);
+
+
+        currentUserDBReference.child(RECEIVEDFRIENDREQUEST).orderByValue().equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataSnapshot.getRef().removeValue();
+                    allFriendRequests.getValue().removeIf(user -> user.getUid().equals(uid));
+                    allFriendRequests.setValue(allFriendRequests.getValue());
+                    successMessage.setValue("Friend request has been rejected");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        usersDBReference.child(uid).child(SENTFRIENDREQUEST).orderByValue().equalTo(currentUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
     public void acceptFriendRequest(String uid) {
 
         errorMessage.setValue(null);
@@ -260,7 +310,9 @@ public class FriendRepositoryImpl implements FriendRepository {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         usersDBReference.child(uid).child(ALLFRIENDLIST).push().setValue(currentUID);
-                                                        successMessage.setValue("Successfully  Added");
+                                                        allFriendRequests.getValue().removeIf(user -> user.getUid().equals(uid));
+                                                        allFriendRequests.setValue(allFriendRequests.getValue());
+                                                        successMessage.setValue("Friend request accepted");
 
                                                     }
 
@@ -414,6 +466,7 @@ public class FriendRepositoryImpl implements FriendRepository {
     public LiveData<List<User>> getAllFriendListData() {
         return allCurrentFriend;
     }
+
 
     private void convertAndAdd (String uId, List < User > listOfCurrentFriend,int type){
             successMessage.setValue(null);

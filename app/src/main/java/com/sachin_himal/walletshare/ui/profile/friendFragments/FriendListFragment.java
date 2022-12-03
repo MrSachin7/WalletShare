@@ -22,16 +22,11 @@ import com.sachin_himal.walletshare.ui.split.CardAdapter;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FriendListFragment#} factory method to
- * create an instance of this fragment.
- */
+
 public class FriendListFragment extends Fragment {
 
     RecyclerView recyclerView;
     AllFriendListAdapter friendListAdapter;
-    TextView friendName;
     FriendViewModel friendViewModel;
 
     @Override
@@ -41,34 +36,28 @@ public class FriendListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_friend_list, container, false);
         friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
-        friendViewModel.initializeFriendKey();
 
+
+
+        friendViewModel.initializeFriendKey();
         friendViewModel.searchForALlFriends();
 
         friendViewModel.getALlFriendList().observe(getViewLifecycleOwner(),this::allFriendListObserver);
-
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
 
         recyclerView = view.findViewById(R.id.friendListRecyclerView);
         friendListAdapter = new AllFriendListAdapter();
         recyclerView.setAdapter(friendListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-
-
+        return view;
     }
 
     private void allFriendListObserver(List<User> users) {
-        friendListAdapter.setAllFriendList(users);
-        System.out.println(users.toString());
+        if(users != null){
+            friendListAdapter.setAllFriendList(users);
+
+        }
+
     }
 
 

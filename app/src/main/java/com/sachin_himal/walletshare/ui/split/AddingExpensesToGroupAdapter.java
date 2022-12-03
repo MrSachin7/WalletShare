@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
@@ -17,6 +18,7 @@ import com.sachin_himal.walletshare.entity.Group;
 import com.sachin_himal.walletshare.entity.GroupUser;
 import com.sachin_himal.walletshare.entity.User;
 
+import java.lang.invoke.MutableCallSite;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +29,8 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
     Double[] doubles ;
     private boolean isOnChanged = false;
     Double expenseFinalTotal = 0.00;
+
+    private MutableLiveData<Double> equalExpense = new MutableLiveData<>();
 
 
     public AddingExpensesToGroupAdapter() {
@@ -41,7 +45,6 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
             expenseFinalTotal+=doubles[i];
         }
 
-        toString();
 
         System.out.println(expenseFinalTotal +" is the total ");
 
@@ -51,7 +54,11 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
 
     public void setAllFriendList(List<GroupUser> allFriendList) {
         doubles = new Double[allFriendList.size()];
-        this.allFriendList = allFriendList;
+        this.allFriendList.clear();
+        notifyDataSetChanged();
+
+this.allFriendList.addAll(allFriendList);
+
         notifyDataSetChanged();
 
     }
@@ -87,6 +94,13 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
         return allFriendList.size();
     }
 
+    public void splitEqually(double parseDouble) {
+        parseDouble = parseDouble/allFriendList.size();
+        equalExpense.setValue(parseDouble);
+
+
+    }
+
 
     public class GroupExpensesHolder extends RecyclerView.ViewHolder {
         AppCompatTextView memberName;
@@ -97,6 +111,12 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
             super(itemView);
             memberName = itemView.findViewById(R.id.memberNameForAddingExpenseToGroup);
             amountForUser = itemView.findViewById(R.id.expense_amount_field_for_groupMember);
+
+            equalExpense.observeForever(aDouble -> {
+                if(!isOnChanged){
+                    amountForUser.setText(aDouble.toString());
+                }
+            });
         }
 
         public void setDetails(GroupUser user,int position) {

@@ -273,6 +273,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     //
 
     public void getUserDataForGroupQuery() {
+        //userDetail.setValue(new ArrayList<>());
         List<GroupUser> groupUserList = new ArrayList<>();
         List<String> uids = new ArrayList<>();
         System.out.println(currentGroup.getGroupId());
@@ -391,9 +392,11 @@ public class GroupRepositoryImpl implements GroupRepository {
              CallBack callBack = null;
              expenditureRepository.saveExpenditure(expenditure, null);
              **/
+            Double sendingBalance = tempGroup.getAmountDue();
+            currentGroupDBReference.child("amount").child(tempGroup.getuId()).setValue(sendingBalance);
 
 
-
+/**
             currentGroupDBReference.child("amount").child(tempGroup.getuId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -401,6 +404,7 @@ public class GroupRepositoryImpl implements GroupRepository {
                     //snapshot.getChildren().forEach(dataSnapshot -> dataSnapshot.getRef().push().setValue(tempGroup.getAmountDue()));
 
                     Double sendingBalance = tempGroup.getAmountDue();
+                    System.out.println(tempGroup.getAmountDue());
                     snapshot.getRef().setValue(sendingBalance).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -416,8 +420,10 @@ public class GroupRepositoryImpl implements GroupRepository {
 
                 }
             });
+ **/
         }
         userDetail.setValue(new ArrayList<>());
+       // getUserDataForGroupQuery();
     }
 
 

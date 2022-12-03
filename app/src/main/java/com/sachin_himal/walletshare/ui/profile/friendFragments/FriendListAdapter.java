@@ -23,23 +23,22 @@ import java.util.List;
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListGroup> {
 
 
+    private final FriendViewModel viewModel;
     private List<User> allReceivedFriendList = new ArrayList<>();
 
-    public CardAdapter.OnItemClickListener listener;
-
+    public FriendListAdapter.OnItemClickListener listener;
 
 
 
     //Constructor
 
     public interface OnItemClickListener{
-        void onItemClick(int position);
+        void onItemClick(User user);
     }
 
-    public  void onItemClickListener(CardAdapter.OnItemClickListener listener){
-        this.listener = listener;
-    }
-    public FriendListAdapter() {
+
+    public FriendListAdapter(FriendViewModel viewModel) {
+        this.viewModel = viewModel;
 
     }
 
@@ -50,7 +49,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     public FriendListGroup onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list, parent, false);
 
-        return new FriendListGroup(view,listener);
+        return new FriendListGroup(view);
 
     }
 
@@ -78,7 +77,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         TextView friendNameTextView;
         AppCompatButton accept,reject;
 
-        public FriendListGroup(@NonNull View itemView, CardAdapter.OnItemClickListener listener) {
+        public FriendListGroup(@NonNull View itemView) {
             super(itemView);
             friendNameTextView = itemView.findViewById(R.id.friendNameInList);
             accept = itemView.findViewById(R.id.acceptFriendRequest);
@@ -86,13 +85,22 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position!= RecyclerView.NO_POSITION){
-                        listener.onItemClick(position);
-                    }
+                public void onClick(View view) {
+                    viewModel.acceptFriendRequest(allReceivedFriendList.get(getAdapterPosition()).getUid());
                 }
             });
+
+            reject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewModel.rejectFriendRequests(allReceivedFriendList.get(getAdapterPosition()).getUid());
+                }
+            });
+
+
+
+
+
 
         }
 

@@ -3,7 +3,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,37 +10,37 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.Group;
-import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
 
-    private Context context;
-    private List<Group> groupArrayList;
+
+    private List<Group> groupArrayList = new ArrayList<>();
+
 
     public OnItemClickListener  listener;
     //Constructor
 
     public interface OnItemClickListener{
-        void onItemClick(int position);
+        void onItemClick(Group group);
     }
 
-    public  void onItemClickListener(OnItemClickListener listener){
+    public void setItemClickListener(OnItemClickListener listener){
         this.listener = listener;
     }
 
-    public CardAdapter(Context context) {
-        this.context = context;
+    public CardAdapter() {
+
     }
 
-    public  void setGroupArrayList(List<Group> groups){
+    public void setGroupArrayList(List<Group> groups){
         if (groups == null) {
             return;
         }
 
-        this.groupArrayList = groups;
+      this.groupArrayList = groups;
     }
 
 
@@ -49,8 +48,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
     @NonNull
     @Override
     public GroupHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.split_cardview_recycleview,parent,false);
-        return new GroupHolder(view,listener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.split_cardview_recycleview,parent,false);
+        return new GroupHolder(view);
     }
 
     @Override
@@ -74,26 +73,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
 
     //View Holder : GroupHolder
 
-    static class  GroupHolder extends RecyclerView.ViewHolder{
+    public class  GroupHolder extends RecyclerView.ViewHolder{
 
         private TextView groupName, amount;
 
-        public GroupHolder(@NonNull View itemView,OnItemClickListener listener) {
+        public GroupHolder(@NonNull View itemView) {
             super(itemView);
 
             groupName = itemView.findViewById(R.id.groupNameForCard);
             amount = itemView.findViewById(R.id.groupAmount);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener!=null){
-                        int position = getAdapterPosition();
-                        if (position!= RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
-                        }
-                    }
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(groupArrayList.get(getAdapterPosition()));
                 }
             });
 
@@ -104,9 +97,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.GroupHolder> {
         void setDetails(Group group){
 
             groupName.setText(group.getGroupName());
-            amount.setText(group.getAmount()+"");
+            amount.setText(group.getAmount()+" kr");
         }
 
 
     }
+
+
 }

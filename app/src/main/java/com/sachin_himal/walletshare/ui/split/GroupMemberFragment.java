@@ -1,23 +1,20 @@
 package com.sachin_himal.walletshare.ui.split;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.sachin_himal.walletshare.R;
@@ -28,7 +25,6 @@ import com.sachin_himal.walletshare.ui.MainActivity;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,7 +40,7 @@ public class GroupMemberFragment extends Fragment {
     private Group group;
     private List<User> userList;
     List<String> userName;
-    private AppCompatButton appCompatButton;
+    private AppCompatButton addNewGrpMember;
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> stringArrayAdapter;
     TextInputLayout textInputLayout;
@@ -69,10 +65,10 @@ public class GroupMemberFragment extends Fragment {
 
           group =   groupListViewModel.getCurrentGroup();
 
-        groupListViewModel.getUserForCurrentGroup().observe(getViewLifecycleOwner(),this::memberForGroup);
-        appCompatButton = v.findViewById(R.id.saveMemberNameBtn);
+        groupListViewModel.getUserForCurrentGroup().observe(getViewLifecycleOwner(), this::memberForGroup);
+        addNewGrpMember = v.findViewById(R.id.saveMemberNameBtn);
 
-        appCompatButton.setOnClickListener(this::saveNewFriend);
+        addNewGrpMember.setOnClickListener(this::saveNewFriend);
 
         groupListViewModel.getUserThatCanBeAdded().observe(getViewLifecycleOwner(),this::addMemberList);
 
@@ -92,7 +88,7 @@ public class GroupMemberFragment extends Fragment {
         textInputLayout = view.findViewById(R.id.friendNameToAddInGroup);
 
 
-                autoCompleteTextView.setShowSoftInputOnFocus(false);
+        autoCompleteTextView.setShowSoftInputOnFocus(false);
         autoCompleteTextView.setCursorVisible(false);
 
         stringArrayAdapter = new ArrayAdapter<String>(this.getContext(),R.layout.spinner_dropdown_item,userName);
@@ -122,7 +118,7 @@ userList.forEach(
 
     if (memberTobBeAdded != null){
         groupListViewModel.addNewFriend(memberTobBeAdded);
-        groupListViewModel.getSuccessMessage().observe(getViewLifecycleOwner(),this::sucessMessageObser);
+//        groupListViewModel.getSuccessMessage().observe(getViewLifecycleOwner(),this::sucessMessageObser);
     }
     }
 
