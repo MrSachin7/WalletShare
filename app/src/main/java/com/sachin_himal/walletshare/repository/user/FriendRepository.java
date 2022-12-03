@@ -31,4 +31,6 @@ public interface FriendRepository {
     void searchForALlFriends();
 
     LiveData<List<User>> getAllFriendListData();
+
+    void rejectFriendRequest(String uid);
 }

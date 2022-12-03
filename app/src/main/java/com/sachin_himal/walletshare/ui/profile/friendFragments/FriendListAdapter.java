@@ -90,6 +90,13 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                 }
             });
 
+            reject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewModel.rejectFriendRequests(allReceivedFriendList.get(getAdapterPosition()).getUid());
+                }
+            });
+
 
 
 

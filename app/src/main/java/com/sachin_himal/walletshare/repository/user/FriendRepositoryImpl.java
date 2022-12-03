@@ -10,14 +10,12 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -254,6 +252,44 @@ public class FriendRepositoryImpl implements FriendRepository {
     }
 
     @Override
+    public void rejectFriendRequest(String uid) {
+        errorMessage.setValue(null);
+
+
+        currentUserDBReference.child(RECEIVEDFRIENDREQUEST).orderByValue().equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataSnapshot.getRef().removeValue();
+                    allFriendRequests.getValue().removeIf(user -> user.getUid().equals(uid));
+                    allFriendRequests.setValue(allFriendRequests.getValue());
+                    successMessage.setValue("Friend request has been rejected");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        usersDBReference.child(uid).child(SENTFRIENDREQUEST).orderByValue().equalTo(currentUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
     public void acceptFriendRequest(String uid) {
 
         errorMessage.setValue(null);
@@ -430,6 +466,7 @@ public class FriendRepositoryImpl implements FriendRepository {
     public LiveData<List<User>> getAllFriendListData() {
         return allCurrentFriend;
     }
+
 
     private void convertAndAdd (String uId, List < User > listOfCurrentFriend,int type){
             successMessage.setValue(null);
