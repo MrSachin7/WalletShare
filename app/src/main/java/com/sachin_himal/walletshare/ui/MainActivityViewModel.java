@@ -10,8 +10,8 @@ import com.sachin_himal.walletshare.repository.groupSplit.GroupRepository;
 import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 import com.sachin_himal.walletshare.repository.login.UserRepository;
 import com.sachin_himal.walletshare.repository.login.UserRepositoryImpl;
-import com.sachin_himal.walletshare.repository.user.FriendRepository;
-import com.sachin_himal.walletshare.repository.user.FriendRepositoryImpl;
+import com.sachin_himal.walletshare.repository.friends.FriendRepository;
+import com.sachin_himal.walletshare.repository.friends.FriendRepositoryImpl;
 
 public class MainActivityViewModel extends ViewModel {
 
