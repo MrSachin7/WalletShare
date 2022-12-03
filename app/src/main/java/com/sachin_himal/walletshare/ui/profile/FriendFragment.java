@@ -30,24 +30,23 @@ public class FriendFragment extends Fragment {
 
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       return inflater.inflate(R.layout.fragment_friend, container, false);
+        View view = inflater.inflate(R.layout.fragment_friend, container, false);
+
+        setupTabs(view);
+        setupViewPager(view);
 
 
+
+        return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        tabLayout = view.findViewById(R.id.friendTab);
-        viewPager2 = view.findViewById(R.id.friendViewPager);
-        tabLayout.addTab(tabLayout.newTab().setText("Friend List"));
-        tabLayout.addTab(tabLayout.newTab().setText("Send Friend Request"));
-
-        tabLayout.addTab(tabLayout.newTab().setText("Accept Friend Request"));
+    private void setupViewPager(View view) {
         FragmentManager fragmentManager = getParentFragmentManager();
         friendFragmentAdapter = new FriendFragmentAdapter(fragmentManager,getLifecycle());
         viewPager2.setAdapter(friendFragmentAdapter);
@@ -76,6 +75,14 @@ public class FriendFragment extends Fragment {
             }
 
         });
+    }
 
+    private void setupTabs(View view) {
+        tabLayout = view.findViewById(R.id.friendTab);
+        viewPager2 = view.findViewById(R.id.friendViewPager);
+        tabLayout.addTab(tabLayout.newTab().setText("Friend List"));
+        tabLayout.addTab(tabLayout.newTab().setText("Send Friend Request"));
+
+        tabLayout.addTab(tabLayout.newTab().setText("Accept Friend Request"));
     }
 }

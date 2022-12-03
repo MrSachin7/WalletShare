@@ -52,7 +52,7 @@ FriendRepository friendRepository;
 
 
 
-    public LiveData<List<User>> getAllReceievedFriendRequest() {
+    public LiveData<List<User>> getAllReceivedFriendRequest() {
         return friendRepository.getAllReceivedFriendRequest();
     }
 

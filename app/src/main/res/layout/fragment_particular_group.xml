@@ -30,7 +30,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:background="#97DAFFF3"
                     android:fontFamily="@font/helvetica_regular"
                     android:gravity="center"
@@ -48,7 +48,7 @@
                     android:layout_weight="1"
                     android:background="@color/palette_light_blue"
                     android:fontFamily="@font/helvetica_regular_family"
-                    android:text="See all members"
+                    android:text="Member status"
 
 
                     />

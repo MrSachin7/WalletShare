@@ -97,14 +97,28 @@ public class FriendRepositoryImpl implements FriendRepository {
         currentUID = uid;
         currentUserDBReference = firebaseDatabase.getReference().child(USERS).child(uid);
         usersDBReference = firebaseDatabase.getReference().child(USERS);
-        searchForALlFriends ();
 
     }
 
     public void initializeFriend() {
+
+        clearAllData();
+
+        searchForALlFriends();
         getReceivedRequestedFriendKey();
         getSentFriendRequestKey();
         getCurrentFriendListKey();
+
+    }
+
+    private void clearAllData() {
+
+        allFriendRequestSentKey.postValue(null);
+        allCurrentFriendKey.postValue(null);
+        allReceivedFriendRequestKey.postValue(null);
+        allFriendRequests.postValue(null);
+        allCurrentFriend.postValue(null);
+
     }
 
 
@@ -260,7 +274,9 @@ public class FriendRepositoryImpl implements FriendRepository {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         usersDBReference.child(uid).child(ALLFRIENDLIST).push().setValue(currentUID);
-                                                        successMessage.setValue("Successfully  Added");
+                                                        allFriendRequests.getValue().removeIf(user -> user.getUid().equals(uid));
+                                                        allFriendRequests.setValue(allFriendRequests.getValue());
+                                                        successMessage.setValue("Friend request accepted");
 
                                                     }
 

@@ -54,7 +54,11 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
 
     public void setAllFriendList(List<GroupUser> allFriendList) {
         doubles = new Double[allFriendList.size()];
-        this.allFriendList = allFriendList;
+        this.allFriendList.clear();
+        notifyDataSetChanged();
+
+this.allFriendList.addAll(allFriendList);
+
         notifyDataSetChanged();
 
     }
