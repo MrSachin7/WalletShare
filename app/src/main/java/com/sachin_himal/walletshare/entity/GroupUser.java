@@ -14,7 +14,7 @@ public class GroupUser {
     }
 
     public void updateAmountDue() {
-        this.amountDue = amountDue-tempAmount;
+        this.amountDue -= tempAmount;
         tempAmount=0.00;
 
     }
@@ -31,7 +31,8 @@ public class GroupUser {
 
     }
 
-    public Double getAmountDue() {updateAmountDue();
+    public Double getAmountDue() {
+       updateAmountDue();
         return amountDue;
     }
 
