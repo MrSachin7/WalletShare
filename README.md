@@ -21,9 +21,11 @@ We frequently go out to dine, and some people pay the bill that must be split be
 - [x] Visualize by expenditures in different graph formats of different categories at different time.
 - [x] Send friend request to other users, so that I can add them as a friend.
 - [x] Accept or reject a friend request, so I can decide who to as a friend. 
-- [ ] Create a group, so that I can add friends to share expenditures.
-- [ ] Add friends by their username to the group, so I can share expenditures.
-- [ ] Add expenditures to the group so that I can share expenditures.
+- [x] Edit my profile, so that I can update my profile.
+- [x] Add a profile picture, so that I can personalize my profile.
+- [x] Create a group, so that I can add friends to share expenditures.
+- [x] Add friends  to the group, so I can share expenditures.
+- [x] Add expenditures to the group so that I can share expenditures.
 - [ ] Join a group using the group code so i can join a group.
 - [ ] Generate a QR code for the group.
 - [ ] Scan a QR Code to join the group so its easier to join a group.
