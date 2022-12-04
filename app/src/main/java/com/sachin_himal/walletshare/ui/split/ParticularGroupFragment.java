@@ -27,6 +27,7 @@ import com.sachin_himal.walletshare.repository.groupSplit.GroupRepositoryImpl;
 import com.sachin_himal.walletshare.ui.MainActivity;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,6 +72,7 @@ public class ParticularGroupFragment extends Fragment {
 
 
         memberButton.setOnClickListener(v -> {
+            groupListViewModel.updateUserDetails();
             Navigation.findNavController(v).navigate(R.id.groupMemberFragment);
         });
         saveExpensesBtn = view.findViewById(R.id.saveBtnGroupExpense);
@@ -93,13 +95,13 @@ public class ParticularGroupFragment extends Fragment {
                     System.out.println("DOnne " + adapter.expenseFinalTotal);
 
                     groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
-                    //groupListViewModel.updateUserDetails();
-
+                    totalExpensesEditText.setText("0.00");
+                    ((MainActivity)getActivity()).changeFragment(R.id.groupMemberFragment);
 
                 } else{
                  //   groupListViewModel.updateUserDetails();
                     System.out.println("NOT EQUAL");
-                    groupListViewModel.updateUserDetails();
+
                 }
             }
 
