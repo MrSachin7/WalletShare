@@ -28,7 +28,7 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
     private boolean isOnChanged = false;
     Double expenseFinalTotal = 0.00;
 
-    Map<String, Double> uIdToShare = new HashMap<>();
+
 
     private MutableLiveData<Double> equalExpense = new MutableLiveData<>();
 
@@ -39,14 +39,11 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
 
     public Double getExpenseFinalTotal() {
         expenseFinalTotal = 0.00;
-        System.out.println("---");
         for (int i = 0; i < shareAmount.length; i++) {
-            System.out.println(shareAmount[i] + "asasasassas");
             expenseFinalTotal+= shareAmount[i];
         }
 
 
-        System.out.println(expenseFinalTotal +" is the total ");
 
         return expenseFinalTotal;
     }
@@ -67,14 +64,6 @@ this.allFriendList.addAll(allFriendList);
         return allFriendList;
    }
 
-    @Override
-    public String toString() {
-
-        System.out.println("---");
-        return "AddingExpensesToGroupAdapter{" +
-                "doubles=" + Arrays.toString(shareAmount) +
-                '}';
-    }
 
     @NonNull
     @Override
@@ -149,8 +138,7 @@ this.allFriendList.addAll(allFriendList);
                         try {
                             shareAmount[position] = Double.valueOf(amountForUser.getText().toString().trim());
                             user.setTempAmount(Double.valueOf(s.toString()));
-                    //        expenseFinalTotal+=Double.parseDouble(s.toString());
-                          //  System.out.println(expenseFinalTotal);
+
 
                         }catch (NumberFormatException e){
 

@@ -89,15 +89,14 @@ public class ParticularGroupFragment extends Fragment {
 
 
         }catch (NumberFormatException e){
-            System.out.println("could not " + totalExpensesEditText.getText().toString().trim());
 
+            FancyToast.makeText(getContext(),"Please enter a valid amount",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+            return;
         }
-        System.out.println("Value + " +value);
-        System.out.println(adapter.getExpenseFinalTotal());
+
         if (Objects.equals(adapter.getExpenseFinalTotal(), value)) {
 
             Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
-            System.out.println("DOnne " + adapter.expenseFinalTotal);
 
             groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
             totalExpensesEditText.setText("0.00");
@@ -105,8 +104,7 @@ public class ParticularGroupFragment extends Fragment {
 
         } else{
             FancyToast.makeText(getContext(), "Share amount does not add to total amount",FancyToast.LENGTH_LONG, FancyToast.ERROR,false);
-            //   groupListViewModel.updateUserDetails();
-            System.out.println("NOT EQUAL");
+
 
         }
     }

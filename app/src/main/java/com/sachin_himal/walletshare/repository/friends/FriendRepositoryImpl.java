@@ -160,7 +160,7 @@ public class FriendRepositoryImpl implements FriendRepository {
         currentUserDBReference.child("friendList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                System.out.println(snapshot.getValue());
+
                 snapshot.getChildren().forEach(dataSnapshot -> key.add(dataSnapshot.getValue().toString()));
             }
 
@@ -427,38 +427,7 @@ public class FriendRepositoryImpl implements FriendRepository {
         retrieveAllFriendRequests();
     }
 
-    /**  void getFriendsName() {
-         HashMap<String, String> names = new HashMap<>();
-         List<String> key = allCurrentFriendKey.getValue();
-         for (int i = 0; i < key.size(); i++) {
-         System.out.println("getting friend ");
-         DatabaseReference databaseReference = usersDBReference.child(key.get(i));
-         String name = databaseReference.child("firstName").toString() + " " + databaseReference.child("lastName").toString();
-         System.out.println(name);
-         names.put(key.get(i), name);
-         }
-         userFriends.setValue(names);
-         }
-         **/
 
-        /**
-         public void getAllReceivedRequest() {
-
-         HashMap<String, String> allFriends = new HashMap<>();
-         List<String> all = allReceivedFriendRequestKey.getValue();
-         System.out.println(allReceivedFriendRequestKey.getValue().size());
-         System.out.println("I am heree");
-         for (int i = 0; i < all.size(); i++) {
-         System.out.println("can i pass");
-         DatabaseReference databaseReference = usersDBReference.child(all.get(i));
-         String name = databaseReference.child("firstName").toString() + " " + databaseReference.child("lastName").toString();
-         System.out.println(name);
-         allFriends.put(all.get(i), name);
-         }
-         allReceivesRequest.setValue(allFriends);
-
-         }
-         */
 
 
 
@@ -547,11 +516,11 @@ public class FriendRepositoryImpl implements FriendRepository {
                         if (type == 1) {
                             listOfCurrentFriend.add(user);
                             allFriendRequests.setValue(listOfCurrentFriend);
-                            System.out.println(listOfCurrentFriend.size());
+
                         } else if (type == 2) {
                             listOfCurrentFriend.add(user);
                             allCurrentFriend.setValue(listOfCurrentFriend);
-                            System.out.println(listOfCurrentFriend.size());
+
                         }
                     }
                 }

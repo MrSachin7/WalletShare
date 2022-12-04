@@ -39,10 +39,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    public void logOut() {
-        viewModal.signOut();
-    }
-
 
     private void initializeFields() {
 

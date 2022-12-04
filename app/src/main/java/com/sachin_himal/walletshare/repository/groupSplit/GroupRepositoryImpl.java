@@ -137,8 +137,8 @@ public class GroupRepositoryImpl implements GroupRepository {
                  *
                  */
 
-            } else System.out.println("Could not add the group ");
-            ;
+            }
+
         });
 
     }
@@ -257,10 +257,8 @@ public class GroupRepositoryImpl implements GroupRepository {
                     DataSnapshot dataSnapshot = task.getResult();
                     group.setGroupId(dataSnapshot.getKey());
                     group.setGroupName(dataSnapshot.child("groupName").getValue(String.class));
-                    System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue().toString());
                     group.setAmount(Double.valueOf(dataSnapshot.child("amount").child(currentUserID).getValue().toString()));
-                    //  group.setusersIdManual(dataSnapshot.child("usersId").getValue(List<User>.class));
-                    // System.out.println(dataSnapshot.child("amount").child(currentUserID).getValue(Double.class));
+
                     allGroup.add(group);
 
                 }
@@ -281,7 +279,7 @@ public class GroupRepositoryImpl implements GroupRepository {
         userDetail.setValue(new ArrayList<>());
         List<GroupUser> groupUserList = new ArrayList<>();
         List<String> uids = new ArrayList<>();
-        System.out.println(currentGroup.getGroupId());
+
 
         if (currentGroup != null) {
 
@@ -317,7 +315,6 @@ public class GroupRepositoryImpl implements GroupRepository {
                                     groupUser.setuId(dataSnapshot.getKey());
                                     String a = dataSnapshot.getKey();
                                     groupUser.setAmountDue((snapshot.child("amount").child(a).getValue(Double.class)));
-                                    System.out.println(userssnapshot.child(groupUser.getuId()).getValue(String.class));
 
 
                                     groupUserList.add(groupUser);
@@ -385,11 +382,9 @@ getUserDataForGroupQuery();
                                    expenditureRepository.updateBalance(totalMoney*-1);
                                   double tempAmount =  groupUser1.getAmountDue();
                                   tempAmount += totalMoney;
-                                   System.out.println(totalMoney);
                                    currentGroupDBReference.child("amount").child(currentUserID).setValue(tempAmount);
                                    //
                                }else {
-                                   System.out.println(currentUserID);
                                    task.getResult().getRef().child(groupUser1.getuId()).setValue(groupUser1.getAmountDue());
 
                                }
@@ -398,26 +393,7 @@ getUserDataForGroupQuery();
 
             });}
                 getUserDataForGroupQuery();
-        };
-
-
-
-/**
-        for (int i = 0; i < groupUser.size(); i++) {
-            GroupUser tempGroup = groupUser.get(i);
-            if (currentUserID.equals(tempGroup.getuId())) {
-                groupUser.get(i).addingMoneyToGroupExpense(totalMoney);
-                Double updatingCurrentBalance = expenditureRepository.getCurrentBalance().getValue().getBalance();
-                updatingCurrentBalance = updatingCurrentBalance - totalMoney;
-                System.out.println(updatingCurrentBalance + "    9    999");
-                firebaseDatabase.getReference().child(EXPENSES).child(tempGroup.getuId()).child(BALANCE).child("balance").setValue(updatingCurrentBalance);
-                // currentGroupDBReference.child("amount").child(tempGroup.getuId()).setValue();
-
-            }
-
-
-
- */
+        }
 
 
     });}

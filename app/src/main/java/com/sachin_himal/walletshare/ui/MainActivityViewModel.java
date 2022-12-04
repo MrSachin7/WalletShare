@@ -18,7 +18,7 @@ public class MainActivityViewModel extends ViewModel {
     private final UserRepository userRepository;
     private final ExpenditureRepository expenditureRepository;
     private final GroupRepository groupRepository;
-private final FriendRepository friendRepository;
+    private final FriendRepository friendRepository;
 
     public MainActivityViewModel(){
         groupRepository = GroupRepositoryImpl.getInstance();
@@ -31,10 +31,6 @@ private final FriendRepository friendRepository;
 
     public LiveData<FirebaseUser> getCurrentUser(){
         return userRepository.getCurrentUser();
-    }
-
-    public void signOut() {
-        userRepository.signOut();
     }
 
 

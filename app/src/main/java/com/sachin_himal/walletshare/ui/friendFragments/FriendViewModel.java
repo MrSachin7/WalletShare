@@ -24,12 +24,8 @@ FriendRepository friendRepository;
 
     public void findFriendDetail(String email){
          friendRepository.findFriend(email,()-> friendSearchedFinished.setValue(true));
-       //  getFriendSearchedFinished();
     }
 
-    public LiveData<Boolean> getFriendSearchedFinished() {
-        return friendSearchedFinished;
-    }
 
 
 

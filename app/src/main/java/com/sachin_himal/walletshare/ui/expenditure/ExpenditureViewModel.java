@@ -33,21 +33,13 @@ public class ExpenditureViewModel extends ViewModel {
     }
 
     public void addExpenditure(Expenditure expenditure) {
-        repository.saveExpenditure(expenditure ,()->{
-            isDone.setValue(true);
-        } );
+        repository.saveExpenditure(expenditure);
     }
 
 
 
-    public LiveData<Boolean> isDone(){
-        return isDone;
-    }
 
 
-    public void searchAllExpenditures() {
-        repository.searchAllExpenditures();
-    }
 
 
 
@@ -57,7 +49,10 @@ public class ExpenditureViewModel extends ViewModel {
 
 
     public LiveData<String> getError() {
-        return repository.getError();
+        return repository.getErrorMessage();
+    }
+    public LiveData<String> getSuccessMessage() {
+        return repository.getSuccessMessage();
     }
 
     public List<Expenditure> getExpenditureLastWeek() {

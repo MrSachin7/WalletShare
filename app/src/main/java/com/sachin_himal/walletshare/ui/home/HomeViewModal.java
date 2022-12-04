@@ -34,8 +34,5 @@ public class HomeViewModal extends ViewModel {
     }
 
 
-    public List<Expenditure> getExpendituresLastMonth() {
-        return repository.getExpenditureLastMonth();
 
-    }
 }

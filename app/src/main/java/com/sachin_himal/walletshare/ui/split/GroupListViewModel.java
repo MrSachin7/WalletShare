@@ -28,7 +28,7 @@ public class GroupListViewModel extends ViewModel {
         });
     }
 
-    public LiveData<Boolean> groupisDone(){
+    public LiveData<Boolean> groupIsDone(){
         return done;
     }
 
@@ -50,9 +50,6 @@ public class GroupListViewModel extends ViewModel {
         return  groupRepository.getUserDataForGroup();
     }
 
-    public GroupRepository getGroupRepository() {
-        return groupRepository;
-    }
 
     public void addNewFriend(String fId) {
         groupRepository.addNewFriend(fId);

@@ -57,26 +57,25 @@ public class AddExpenditureFragment extends Fragment {
         setUpTabs();
         viewModal = new ViewModelProvider(this).get(ExpenditureViewModel.class);
         saveButton.setOnClickListener(this::savePressed);
-        viewModal.isDone().observe(getViewLifecycleOwner(), this::done);
         viewModal.getError().observe(getViewLifecycleOwner(), this::errorObserver);
+        viewModal.getSuccessMessage().observe(getViewLifecycleOwner(), this::successObserver);
 
         return view;
 
     }
 
-    private void errorObserver(String s) {
-        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_SHORT, FancyToast.ERROR, true);
+    private void successObserver(String s) {
+        if (s == null) {
+            return;
+        }
+        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+        progressBar.setVisibility(View.INVISIBLE);
+
+
     }
 
-    private void done(Boolean aBoolean) {
-        progressBar.setVisibility(View.INVISIBLE);
-        if (aBoolean){
-            // Go back to home button
-            FancyToast.makeText(getContext(),"Added expense", FancyToast.LENGTH_SHORT,FancyToast.SUCCESS, true).show();
-        }
-        else{
-            FancyToast.makeText(getContext(),"Failed to add expense", FancyToast.LENGTH_SHORT,FancyToast.ERROR, true).show();
-        }
+    private void errorObserver(String s) {
+        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_SHORT, FancyToast.ERROR, true);
     }
 
 

@@ -14,7 +14,7 @@ public interface ExpenditureRepository {
 
     void init(String userId);
 
-    void saveExpenditure(Expenditure expenditure, CallBack callable);
+    void saveExpenditure(Expenditure expenditure);
 
     List<String> getAllPaymentCategories();
 
@@ -38,10 +38,12 @@ public interface ExpenditureRepository {
 
 
     LiveData<Balance> getCurrentBalance();
-    LiveData<String> getError();
+    LiveData<String> getErrorMessage();
 
     void searchAllExpenditures();
 
     void updateBalance(double amount);
+
+    LiveData<String> getSuccessMessage();
 
 }

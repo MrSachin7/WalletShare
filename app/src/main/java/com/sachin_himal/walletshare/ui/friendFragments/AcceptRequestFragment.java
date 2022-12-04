@@ -76,11 +76,6 @@ public class AcceptRequestFragment extends Fragment {
         friendViewModel.searchForFriendRequest();
 
     }
-//    private void friendListObserver(HashMap<String, String> stringStringHashMap) {
-//        if (stringStringHashMap != null) {
-//            friendListAdapter.setFriendList(stringStringHashMap);
-//            friendListAdapter.setFriendRequest(true);
-//        }
-//    }
+
 
 }

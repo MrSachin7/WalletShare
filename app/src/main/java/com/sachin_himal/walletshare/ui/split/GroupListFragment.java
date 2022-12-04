@@ -18,7 +18,6 @@ import com.sachin_himal.walletshare.entity.Group;
 import com.sachin_himal.walletshare.ui.MainActivity;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +25,6 @@ public class GroupListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private  CardAdapter cardAdapter;
-    private List<Group> groupArrayList;
     private GroupListViewModel groupListViewModel;
     AppCompatButton saveGroupButton;
     AppCompatEditText editTextGroupName;
@@ -46,7 +44,7 @@ public class GroupListFragment extends Fragment {
 
         saveGroupButton.setOnClickListener(this::saveGroupPressed);
 
-        groupListViewModel.groupisDone().observe(getViewLifecycleOwner(), this::groupDone);
+        groupListViewModel.groupIsDone().observe(getViewLifecycleOwner(), this::groupDone);
         groupListViewModel.getAllGroupForUser().observe(getViewLifecycleOwner(), this::groupListObserver);
 
 
@@ -55,7 +53,6 @@ public class GroupListFragment extends Fragment {
 
     private void groupClicked(Group group) {
         groupListViewModel.setCurrentGroup(group);
-        Toast.makeText(getContext(), "Groupppppp", Toast.LENGTH_SHORT).show();
 
         ((MainActivity) getActivity()).changeFragment(R.id.particularGroupFragment);
 
@@ -64,7 +61,7 @@ public class GroupListFragment extends Fragment {
 
 
     private void groupListObserver(List<Group> groups) {
-        groupArrayList = groups;
+
         cardAdapter.setGroupArrayList(groups);
     }
 
@@ -95,7 +92,7 @@ public class GroupListFragment extends Fragment {
     private void initializeCardView(View view) {
         recyclerView = view.findViewById(R.id.recyclerViewsCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        groupArrayList = new ArrayList<>();
+
         cardAdapter=new CardAdapter();
 
         recyclerView.setAdapter(cardAdapter);
@@ -108,15 +105,5 @@ public class GroupListFragment extends Fragment {
 
     }
 
-    private void CreateDataForCards() {
-
-
-      //  ArrayList<String> allGroupOfUser = getAllGroup();
-
-
-
-        cardAdapter.notifyDataSetChanged();
-
-    }
 
 }

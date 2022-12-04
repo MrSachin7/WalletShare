@@ -21,9 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sachin_himal.walletshare.entity.Balance;
-import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.Expenditure;
-import com.sachin_himal.walletshare.entity.ExpenditureLiveData;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,9 +46,11 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     private MutableLiveData<List<Expenditure>> allExpenditures;
     private MutableLiveData<List<Expenditure>> expendituresLastMonth;
 
+    private MutableLiveData<String> successMessage;
+
 
     private MutableLiveData<Balance> currentBalance;
-    private MutableLiveData<String> error;
+    private MutableLiveData<String> errorMessage;
 
 
     private ExpenditureRepositoryImpl() {
@@ -63,7 +63,8 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
         allExpenditures.postValue(new ArrayList<>());
         expendituresLastMonth = new MutableLiveData<>();
         currentBalance = new MutableLiveData<>();
-        error = new MutableLiveData<>();
+        errorMessage = new MutableLiveData<>();
+        successMessage = new MutableLiveData<>();
 
         mockCategories();
         mockPaymentTypes();
@@ -123,11 +124,11 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     }
 
     @Override
-    public void saveExpenditure(Expenditure expenditure, CallBack callBack) {
+    public void saveExpenditure(Expenditure expenditure) {
         dbReference.child(EXPENSES).push().setValue(expenditure).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 updateBalance(expenditure.getAmount());
-                callBack.callBack();
+                successMessage.setValue("Expenditure saved successfully");
             }
         });
     }
@@ -163,6 +164,11 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
         });
 
 
+    }
+
+    @Override
+    public LiveData<String> getSuccessMessage() {
+        return successMessage;
     }
 
     @Override
@@ -407,7 +413,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
 
     @Override
-    public LiveData<String> getError() {
-        return error;
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
     }
 }

@@ -19,14 +19,12 @@ import java.util.List;
 public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberListForGroup>{
 
 
-    private Context context;
-    private List<HashMap<String,Integer>> userList;
-    private ArrayList<String> userName;
+
     private List<GroupUser> groupUserList;
 
 
-    public MemberAdapter(Context context) {
-        this.context = context;
+    public MemberAdapter() {
+
     }
 
     public void setGroupUserList(List<GroupUser> groupUserList) {
@@ -34,22 +32,11 @@ public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberLis
         notifyDataSetChanged();
     }
 
-    /**
-    public void setUserList(List<HashMap<String, Integer>> userList, ArrayList<String> userName) {
-        if (userList == null && userName ==null){
-            return;
-        }
-        this.userList = userList;
-        this.userName = userName;
-    }
-
-
-     **/
 
     @NonNull
     @Override
     public MemberAdapter.MemberListForGroup onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.member_for_group,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_for_group,parent,false);
         return new MemberListForGroup(view);
     }
 
@@ -57,17 +44,7 @@ public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberLis
     public void onBindViewHolder(@NonNull MemberAdapter.MemberListForGroup holder, int position) {
 
 
-        /**
-        for (int i=0;i<userList.size();i++){
 
-            for (String a : userList.get(i).keySet()) {
-                System.out.println(userName.get(i));
-                holder.setDetails(userName.get(i),userList.get(i).get(a));
-
-            }
-        }
-         **/
-        System.out.println("on bind called");
 
        holder.setDetails(groupUserList.get(position));
 
@@ -77,7 +54,6 @@ public class MemberAdapter  extends RecyclerView.Adapter<MemberAdapter.MemberLis
 
     @Override
     public int getItemCount() {
-       // return userList.size();
         return groupUserList.size();
     }
 

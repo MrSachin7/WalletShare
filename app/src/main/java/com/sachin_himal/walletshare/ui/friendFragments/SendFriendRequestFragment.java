@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,11 +20,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SendFriendRequestFragment#} factory method to
- * create an instance of this fragment.
- */
+
 public class SendFriendRequestFragment extends Fragment {
 
 
@@ -50,6 +45,9 @@ public class SendFriendRequestFragment extends Fragment {
         searchForFriend = view.findViewById(R.id.searchForEmail);
         friendName = view.findViewById(R.id.friendNameToShow);
         profileImage = view.findViewById(R.id.profile_image);
+        sendFriendRequest.setVisibility(View.INVISIBLE);
+        profileImage.setVisibility(View.INVISIBLE);
+        friendName.setVisibility(View.INVISIBLE);
         friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
         searchForFriend.setOnClickListener(this::searchFriend);
 
@@ -58,7 +56,6 @@ public class SendFriendRequestFragment extends Fragment {
         friendViewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::errorMessageObserver);
 
 
-//        friendViewModel.getFriendSearchedFinished().observe(getViewLifecycleOwner(), this::updateFriendName);
 
 
         sendFriendRequest.setVisibility(View.INVISIBLE);
@@ -71,6 +68,9 @@ public class SendFriendRequestFragment extends Fragment {
         if(s != null){
             FancyToast.makeText(getActivity(),s,FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
             emailId.getText().clear();
+            sendFriendRequest.setVisibility(View.INVISIBLE);
+            profileImage.setVisibility(View.INVISIBLE);
+            friendName.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -92,13 +92,9 @@ public class SendFriendRequestFragment extends Fragment {
 
     }
 
-//    private void errorObserver(String s) {
-//        if (s == null || s.isEmpty()) return;
-//
-//        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-//    }
 
-    private void succeessObserver(String s) {
+
+    private void successObserver(String s) {
         if (s == null || s.isEmpty()) return;
         FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
         sendFriendRequest.setVisibility(View.INVISIBLE);
@@ -109,8 +105,7 @@ public class SendFriendRequestFragment extends Fragment {
 
     private void addFriend(View view) {
         friendViewModel.addFriend();
-        friendViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::succeessObserver);
-//        friendViewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::errorObserver);
+        friendViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::successObserver);
     }
 
 
@@ -121,6 +116,10 @@ public class SendFriendRequestFragment extends Fragment {
             return;
         }
         friendViewModel.findFriendDetail(friendEmail);
+        sendFriendRequest.setVisibility(View.VISIBLE);
+
+        profileImage.setVisibility(View.VISIBLE);
+        friendName.setVisibility(View.VISIBLE);
 
     }
 

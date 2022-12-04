@@ -27,11 +27,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GroupMemberFragment#} factory method to
- * create an instance of this fragment.
- */
+
 public class GroupMemberFragment extends Fragment {
 
     List<String> userNameList;
@@ -60,7 +56,7 @@ public class GroupMemberFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        memberAdapter = new MemberAdapter(getActivity());
+        memberAdapter = new MemberAdapter();
         recyclerView.setAdapter(memberAdapter);
 
         group = groupListViewModel.getCurrentGroup();
@@ -112,30 +108,17 @@ public class GroupMemberFragment extends Fragment {
     }
 
     private void saveNewFriend(View view) {
-        // System.out.println(friendEmail.getText().toString().trim());
-        // groupListViewModel.addNewFriend(friendEmail.getText().toString().trim());
+
 
         if (memberTobBeAdded != null) {
             groupListViewModel.addNewFriend(memberTobBeAdded);
             ((MainActivity)getActivity()).changeFragment(R.id.particularGroupFragment);
 
-//        groupListViewModel.getSuccessMessage().observe(getViewLifecycleOwner(),this::sucessMessageObser);
         }
     }
 
-    private void sucessMessageObser(String s) {
-        if (!(s == null && s.isEmpty())) {
-            FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
-            groupListViewModel.getAllGroupForUser();
-            groupListViewModel.getUserThatCanBeAdded();
-            ((MainActivity) getActivity()).changeFragment(R.id.particularGroupFragment);
-
-        }
-
-    }
 
     private void memberForGroup(List<GroupUser> groupUsers) {
-        System.out.println(groupUsers.size());
         memberAdapter.setGroupUserList(groupUsers);
     }
 

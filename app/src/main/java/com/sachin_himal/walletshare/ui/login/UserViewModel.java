@@ -89,8 +89,5 @@ public class UserViewModel extends ViewModel {
         repository.searchForProfileImage();
     }
 
-    public void resetProfileImage() {
 
-        repository.resetProfileImage();
-    }
 }

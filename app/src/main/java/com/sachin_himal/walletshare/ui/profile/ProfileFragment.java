@@ -41,13 +41,7 @@ public class ProfileFragment extends Fragment {
     UserViewModel viewModel;
     LinearLayoutCompat friendLinearLayout;
     CircleImageView profileImage;
-//    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
-//            new ActivityResultCallback<Uri>() {
-//                @Override
-//                public void onActivityResult(Uri uri) {
-//                    // Handle the returned Uri
-//                }
-//            });
+
 
 
 
@@ -75,17 +69,9 @@ public class ProfileFragment extends Fragment {
         });
 
 
-//        profileImage.setOnClickListener(this::changeProfileImage);
         return view;
     }
 
-//    private void changeProfileImage(View view) {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//
-//
-//    }
 
     private void openEditProfileFragment(View view) {
 
