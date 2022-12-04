@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,8 +34,8 @@ import java.util.List;
  */
 public class GroupMemberFragment extends Fragment {
 
-    List<String> userName;
-    AutoCompleteTextView autoCompleteTextView;
+    List<String> userNameList;
+    AutoCompleteTextView friendListDropDown;
     ArrayAdapter<String> stringArrayAdapter;
     TextInputLayout textInputLayout;
     String memberTobBeAdded;
@@ -51,7 +50,7 @@ public class GroupMemberFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         userList = new ArrayList<>();
-        userName = new ArrayList<>();
+        userNameList = new ArrayList<>();
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_group_member, container, false);
@@ -73,16 +72,16 @@ public class GroupMemberFragment extends Fragment {
         groupListViewModel.getUserThatCanBeAdded().observe(getViewLifecycleOwner(), this::addMemberList);
 
 
-        autoCompleteTextView = v.findViewById(R.id.friendNameToAddInGroupValues);
+        friendListDropDown = v.findViewById(R.id.friendNameToAddInGroupValues);
         textInputLayout = v.findViewById(R.id.friendNameToAddInGroup);
 
 
-        autoCompleteTextView.setShowSoftInputOnFocus(false);
-        autoCompleteTextView.setCursorVisible(false);
+        friendListDropDown.setShowSoftInputOnFocus(false);
+        friendListDropDown.setCursorVisible(false);
 
-        stringArrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_dropdown_item, userName);
-        autoCompleteTextView.setAdapter(stringArrayAdapter);
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        stringArrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_dropdown_item, userNameList);
+        friendListDropDown.setAdapter(stringArrayAdapter);
+        friendListDropDown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 memberTobBeAdded = userList.get(position).getUid();
@@ -104,9 +103,10 @@ public class GroupMemberFragment extends Fragment {
 
     private void addMemberList(List<User> users) {
         userList = users;
+        userNameList.clear();
         userList.forEach(
                 user -> {
-                    userName.add(user.retrieveFullName());
+                    userNameList.add(user.retrieveFullName());
                 }
         );
     }

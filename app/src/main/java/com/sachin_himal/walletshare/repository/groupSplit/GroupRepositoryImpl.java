@@ -374,14 +374,34 @@ getUserDataForGroupQuery();
 
 
         currentGroupDBReference.child("amount").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()){
-                   groupUser.forEach(groupUser1 -> task.getResult().getRef().child(groupUser1.getuId()).setValue(groupUser1.getAmountDue()));
-                        getUserDataForGroupQuery();
-                }
-            }
-        });
+                   groupUser.forEach(groupUser1 ->
+                           {
+                               if (groupUser1.getuId().equals(currentUserID)) {
+                                   expenditureRepository.updateBalance(totalMoney*-1);
+                                  double tempAmount =  groupUser1.getAmountDue();
+                                  tempAmount += totalMoney;
+                                   System.out.println(totalMoney);
+                                   currentGroupDBReference.child("amount").child(currentUserID).setValue(tempAmount);
+                                   //
+                               }else {
+                                   System.out.println(currentUserID);
+                                   task.getResult().getRef().child(groupUser1.getuId()).setValue(groupUser1.getAmountDue());
+
+                               }
+
+
+
+            });}
+                getUserDataForGroupQuery();
+        };
+
+
+
 /**
         for (int i = 0; i < groupUser.size(); i++) {
             GroupUser tempGroup = groupUser.get(i);
@@ -396,13 +416,10 @@ getUserDataForGroupQuery();
             }
 
 
-            Double sendingBalance = tempGroup.getAmountDue();
-            System.out.println(sendingBalance);
-            currentGroupDBReference.child("amount").child(tempGroup.getuId()).setValue(sendingBalance);
- }
+
  */
 
 
-    }
+    });}
 }
 

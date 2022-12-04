@@ -42,5 +42,6 @@ public interface ExpenditureRepository {
 
     void searchAllExpenditures();
 
+    void updateBalance(double amount);
 
 }
