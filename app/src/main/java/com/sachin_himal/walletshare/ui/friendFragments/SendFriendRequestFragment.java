@@ -102,6 +102,9 @@ public class SendFriendRequestFragment extends Fragment {
     private void succeessObserver(String s) {
         if (s == null || s.isEmpty()) return;
         FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+        sendFriendRequest.setVisibility(View.INVISIBLE);
+        profileImage.setVisibility(View.INVISIBLE);
+        friendName.setVisibility(View.INVISIBLE);
         ((MainActivity) getActivity()).changeFragment(R.id.friendFragment);
     }
 
