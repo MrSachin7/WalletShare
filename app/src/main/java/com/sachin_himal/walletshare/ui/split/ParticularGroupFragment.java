@@ -93,11 +93,13 @@ public class ParticularGroupFragment extends Fragment {
                     System.out.println("DOnne " + adapter.expenseFinalTotal);
 
                     groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
+                    //groupListViewModel.updateUserDetails();
 
 
                 } else{
                  //   groupListViewModel.updateUserDetails();
                     System.out.println("NOT EQUAL");
+                    groupListViewModel.updateUserDetails();
                 }
             }
 

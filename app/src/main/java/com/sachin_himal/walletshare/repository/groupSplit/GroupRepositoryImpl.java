@@ -363,10 +363,9 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
 
-
-public void updateUserDetails(){
-    getUserDataForGroupQuery();
-}
+    public void updateUserDetails() {
+        getUserDataForGroupQuery();
+    }
 
     public void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList) {
         List<GroupUser> groupUser = updatedList;
@@ -379,7 +378,7 @@ public void updateUserDetails(){
                 updatingCurrentBalance = updatingCurrentBalance - totalMoney;
                 System.out.println(updatingCurrentBalance + "    9    999");
                 firebaseDatabase.getReference().child(EXPENSES).child(tempGroup.getuId()).child(BALANCE).child("balance").setValue(updatingCurrentBalance);
-               // currentGroupDBReference.child("amount").child(tempGroup.getuId()).setValue();
+                // currentGroupDBReference.child("amount").child(tempGroup.getuId()).setValue();
 
             }
 
@@ -391,6 +390,5 @@ public void updateUserDetails(){
         }
 
     }
-
-
 }
+
