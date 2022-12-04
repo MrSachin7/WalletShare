@@ -15,7 +15,6 @@ public interface FriendRepository {
 
     void addNewFriend( CallBack callBack);
 
-    String getSearchedFriendDetail();
 
     void findFriend(String email, CallBack callBack);
 
@@ -40,7 +39,6 @@ public interface FriendRepository {
 
     void searchProfileImage(String uid);
 
-    String getCurrentFriendKeyData();
 
     void resetProfileImage();
 

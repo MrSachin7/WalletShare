@@ -50,7 +50,7 @@ public class FriendRepositoryImpl implements FriendRepository {
 
     private String currentUID;
 
-    private String currentFriendKeyData;
+
     private String currentFriendName;
     private MutableLiveData<List<String>> allFriendRequestSentKey;
     private MutableLiveData<List<String>> allCurrentFriendKey;
@@ -198,6 +198,7 @@ public class FriendRepositoryImpl implements FriendRepository {
     public void addNewFriend(CallBack callBack) {
         successMessage.setValue(null);
         errorMessage.setValue(null);
+        String currentFriendKeyData = searchedUser.getValue().getUid();
         if (currentFriendKeyData != null && !(currentFriendKeyData.isEmpty()) && !(allFriendRequestSentKey.getValue().contains(currentFriendKeyData)) && !(allCurrentFriendKey.getValue().contains(currentFriendKeyData)) && !(allReceivedFriendRequestKey.getValue().contains(currentFriendKeyData))) {
 
             currentUserDBReference.child("sentFriendRequest").push().setValue(currentFriendKeyData).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -346,10 +347,6 @@ public class FriendRepositoryImpl implements FriendRepository {
         }
     }
 
-    @Override
-    public String getCurrentFriendKeyData() {
-        return currentFriendKeyData;
-    }
 
     @Override
     public void resetProfileImage() {
@@ -385,7 +382,6 @@ public class FriendRepositoryImpl implements FriendRepository {
                                                         allFriendRequests.getValue().removeIf(user -> user.getUid().equals(uid));
                                                         allFriendRequests.setValue(allFriendRequests.getValue());
                                                         successMessage.setValue("Friend request accepted");
-
                                                     }
 
                                                 }
@@ -465,12 +461,6 @@ public class FriendRepositoryImpl implements FriendRepository {
          */
 
 
-        @Override
-        public String getSearchedFriendDetail () {
-            if (currentFriendKeyData == null || currentFriendKeyData.isEmpty()) {
-                return "";
-            } else return currentFriendName;
-        }
 
         public void retrieveAllFriendRequests () {
 

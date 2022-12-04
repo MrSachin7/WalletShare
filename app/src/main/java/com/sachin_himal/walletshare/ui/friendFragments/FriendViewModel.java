@@ -31,9 +31,7 @@ FriendRepository friendRepository;
         return friendSearchedFinished;
     }
 
-    public String getSearchedFriendDetail() {
-        return friendRepository.getSearchedFriendDetail();
-    }
+
 
     public void addFriend() {
         friendRepository.addNewFriend(() -> friendAddedFinished.setValue(true));
@@ -93,9 +91,6 @@ FriendRepository friendRepository;
         friendRepository.searchProfileImage(uid);
     }
 
-    public String getCurrentFriendKeyData() {
-        return friendRepository.getCurrentFriendKeyData();
-    }
 
     public void resetProfileImage() {
         friendRepository.resetProfileImage();

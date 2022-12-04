@@ -93,11 +93,11 @@ public class SendFriendRequestFragment extends Fragment {
 
     }
 
-    private void errorObserver(String s) {
-        if (s == null || s.isEmpty()) return;
-
-        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-    }
+//    private void errorObserver(String s) {
+//        if (s == null || s.isEmpty()) return;
+//
+//        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+//    }
 
     private void succeessObserver(String s) {
         if (s == null || s.isEmpty()) return;
@@ -108,7 +108,7 @@ public class SendFriendRequestFragment extends Fragment {
     private void addFriend(View view) {
         friendViewModel.addFriend();
         friendViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::succeessObserver);
-        friendViewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::errorObserver);
+//        friendViewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::errorObserver);
     }
 
 
