@@ -1,5 +1,7 @@
 package com.sachin_himal.walletshare.repository.login;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -34,4 +36,9 @@ public interface UserRepository {
 
     LiveData<String> getErrorMessage();
 
+    void updateProfileImage(Uri uri);
+
+    LiveData<Uri> getProfileImage();
+
+    void searchForProfileImage();
 }

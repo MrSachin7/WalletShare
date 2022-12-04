@@ -9,6 +9,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -48,6 +50,20 @@ public class LoginTabFragment extends Fragment {
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInOptions gso;
     private CallbackManager callbackManager;
+
+    ActivityResultLauncher<Intent> activityResultLauncherForGoogleSignIn = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                try {
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                    viewModel.signInWithGoogle(credential);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+
+            }
+    );
 
 
     public LoginTabFragment() {
@@ -118,27 +134,19 @@ public class LoginTabFragment extends Fragment {
     private void loginViaGoogle(View view) {
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = new Intent(googleSignInClient.getSignInIntent());
-        startActivityForResult(intent, 1234);
+
+
+        activityResultLauncherForGoogleSignIn.launch(intent);
+//        startActivityForResult(intent, 1234);
 
     }
 
 
     // TODO replace with activity result launcher...
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode ==1234){
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                viewModel.signInWithGoogle(credential);
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
 
-        }
-    }
+
+
+
 
     private void errorOnLogin(String s) {
         progressBar.setVisibility(View.INVISIBLE);

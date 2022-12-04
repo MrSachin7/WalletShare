@@ -1,5 +1,7 @@
 package com.sachin_himal.walletshare.ui.login;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -72,5 +74,18 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<String> getErrorMessage() {
         return repository.getErrorMessage();
+    }
+
+    public void updateProfileImage(Uri data) {
+        repository.updateProfileImage(data);
+    }
+
+    public LiveData<Uri> getProfileImage() {
+        return repository.getProfileImage();
+    }
+
+    public void searchForProfileImage() {
+
+        repository.searchForProfileImage();
     }
 }
