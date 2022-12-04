@@ -21,23 +21,30 @@
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:background="#F4F1F1"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:elevation="1dp"
         >
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/friendProfileImage"
+            android:layout_width="70dp"
+            android:layout_height="80dp"
+            android:src="@drawable/user_profile"
+
+            />
+
+
         <TextView
-
-
             android:id="@+id/friendNameInAllFriendList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
 
             android:layout_weight="1"
-            android:layout_marginBottom="20dp"
             android:fontFamily="@font/helvetica_regular_family"
-            android:paddingTop="15dp"
             android:text="aaa"
-            android:textColor="@color/black"
+            android:textColor="@color/palette_black"
             android:textSize="20sp"
             android:layout_marginStart="15dp"
            />

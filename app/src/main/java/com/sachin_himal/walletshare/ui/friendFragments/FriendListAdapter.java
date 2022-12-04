@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.ui.profile.friendFragments;
+package com.sachin_himal.walletshare.ui.friendFragments;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.User;
-import com.sachin_himal.walletshare.ui.split.CardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

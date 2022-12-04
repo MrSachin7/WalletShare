@@ -1,4 +1,6 @@
-package com.sachin_himal.walletshare.ui.profile.friendFragments;
+package com.sachin_himal.walletshare.ui.friendFragments;
+
+import android.net.Uri;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -81,5 +83,13 @@ FriendRepository friendRepository;
 
     public void rejectFriendRequests(String uid) {
         friendRepository.rejectFriendRequest(uid);
+    }
+
+    public LiveData<Uri> getProfileImage(String uid) {
+        return friendRepository.getProfileImage(uid);
+    }
+
+    public void searchProfileImage(String uid) {
+        friendRepository.searchProfileImage(uid);
     }
 }

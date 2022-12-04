@@ -1,25 +1,19 @@
-package com.sachin_himal.walletshare.ui.profile.friendFragments;
+package com.sachin_himal.walletshare.ui.friendFragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.User;
-import com.sachin_himal.walletshare.ui.split.CardAdapter;
 
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -45,7 +39,7 @@ public class FriendListFragment extends Fragment {
         friendViewModel.getALlFriendList().observe(getViewLifecycleOwner(),this::allFriendListObserver);
 
         recyclerView = view.findViewById(R.id.friendListRecyclerView);
-        friendListAdapter = new AllFriendListAdapter();
+        friendListAdapter = new AllFriendListAdapter(friendViewModel);
         recyclerView.setAdapter(friendListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

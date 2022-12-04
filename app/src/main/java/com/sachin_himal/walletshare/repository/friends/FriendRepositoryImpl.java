@@ -6,6 +6,7 @@ import static com.sachin_himal.walletshare.repository.Database.RECEIVEDFRIENDREQ
 import static com.sachin_himal.walletshare.repository.Database.SENTFRIENDREQUEST;
 import static com.sachin_himal.walletshare.repository.Database.USERS;
 
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -16,14 +17,20 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.sachin_himal.walletshare.entity.CallBack;
 import com.sachin_himal.walletshare.entity.User;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +55,7 @@ public class FriendRepositoryImpl implements FriendRepository {
     private MutableLiveData<List<String>> allFriendRequestSentKey;
     private MutableLiveData<List<String>> allCurrentFriendKey;
     private MutableLiveData<List<String>> allReceivedFriendRequestKey;
+    private MutableLiveData<Uri> currentFriendProfileImage;
 
     private MutableLiveData<String> errorMessage;
     private MutableLiveData<String> successMessage;
@@ -67,6 +75,7 @@ public class FriendRepositoryImpl implements FriendRepository {
         allCurrentFriendKey.postValue(new ArrayList<>());
         allReceivedFriendRequestKey = new MutableLiveData<>();
         allReceivedFriendRequestKey.setValue(new ArrayList<>());
+        currentFriendProfileImage = new MutableLiveData<>();
 
 
         allFriendRequests = new MutableLiveData<>();
@@ -287,6 +296,32 @@ public class FriendRepositoryImpl implements FriendRepository {
 
             }
         });
+    }
+
+    @Override
+    public LiveData<Uri> getProfileImage(String uid) {
+        return currentFriendProfileImage;
+    }
+
+    @Override
+    public void searchProfileImage(String uid) {
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("profile_images").child(uid);
+        try {
+            File localFile = File.createTempFile(uid, "jpg");
+            storageReference.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Uri uri = Uri.fromFile(localFile);
+                        currentFriendProfileImage.setValue(uri);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.sachin_himal.walletshare.repository.friends;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 
 import com.sachin_himal.walletshare.entity.CallBack;
@@ -33,4 +35,8 @@ public interface FriendRepository {
     LiveData<List<User>> getAllFriendListData();
 
     void rejectFriendRequest(String uid);
+
+    LiveData<Uri> getProfileImage(String uid);
+
+    void searchProfileImage(String uid);
 }
