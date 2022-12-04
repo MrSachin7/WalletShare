@@ -75,4 +75,8 @@ public class GroupListViewModel extends ViewModel {
     public void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList) {
         groupRepository.addNewExpensesToGroup(totalMoney,updatedList);
     }
+
+    public void updateUserDetails() {
+        groupRepository.updateUserDetails();
+    }
 }

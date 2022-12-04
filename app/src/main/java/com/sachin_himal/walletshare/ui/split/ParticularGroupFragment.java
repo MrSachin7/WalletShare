@@ -91,10 +91,15 @@ public class ParticularGroupFragment extends Fragment {
                 if (Objects.equals(adapter.getExpenseFinalTotal(), value)) {
                     Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
                     System.out.println("DOnne " + adapter.expenseFinalTotal);
-                    groupListViewModel.getUserForCurrentGroup();
+
                     groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
+                    //groupListViewModel.updateUserDetails();
+
+
                 } else{
+                 //   groupListViewModel.updateUserDetails();
                     System.out.println("NOT EQUAL");
+                    groupListViewModel.updateUserDetails();
                 }
             }
 
@@ -125,10 +130,7 @@ public class ParticularGroupFragment extends Fragment {
         adapter.setAllFriendList(groupUsers);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
+
 
     private Group setCurrentGroup() {
         return groupListViewModel.getCurrentGroup();

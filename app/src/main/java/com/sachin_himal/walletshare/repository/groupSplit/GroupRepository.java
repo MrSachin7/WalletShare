@@ -30,4 +30,5 @@ public interface GroupRepository {
     void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList);
 
 
+    void updateUserDetails();
 }
