@@ -1,5 +1,7 @@
 package com.sachin_himal.walletshare.ui.profile;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -22,6 +27,8 @@ import com.sachin_himal.walletshare.ui.MainActivity;
 import com.sachin_himal.walletshare.ui.login.UserViewModel;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -33,6 +40,15 @@ public class ProfileFragment extends Fragment {
 
     UserViewModel viewModel;
     LinearLayoutCompat friendLinearLayout;
+    CircleImageView profileImage;
+//    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+//            new ActivityResultCallback<Uri>() {
+//                @Override
+//                public void onActivityResult(Uri uri) {
+//                    // Handle the returned Uri
+//                }
+//            });
+
 
 
     @Nullable
@@ -51,9 +67,25 @@ public class ProfileFragment extends Fragment {
         });
 
         editProfileButton.setOnClickListener(this::openEditProfileFragment);
+        viewModel.searchForProfileImage();
+        viewModel.getProfileImage().observe(getViewLifecycleOwner(), uri -> {
+            if (uri != null) {
+                profileImage.setImageURI(uri);
+            }
+        });
 
+
+//        profileImage.setOnClickListener(this::changeProfileImage);
         return view;
     }
+
+//    private void changeProfileImage(View view) {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//
+//    }
 
     private void openEditProfileFragment(View view) {
 
@@ -80,6 +112,7 @@ public class ProfileFragment extends Fragment {
 
         friendLinearLayout = view.findViewById(R.id.friendLinearLayout);
 
+        profileImage = view.findViewById(R.id.profile_image);
         editProfileButton = view.findViewById(R.id.edit_profile);
     }
 }

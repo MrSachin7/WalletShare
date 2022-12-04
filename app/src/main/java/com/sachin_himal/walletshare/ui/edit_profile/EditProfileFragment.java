@@ -1,24 +1,34 @@
 package com.sachin_himal.walletshare.ui.edit_profile;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.ui.MainActivity;
 import com.sachin_himal.walletshare.ui.login.UserViewModel;
 import com.shashank.sony.fancytoastlib.FancyToast;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileFragment extends Fragment {
 
@@ -26,11 +36,23 @@ public class EditProfileFragment extends Fragment {
     TextView editProfileEmail;
     TextInputLayout firstName, lastName;
     AppCompatButton updateProfileButton;
+    CircleImageView profileImage;
 
     ProgressBar progressBar;
 
     UserViewModel viewModel;
 
+    ActivityResultLauncher<Intent> activityResultLauncherForGallery = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if(result.getResultCode() == getActivity().RESULT_OK){
+                    Intent data = result.getData();
+                    viewModel.updateProfileImage(data.getData());
+
+//                    profileImage.setImageURI(data.getData());
+                }
+
+            }
+    );
 
     @Nullable
     @Override
@@ -41,10 +63,27 @@ public class EditProfileFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         viewModel.getLoggedInUser().observe(getViewLifecycleOwner(), this::updateUI);
         updateProfileButton.setOnClickListener(this::updateProfile);
+        profileImage.setOnClickListener(this::changeProfileImage);
 
+        viewModel.getProfileImage().observe(getViewLifecycleOwner(), uri -> {
+            if (uri != null) {
+                profileImage.setImageURI(uri);
+            }
+
+        });
 
         return view;
     }
+
+    private void changeProfileImage(View view) {
+
+        Intent iGallery = new Intent(Intent.ACTION_PICK);
+        iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        activityResultLauncherForGallery.launch(iGallery);
+
+
+    }
+
 
     private void showErrorMessage(String s) {
         if (s == null || s.isEmpty()) return;
@@ -112,5 +151,6 @@ public class EditProfileFragment extends Fragment {
         updateProfileButton = view.findViewById(R.id.update_profile_button);
         progressBar = view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+        profileImage = view.findViewById(R.id.profile_image);
     }
 }
