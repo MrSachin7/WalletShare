@@ -243,6 +243,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void resetProfileImage() {
+        profileImage.postValue(null);
+    }
+
+    @Override
     public void addUser(String email, String password, String firstName, String lastName) {
         mUser.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 

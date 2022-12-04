@@ -15,6 +15,8 @@ import com.sachin_himal.walletshare.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 // This Adapter is For friend Request adapter
 
@@ -75,12 +77,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     public class FriendListGroup extends RecyclerView.ViewHolder {
         TextView friendNameTextView;
         AppCompatButton accept,reject;
+        CircleImageView friendProfileImage;
 
         public FriendListGroup(@NonNull View itemView) {
             super(itemView);
             friendNameTextView = itemView.findViewById(R.id.friendNameInList);
             accept = itemView.findViewById(R.id.acceptFriendRequest);
             reject = itemView.findViewById(R.id.rejectFriendRequest);
+            friendProfileImage = itemView.findViewById(R.id.profile_image);
 
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,6 +109,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
         public void setDetails(User user) {
             friendNameTextView.setText(user.retrieveFullName());
+
+            viewModel.searchProfileImage(user.getUid());
+            viewModel.getProfileImage().observeForever(uri -> {
+                if (uri != null) {
+                    friendProfileImage.setImageURI(uri);
+                    viewModel.resetProfileImage();
+                }
+            });
         }
 
 

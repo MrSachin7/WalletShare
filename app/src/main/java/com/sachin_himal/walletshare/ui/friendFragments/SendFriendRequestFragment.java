@@ -1,6 +1,10 @@
 package com.sachin_himal.walletshare.ui.friendFragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,13 +14,13 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.bumptech.glide.Glide;
 import com.sachin_himal.walletshare.R;
+import com.sachin_himal.walletshare.entity.User;
 import com.sachin_himal.walletshare.ui.MainActivity;
 import com.shashank.sony.fancytoastlib.FancyToast;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,10 +30,11 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 public class SendFriendRequestFragment extends Fragment {
 
 
-    AppCompatButton sendFriendRequest,searchForFriend ;
+    AppCompatButton sendFriendRequest, searchForFriend;
     AppCompatEditText emailId;
-FriendViewModel friendViewModel;
-AppCompatTextView friendName;
+    CircleImageView profileImage;
+    FriendViewModel friendViewModel;
+    AppCompatTextView friendName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,9 +50,16 @@ AppCompatTextView friendName;
         sendFriendRequest = view.findViewById(R.id.sendFriendRequestBtn);
         searchForFriend = view.findViewById(R.id.searchForEmail);
         friendName = view.findViewById(R.id.friendNameToShow);
+        profileImage = view.findViewById(R.id.profile_image);
         friendViewModel = new ViewModelProvider(this).get(FriendViewModel.class);
         searchForFriend.setOnClickListener(this::searchFriend);
-        friendViewModel.getFriendSearchedFinished().observe(getViewLifecycleOwner(),this::updateFriendName);
+
+        friendViewModel.getSearchedFriend().observe(getViewLifecycleOwner(), this:: updateUI);
+
+        friendViewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::errorMessageObserver);
+
+
+//        friendViewModel.getFriendSearchedFinished().observe(getViewLifecycleOwner(), this::updateFriendName);
 
 
         sendFriendRequest.setVisibility(View.INVISIBLE);
@@ -56,16 +68,41 @@ AppCompatTextView friendName;
 
     }
 
-    private void errorObserver(String s) {
-                if (s==null || s.isEmpty()) return;
+    private void errorMessageObserver(String s) {
+        if(s != null){
+            FancyToast.makeText(getActivity(),s,FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+            emailId.getText().clear();
+        }
+    }
 
-        FancyToast.makeText(getContext(), s,FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+    private void updateUI(User user) {
+        sendFriendRequest.setVisibility(View.VISIBLE);
+
+
+        String uId = user.getUid();
+        String name = user.retrieveFullName();
+        friendName.setText(name);
+        friendViewModel.searchProfileImage(uId);
+        friendViewModel.getProfileImage().observe(getViewLifecycleOwner(), uri -> {
+            if (uri != null) {
+                profileImage.setImageURI(uri);
+                friendViewModel.resetProfileImage();
+
+            }
+        });
+
+    }
+
+    private void errorObserver(String s) {
+        if (s == null || s.isEmpty()) return;
+
+        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
     }
 
     private void succeessObserver(String s) {
-        if (s==null || s.isEmpty()) return;
-        FancyToast.makeText(getContext(), s,FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
-        ((MainActivity)getActivity()).changeFragment(R.id.friendFragment);
+        if (s == null || s.isEmpty()) return;
+        FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+        ((MainActivity) getActivity()).changeFragment(R.id.friendFragment);
     }
 
     private void addFriend(View view) {
@@ -77,22 +114,13 @@ AppCompatTextView friendName;
 
     private void searchFriend(View view) {
         String friendEmail = emailId.getText().toString().trim();
-        friendViewModel.findFriendDetail(friendEmail);
-    }
-
-    private void updateFriendName(Boolean aBoolean) {
-        if (aBoolean){
-            friendName.setText(friendViewModel.getSearchedFriendDetail());
-            if (!friendName.getText().toString().trim().isEmpty()){
-                sendFriendRequest.setVisibility(View.VISIBLE);
-            }else {
-                sendFriendRequest.setVisibility(View.INVISIBLE);
-            }
-
+        if (friendEmail.isEmpty()) {
+            FancyToast.makeText(getContext(), "Please enter email", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+            return;
         }
+        friendViewModel.findFriendDetail(friendEmail);
+
     }
-
-
 
 
 }

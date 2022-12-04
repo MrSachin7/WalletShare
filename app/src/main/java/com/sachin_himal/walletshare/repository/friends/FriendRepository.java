@@ -36,7 +36,13 @@ public interface FriendRepository {
 
     void rejectFriendRequest(String uid);
 
-    LiveData<Uri> getProfileImage(String uid);
+    LiveData<Uri> getProfileImage();
 
     void searchProfileImage(String uid);
+
+    String getCurrentFriendKeyData();
+
+    void resetProfileImage();
+
+    LiveData<User> getSearchedFriend();
 }

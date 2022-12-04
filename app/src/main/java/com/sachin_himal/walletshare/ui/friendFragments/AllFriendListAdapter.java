@@ -68,7 +68,8 @@ public class AllFriendListAdapter extends RecyclerView.Adapter<AllFriendListAdap
         public void setDetails(User user) {
             viewModel.searchProfileImage(user.getUid());
             friendNamTextView.setText(user.retrieveFullName());
-            viewModel.getProfileImage(user.getUid()).observeForever(uri -> {
+            viewModel.searchProfileImage(user.getUid());
+            viewModel.getProfileImage().observeForever(uri -> {
                 if (uri != null) {
                     friendImageView.setImageURI(uri);
                 }

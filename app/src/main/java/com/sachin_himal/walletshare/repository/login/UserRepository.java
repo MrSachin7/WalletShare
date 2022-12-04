@@ -41,4 +41,6 @@ public interface UserRepository {
     LiveData<Uri> getProfileImage();
 
     void searchForProfileImage();
+
+    void resetProfileImage();
 }

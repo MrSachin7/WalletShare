@@ -85,11 +85,23 @@ FriendRepository friendRepository;
         friendRepository.rejectFriendRequest(uid);
     }
 
-    public LiveData<Uri> getProfileImage(String uid) {
-        return friendRepository.getProfileImage(uid);
+    public LiveData<Uri> getProfileImage() {
+        return friendRepository.getProfileImage();
     }
 
     public void searchProfileImage(String uid) {
         friendRepository.searchProfileImage(uid);
+    }
+
+    public String getCurrentFriendKeyData() {
+        return friendRepository.getCurrentFriendKeyData();
+    }
+
+    public void resetProfileImage() {
+        friendRepository.resetProfileImage();
+    }
+
+    public LiveData<User> getSearchedFriend() {
+        return friendRepository.getSearchedFriend();
     }
 }

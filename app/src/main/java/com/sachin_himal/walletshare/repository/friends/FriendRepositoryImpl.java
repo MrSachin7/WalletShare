@@ -17,7 +17,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +30,7 @@ import com.sachin_himal.walletshare.entity.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +62,9 @@ public class FriendRepositoryImpl implements FriendRepository {
 
     private MutableLiveData<List<User>> allFriendRequests;
     private MutableLiveData<List<User>> allCurrentFriend;
+    private MutableLiveData<User> searchedUser;
+
+    HashMap<String , Uri> allFriendProfileImage = new HashMap<>();
 
 
     public FriendRepositoryImpl() {
@@ -77,12 +80,15 @@ public class FriendRepositoryImpl implements FriendRepository {
         allReceivedFriendRequestKey.setValue(new ArrayList<>());
         currentFriendProfileImage = new MutableLiveData<>();
 
+        searchedUser = new MutableLiveData<>();
+
 
         allFriendRequests = new MutableLiveData<>();
         allCurrentFriend = new MutableLiveData<>();
 
         errorMessage = new MutableLiveData<>();
         successMessage = new MutableLiveData<>();
+
 
 
     }
@@ -218,17 +224,24 @@ public class FriendRepositoryImpl implements FriendRepository {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                HashMap<String, String> searchedFriendDetail = new HashMap<>();
-                String FriendKey = "", FriendName = "";
+
+                String uId = "", firstName = "", lastName = "";
                 Iterable<DataSnapshot> snapshotIterable = snapshot.getChildren();
                 for (DataSnapshot dataSnapshot : snapshotIterable) {
-                    FriendKey = dataSnapshot.getKey();
-                    FriendName = dataSnapshot.child("firstName").getValue() + " " + dataSnapshot.child("lastName").getValue();
-                    searchedFriendDetail.put(FriendKey, FriendName);
+                    uId = dataSnapshot.getKey();
+                    firstName = dataSnapshot.child("firstName").getValue().toString();
+                    lastName = dataSnapshot.child("lastName").getValue().toString();
+
                 }
-                currentFriendKeyData = FriendKey;
-                currentFriendName = FriendName;
-                callBack.callBack();
+                if (uId.isEmpty()) {
+                    errorMessage.setValue("No user found");
+                    return;
+                }
+                User user = new User();
+                user.setUid(uId);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                searchedUser.setValue(user);
             }
 
             @Override
@@ -299,12 +312,18 @@ public class FriendRepositoryImpl implements FriendRepository {
     }
 
     @Override
-    public LiveData<Uri> getProfileImage(String uid) {
+    public LiveData<Uri> getProfileImage() {
         return currentFriendProfileImage;
     }
 
     @Override
     public void searchProfileImage(String uid) {
+
+        if (allFriendProfileImage.get(uid)!=null) {
+            currentFriendProfileImage.setValue(allFriendProfileImage.get(uid));
+            return;
+        }
+
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("profile_images").child(uid);
         try {
@@ -313,8 +332,10 @@ public class FriendRepositoryImpl implements FriendRepository {
                 @Override
                 public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
-                        Uri uri = Uri.fromFile(localFile);
-                        currentFriendProfileImage.setValue(uri);
+                        if (localFile.getName().contains(uid)) {
+                            allFriendProfileImage.put(uid, Uri.fromFile(localFile));
+                            currentFriendProfileImage.setValue(Uri.fromFile(localFile));
+                        }
                     }
                 }
             });
@@ -322,6 +343,21 @@ public class FriendRepositoryImpl implements FriendRepository {
             e.printStackTrace();
 
         }
+    }
+
+    @Override
+    public String getCurrentFriendKeyData() {
+        return currentFriendKeyData;
+    }
+
+    @Override
+    public void resetProfileImage() {
+        currentFriendProfileImage.postValue(null);
+    }
+
+    @Override
+    public LiveData<User> getSearchedFriend() {
+        return searchedUser;
     }
 
     @Override
