@@ -350,7 +350,7 @@ public class FriendRepositoryImpl implements FriendRepository {
 
     @Override
     public void resetProfileImage() {
-        currentFriendProfileImage.postValue(null);
+        currentFriendProfileImage.setValue(null);
     }
 
     @Override

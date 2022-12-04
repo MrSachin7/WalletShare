@@ -125,6 +125,7 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
 
     @Override
     public void saveExpenditure(Expenditure expenditure) {
+        successMessage.postValue(null);
         dbReference.child(EXPENSES).push().setValue(expenditure).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 updateBalance(expenditure.getAmount());

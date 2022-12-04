@@ -116,6 +116,10 @@ public class UserRepositoryImpl implements UserRepository {
                         }
 
                     }
+
+                    else{
+                        loginError.setValue(task.getException().getMessage());
+                    }
                 });
     }
 

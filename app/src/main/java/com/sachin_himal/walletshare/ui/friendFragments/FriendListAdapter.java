@@ -27,15 +27,9 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     private final FriendViewModel viewModel;
     private List<User> allReceivedFriendList = new ArrayList<>();
 
-    public FriendListAdapter.OnItemClickListener listener;
 
 
 
-    //Constructor
-
-    public interface OnItemClickListener{
-        void onItemClick(User user);
-    }
 
 
     public FriendListAdapter(FriendViewModel viewModel) {
