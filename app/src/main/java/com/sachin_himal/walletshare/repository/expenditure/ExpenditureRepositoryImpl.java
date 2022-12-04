@@ -137,7 +137,8 @@ public class ExpenditureRepositoryImpl implements ExpenditureRepository {
     // tyo ta friends ko page bata garne ho
     // get all friends and put them on a deopdown list instead of ty
 
-    private void updateBalance(double amount) {
+    @Override
+    public void updateBalance(double amount) {
         if (dbReference ==null) return;
 
         dbReference.child(BALANCE).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

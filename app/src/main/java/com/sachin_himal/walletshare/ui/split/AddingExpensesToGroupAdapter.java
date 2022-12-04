@@ -5,7 +5,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -14,21 +13,22 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
-import com.sachin_himal.walletshare.entity.Group;
 import com.sachin_himal.walletshare.entity.GroupUser;
-import com.sachin_himal.walletshare.entity.User;
 
-import java.lang.invoke.MutableCallSite;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExpensesToGroupAdapter.GroupExpensesHolder> {
 
     private List<GroupUser> allFriendList = new ArrayList<>();
-    Double[] doubles ;
+    Double[] shareAmount;
     private boolean isOnChanged = false;
     Double expenseFinalTotal = 0.00;
+
+    Map<String, Double> uIdToShare = new HashMap<>();
 
     private MutableLiveData<Double> equalExpense = new MutableLiveData<>();
 
@@ -40,9 +40,9 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
     public Double getExpenseFinalTotal() {
         expenseFinalTotal = 0.00;
         System.out.println("---");
-        for (int i = 0; i < doubles.length; i++) {
-            System.out.println(doubles[i] + "asasasassas");
-            expenseFinalTotal+=doubles[i];
+        for (int i = 0; i < shareAmount.length; i++) {
+            System.out.println(shareAmount[i] + "asasasassas");
+            expenseFinalTotal+= shareAmount[i];
         }
 
 
@@ -53,7 +53,7 @@ public class AddingExpensesToGroupAdapter extends RecyclerView.Adapter<AddingExp
 
 
     public void setAllFriendList(List<GroupUser> allFriendList) {
-        doubles = new Double[allFriendList.size()];
+        shareAmount = new Double[allFriendList.size()];
         this.allFriendList.clear();
         notifyDataSetChanged();
 
@@ -72,7 +72,7 @@ this.allFriendList.addAll(allFriendList);
 
         System.out.println("---");
         return "AddingExpensesToGroupAdapter{" +
-                "doubles=" + Arrays.toString(doubles) +
+                "doubles=" + Arrays.toString(shareAmount) +
                 '}';
     }
 
@@ -86,6 +86,7 @@ this.allFriendList.addAll(allFriendList);
     @Override
     public void onBindViewHolder(@NonNull AddingExpensesToGroupAdapter.GroupExpensesHolder holder, int position) {
         holder.setDetails(allFriendList.get(position),position);
+
 
     }
 
@@ -105,6 +106,7 @@ this.allFriendList.addAll(allFriendList);
     public class GroupExpensesHolder extends RecyclerView.ViewHolder {
         AppCompatTextView memberName;
         AppCompatEditText amountForUser;
+        private double totalAmount;
 
 
         public GroupExpensesHolder(@NonNull View itemView) {
@@ -123,10 +125,7 @@ this.allFriendList.addAll(allFriendList);
 
 
             memberName.setText(user.retrieveFullName());
-            if (doubles[position] == null){
-                doubles[position]=0.00;
-                amountForUser.setText("0.00");
-            }
+
             //amountForUser.setText("0.00");
 
             amountForUser.addTextChangedListener(new TextWatcher() {
@@ -148,7 +147,7 @@ this.allFriendList.addAll(allFriendList);
                         isOnChanged = false;
 
                         try {
-                            doubles[position] = Double.valueOf(amountForUser.getText().toString().trim());
+                            shareAmount[position] = Double.valueOf(amountForUser.getText().toString().trim());
                             user.setTempAmount(Double.valueOf(s.toString()));
                     //        expenseFinalTotal+=Double.parseDouble(s.toString());
                           //  System.out.println(expenseFinalTotal);
@@ -156,7 +155,7 @@ this.allFriendList.addAll(allFriendList);
                         }catch (NumberFormatException e){
 
                             user.setTempAmount(0.00);
-                            doubles[position] = 0.00;
+                            shareAmount[position] = 0.00;
                         }
                     }
 
@@ -165,4 +164,8 @@ this.allFriendList.addAll(allFriendList);
         }
 
     }
-}
+
+        }
+
+
+

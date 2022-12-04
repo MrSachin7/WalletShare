@@ -77,40 +77,38 @@ public class ParticularGroupFragment extends Fragment {
         });
         saveExpensesBtn = view.findViewById(R.id.saveBtnGroupExpense);
 
-        saveExpensesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Double value =0.00;
-                try {
-                 value  = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
-
-
-                }catch (NumberFormatException e){
-                    System.out.println("could not " + totalExpensesEditText.getText().toString().trim());
-                }
-                System.out.println("Value + " +value);
-                System.out.println(adapter.getExpenseFinalTotal());
-                if (Objects.equals(adapter.getExpenseFinalTotal(), value)) {
-                    Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
-                    System.out.println("DOnne " + adapter.expenseFinalTotal);
-
-                    groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
-                    totalExpensesEditText.setText("0.00");
-                    ((MainActivity)getActivity()).changeFragment(R.id.groupMemberFragment);
-
-                } else{
-                 //   groupListViewModel.updateUserDetails();
-                    System.out.println("NOT EQUAL");
-
-                }
-            }
-
-
-
-
-        });
+        saveExpensesBtn.setOnClickListener(this::savePressed);
         splitEqually.setOnClickListener(this :: splitEqually);
         return view;
+    }
+
+    private void savePressed(View view) {
+        Double value =0.00;
+        try {
+            value  = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
+
+
+        }catch (NumberFormatException e){
+            System.out.println("could not " + totalExpensesEditText.getText().toString().trim());
+
+        }
+        System.out.println("Value + " +value);
+        System.out.println(adapter.getExpenseFinalTotal());
+        if (Objects.equals(adapter.getExpenseFinalTotal(), value)) {
+
+            Double a = Double.parseDouble(totalExpensesEditText.getText().toString().trim());
+            System.out.println("DOnne " + adapter.expenseFinalTotal);
+
+            groupListViewModel.addNewExpensesToGroup(a, adapter.getUpdatedList());
+            totalExpensesEditText.setText("0.00");
+            ((MainActivity)getActivity()).changeFragment(R.id.groupMemberFragment);
+
+        } else{
+            FancyToast.makeText(getContext(), "Share amount does not add to total amount",FancyToast.LENGTH_LONG, FancyToast.ERROR,false);
+            //   groupListViewModel.updateUserDetails();
+            System.out.println("NOT EQUAL");
+
+        }
     }
 
     private void splitEqually(View view) {
