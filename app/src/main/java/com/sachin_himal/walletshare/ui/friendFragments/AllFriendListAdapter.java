@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.ui.profile.friendFragments;
+package com.sachin_himal.walletshare.ui.friendFragments;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +14,18 @@ import com.sachin_himal.walletshare.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class AllFriendListAdapter extends RecyclerView.Adapter<AllFriendListAdapter.AllFriendListGroup> {
 
     private List<User> allFriendList = new ArrayList<>();
+    private final FriendViewModel viewModel;
 
-    public AllFriendListAdapter() {
-
+    public AllFriendListAdapter(FriendViewModel viewModel) {
+        this.viewModel = viewModel;
     }
+
 
     public void setAllFriendList(List<User> allFriendList) {
 
@@ -54,15 +58,22 @@ public class AllFriendListAdapter extends RecyclerView.Adapter<AllFriendListAdap
 
     public class AllFriendListGroup extends RecyclerView.ViewHolder {
         TextView friendNamTextView;
+        CircleImageView friendImageView;
         public AllFriendListGroup(@NonNull View itemView) {
             super(itemView);
             friendNamTextView = itemView.findViewById(R.id.friendNameInAllFriendList);
+            friendImageView = itemView.findViewById(R.id.friendProfileImage);
         }
 
         public void setDetails(User user) {
-
+            viewModel.searchProfileImage(user.getUid());
             friendNamTextView.setText(user.retrieveFullName());
-
+            viewModel.searchProfileImage(user.getUid());
+            viewModel.getProfileImage().observeForever(uri -> {
+                if (uri != null) {
+                    friendImageView.setImageURI(uri);
+                }
+            });
         }
     }
 }

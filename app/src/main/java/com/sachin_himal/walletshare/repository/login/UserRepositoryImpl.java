@@ -223,13 +223,16 @@ public class UserRepositoryImpl implements UserRepository {
         String uid = user.getUid();
         StorageReference storageReference = mStorageRef.child("profile_images").child(uid);
         try {
-            File localFile = File.createTempFile("images", "jpg");
+            File localFile = File.createTempFile(uid, "jpg");
             storageReference.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
-                        Uri uri = Uri.fromFile(localFile);
-                        profileImage.setValue(uri);
+                        if (localFile.getName().contains(uid)){
+                            Uri uri = Uri.fromFile(localFile);
+                            profileImage.setValue(uri);
+                        }
+
                     }
                 }
             });
@@ -237,6 +240,11 @@ public class UserRepositoryImpl implements UserRepository {
             e.printStackTrace();
 
         }
+    }
+
+    @Override
+    public void resetProfileImage() {
+        profileImage.postValue(null);
     }
 
     @Override

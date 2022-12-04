@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.ui.profile.friendFragments;
+package com.sachin_himal.walletshare.ui.friendFragments;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sachin_himal.walletshare.R;
 import com.sachin_himal.walletshare.entity.User;
-import com.sachin_himal.walletshare.ui.split.CardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 // This Adapter is For friend Request adapter
@@ -76,12 +77,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     public class FriendListGroup extends RecyclerView.ViewHolder {
         TextView friendNameTextView;
         AppCompatButton accept,reject;
+        CircleImageView friendProfileImage;
 
         public FriendListGroup(@NonNull View itemView) {
             super(itemView);
             friendNameTextView = itemView.findViewById(R.id.friendNameInList);
             accept = itemView.findViewById(R.id.acceptFriendRequest);
             reject = itemView.findViewById(R.id.rejectFriendRequest);
+            friendProfileImage = itemView.findViewById(R.id.profile_image);
 
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,6 +109,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
         public void setDetails(User user) {
             friendNameTextView.setText(user.retrieveFullName());
+
+            viewModel.searchProfileImage(user.getUid());
+            viewModel.getProfileImage().observeForever(uri -> {
+                if (uri != null) {
+                    friendProfileImage.setImageURI(uri);
+                    viewModel.resetProfileImage();
+                }
+            });
         }
 
 

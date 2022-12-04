@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.friendFragments.SendFriendRequestFragment"
+    tools:context=".ui.friendFragments.SendFriendRequestFragment"
     android:orientation="vertical"
     >
 
@@ -19,7 +19,7 @@
         android:layout_marginEnd="5dp"
 android:gravity="end"
         android:background="@drawable/rounded_corners"
-        app:layout_constraintBottom_toTopOf="@id/friendNameToShow"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,29 +65,47 @@ android:gravity="end"
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/friendNameToShow"
-        android:paddingStart="15dp"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/rounded_corners"
-        android:text=""
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@id/linearLayoutfriendList"
-        tools:layout_editor_absoluteX="0dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutfriendList">
 
-        />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_marginLeft="12dp"
+            android:layout_width="70dp"
+            android:layout_height="80dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_marginLeft="12dp"
+            android:id="@+id/friendNameToShow"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corners"
+
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutfriendList"
+             />
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:padding="15dp"
         android:id="@+id/sendFriendRequestBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-
-        android:layout_marginBottom="0dp"
 
         android:text="   Add Friend"
         app:layout_constraintBaseline_toTopOf="parent"
@@ -95,7 +113,7 @@ android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/friendNameToShow"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
         app:layout_constraintVertical_bias="0.1"
         android:backgroundTint="@color/palette_light_blue"
         android:background="@drawable/btn_bg"

@@ -1,4 +1,4 @@
-package com.sachin_himal.walletshare.ui.profile.friendFragments;
+package com.sachin_himal.walletshare.ui.friendFragments;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

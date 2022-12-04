@@ -22,24 +22,35 @@
         android:layout_margin="1dp"
         android:background="#D5B0E8D3"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        >
+        android:gravity="center_horizontal">
 
-        <TextView
-
-
-            android:id="@+id/friendNameInList"
-          android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            android:layout_weight="1"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/helvetica_regular_family"
-            android:paddingTop="15dp"
-            android:text="Member"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:ellipsize="start"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="14dp">
+
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+            <TextView
+                android:id="@+id/friendNameInList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/helvetica_regular_family"
+                android:gravity="center"
+                android:text="Member"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         <LinearLayout
             android:layout_width="match_parent"
