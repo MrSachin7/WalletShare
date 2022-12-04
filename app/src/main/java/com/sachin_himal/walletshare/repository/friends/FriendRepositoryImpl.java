@@ -95,12 +95,13 @@ public class FriendRepositoryImpl implements FriendRepository {
         currentUID = uid;
         currentUserDBReference = firebaseDatabase.getReference().child(USERS).child(uid);
         usersDBReference = firebaseDatabase.getReference().child(USERS);
+        initializeFriend();
 
     }
 
     public void initializeFriend() {
 
-        clearAllData();
+      //  clearAllData();
 
         searchForALlFriends();
         getReceivedRequestedFriendKey();
