@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/groupList"
-        android:icon="@drawable/com_facebook_close"
+        android:icon="@drawable/split_bill_icon"
         android:title="Split" />
     <item
         android:id="@+id/profileFragment"
