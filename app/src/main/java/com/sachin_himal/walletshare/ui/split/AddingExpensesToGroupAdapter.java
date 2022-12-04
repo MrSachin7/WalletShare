@@ -125,14 +125,14 @@ this.allFriendList.addAll(allFriendList);
             memberName.setText(user.retrieveFullName());
             if (doubles[position] == null){
                 doubles[position]=0.00;
+                amountForUser.setText("0.00");
             }
             //amountForUser.setText("0.00");
+
             amountForUser.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    if (doubles[position] == null){
-                        doubles[position]=0.00;
-                    }
+
                 }
 
                 @Override

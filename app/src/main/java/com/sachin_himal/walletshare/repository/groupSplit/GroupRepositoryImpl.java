@@ -364,12 +364,25 @@ public class GroupRepositoryImpl implements GroupRepository {
 
 
     public void updateUserDetails() {
-        getUserDataForGroupQuery();
+getUserDataForGroupQuery();
+
     }
 
     public void addNewExpensesToGroup(Double totalMoney, List<GroupUser> updatedList) {
         List<GroupUser> groupUser = updatedList;
 
+
+
+        currentGroupDBReference.child("amount").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()){
+                   groupUser.forEach(groupUser1 -> task.getResult().getRef().child(groupUser1.getuId()).setValue(groupUser1.getAmountDue()));
+                        getUserDataForGroupQuery();
+                }
+            }
+        });
+/**
         for (int i = 0; i < groupUser.size(); i++) {
             GroupUser tempGroup = groupUser.get(i);
             if (currentUserID.equals(tempGroup.getuId())) {
@@ -386,8 +399,9 @@ public class GroupRepositoryImpl implements GroupRepository {
             Double sendingBalance = tempGroup.getAmountDue();
             System.out.println(sendingBalance);
             currentGroupDBReference.child("amount").child(tempGroup.getuId()).setValue(sendingBalance);
+ }
+ */
 
-        }
 
     }
 }
