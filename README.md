@@ -40,4 +40,6 @@ Sources :
 * Charts : implementation 'com.github.Philjay:mpandroidchart:3.1.0'
 * Circle image view : implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-           
+---
+
+Demo of the app :https://youtu.be/2ZPsBWb6xKQ
