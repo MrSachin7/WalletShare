@@ -1,5 +1,6 @@
 package com.sachin_himal.walletshare.ui.friendFragments;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,8 +108,9 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
             viewModel.searchProfileImage(user.getUid());
             viewModel.getProfileImage().observeForever(uri -> {
                 if (uri != null) {
-                    friendProfileImage.setImageURI(uri);
-                    viewModel.resetProfileImage();
+                    Uri newUri = Uri.parse(uri.toString());
+                    friendProfileImage.setImageURI(newUri);
+//                    viewModel.resetProfileImage();
                 }
             });
         }

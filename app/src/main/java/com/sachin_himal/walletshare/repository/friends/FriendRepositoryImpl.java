@@ -339,6 +339,9 @@ public class FriendRepositoryImpl implements FriendRepository {
                             currentFriendProfileImage.setValue(Uri.fromFile(localFile));
                         }
                     }
+                    else {
+                        errorMessage.setValue("Something went wrong");
+                    }
                 }
             });
         } catch (IOException e) {

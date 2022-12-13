@@ -44,16 +44,6 @@ public class ExpenseAndDateAdapter extends RecyclerView.Adapter {
         filterList("");
     }
 
-    public void addExpenditure(Expenditure expenditure) {
-        String dateString = list.get(list.size() - 1).getDateString();
-        if (!expenditure.getDateString().equals(dateString)) {
-            list.add(new ExpenseWithDateModel(LAYOUT_DATE, expenditure.getDateString()));
-        }
-        list.add(new ExpenseWithDateModel(LAYOUT_EXPENSE, expenditure));
-        notifyItemChanged(list.size() - 1);
-    }
-
-
     private void updateList() {
 
         list.clear();

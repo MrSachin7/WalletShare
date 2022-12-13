@@ -206,13 +206,7 @@ public class UserRepositoryImpl implements UserRepository {
                 errorMessage.setValue(task.getException().getMessage());
             }
         });
-//        databaseReference.child(uid).child("profileImage").setValue(uri.toString()).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                successMessage.setValue("Profile image updated successfully");
-//            } else {
-//                errorMessage.setValue(task.getException().getMessage());
-//            }
-//        });
+
 
     }
 

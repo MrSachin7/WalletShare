@@ -54,6 +54,15 @@ public class EditProfileFragment extends Fragment {
             }
     );
 
+    private void changeProfileImage(View view) {
+
+        Intent iGallery = new Intent(Intent.ACTION_PICK);
+        iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        activityResultLauncherForGallery.launch(iGallery);
+
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,14 +84,7 @@ public class EditProfileFragment extends Fragment {
         return view;
     }
 
-    private void changeProfileImage(View view) {
 
-        Intent iGallery = new Intent(Intent.ACTION_PICK);
-        iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        activityResultLauncherForGallery.launch(iGallery);
-
-
-    }
 
 
     private void showErrorMessage(String s) {
